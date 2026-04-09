@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     locale: 'zh_TW',
     type: 'website',
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION ?? '',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
