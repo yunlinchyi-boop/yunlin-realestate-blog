@@ -72,10 +72,13 @@ export default function HomePage() {
               { icon: '🏭', label: '廠房租售' },
               { icon: '📐', label: '土地仲介' },
             ].map((item) => (
-              <div key={item.label} className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <p className="font-semibold text-gray-800">{item.label}</p>
-              </div>
+              <Link key={item.label} href={`/blog?tag=${encodeURIComponent(item.label)}`} className="group">
+                <div className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md hover:border-amber-300 border border-transparent transition cursor-pointer">
+                  <div className="text-4xl mb-3">{item.icon}</div>
+                  <p className="font-semibold text-gray-800 group-hover:text-amber-600 transition">{item.label}</p>
+                  <p className="text-xs text-gray-400 mt-1">點擊查看文章 →</p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
