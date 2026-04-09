@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <nav className="flex gap-6 text-sm font-medium text-gray-600">
               <Link href="/blog" className="hover:text-amber-600 transition">專欄文章</Link>
-              <Link href="/#about" className="hover:text-amber-600 transition">關於我們</Link>
+              <Link href="/about" className="hover:text-amber-600 transition">關於我們</Link>
               <a href="tel:055362808" className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-1.5 rounded-full transition">
                 📞 立即諮詢
               </a>
