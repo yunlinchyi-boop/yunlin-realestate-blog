@@ -1,0 +1,37 @@
+name: 每日同步群義房屋官網物件
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 每天台灣時間早上9點（UTC+8 → UTC 01:00）
+  workflow_dispatch:        # 允許手動觸發
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests beautifulsoup4
+
+      - name: 抓取物件清單
+        run: python scripts/sync_properties.py
+
+      - name: 檢查是否有變動
+        id: check
+        run: |
+          git diff --quiet content/properties.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: 提交更新
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/properties.json
+          git commit -m "chore: 自動同步官網物件清單 $(date '+%Y-%m-%d')"
+          git push
