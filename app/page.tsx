@@ -51,6 +51,7 @@ export default function HomePage() {
           width={1200} height={260} className="w-full object-cover opacity-70" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent flex flex-col items-center justify-end pb-8 px-6 text-center">
           <h1 className="text-2xl md:text-4xl font-bold mb-2 drop-shadow">群義房屋｜雲林雲科加盟店</h1>
+          <p className="text-gray-300 text-xs mb-1 opacity-80">紅火房屋仲介有限公司</p>
           <p className="text-gray-200 text-sm mb-5">每日房市資訊・透天・土地・農地・廠房</p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/blog" className="bg-amber-500 hover:bg-amber-400 text-white font-bold px-6 py-2 rounded-full transition shadow text-sm">
