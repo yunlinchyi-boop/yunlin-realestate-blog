@@ -3,7 +3,7 @@
  * 自動提交 sitemap 到 Google Search Console
  * 使用方式：node scripts/submit-sitemap.js
  */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://yunlin-realestate-blog-3zoukrg6d-yunlinchyi-8503s-projects.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://yunlin-realestate-blog.vercel.app';
 const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
 const PING_URL = `https://www.google.com/ping?sitemap=${encodeURIComponent(SITEMAP_URL)}`;
 

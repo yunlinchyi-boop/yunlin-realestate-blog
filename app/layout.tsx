@@ -7,6 +7,7 @@ const notoSansTC = Noto_Sans_TC({
   variable: '--font-noto-sans-tc',
   subsets: ['latin'],
   weight: ['400', '500', '700'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -53,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <p className="text-white font-semibold mb-1">群義房屋｜雲林雲科加盟店</p>
           <p>紅火房屋仲介有限公司｜經紀人證號：113雲縣字第00302號</p>
           <p className="mt-1">📞 05-5362808　📍 雲林縣斗六市中正路312號</p>
-          <p className="mt-4 text-gray-600">© {new Date().getFullYear()} 群義房屋. All rights reserved.</p>
+          <p className="mt-4 text-gray-600">© {new Date().getFullYear()} 群義房屋 版權所有</p>
         </footer>
       </body>
     </html>

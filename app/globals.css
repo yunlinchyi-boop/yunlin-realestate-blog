@@ -4,7 +4,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-sans: var(--font-noto-sans-tc), system-ui, sans-serif;
+}
+
+@theme inline {
+  --font-sans: var(--font-noto-sans-tc), "Microsoft JhengHei", "微軟正黑體", system-ui, sans-serif;
 }
 
 body {
