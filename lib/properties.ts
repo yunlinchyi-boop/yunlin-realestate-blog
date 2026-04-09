@@ -11,6 +11,7 @@ export type Property = {
   age: string;
   type: string;
   category: string;
+  img: string;
   link: string;
 };
 

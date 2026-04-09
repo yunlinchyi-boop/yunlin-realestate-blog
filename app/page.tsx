@@ -9,7 +9,7 @@ const ICON_MAP: Record<string, string> = {
   透天: '🏡', 公寓: '🏢', 大樓: '🏬', 華廈: '🏛️',
   農地: '🌾', 土地: '📐', 廠房: '🏭', 店面: '🏪', 別墅: '🏰',
 };
-const PROP_IMGS = [
+const FALLBACK_IMGS = [
   '/images/prop_01.jpg', '/images/prop_02.jpg', '/images/prop_03.jpg',
   '/images/prop_04.jpg', '/images/prop_05.jpg', '/images/prop_06.jpg',
   '/images/prop_07.jpg', '/images/prop_08.jpg',
@@ -140,7 +140,7 @@ export default function HomePage() {
                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 group">
                 <div className="relative h-28 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={PROP_IMGS[i % PROP_IMGS.length]} alt={p.title}
+                  <img src={p.img || FALLBACK_IMGS[i % FALLBACK_IMGS.length]} alt={p.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                   <span className="absolute top-1.5 left-1.5 bg-amber-500 text-white text-xs px-1.5 py-0.5 rounded font-medium">
                     {p.type || '物件'}

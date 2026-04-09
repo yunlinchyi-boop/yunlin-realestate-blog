@@ -3,7 +3,7 @@
 每日自動同步群義房屋官網物件清單
 由 GitHub Actions 每天執行，更新 content/properties.json
 """
-import requests, json, re, datetime, sys, os, warnings
+import requests, json, re, datetime, sys, os, time, warnings
 warnings.filterwarnings('ignore')
 
 BASE_URL = "https://www.chyi.com.tw"
@@ -14,6 +14,25 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120',
     'Referer': f'https://www.chyi.com.tw/sell_item?storeid={STORE_ID}',
 }
+
+def fetch_detail_img(link):
+    """從物件詳細頁面抓取主圖片 URL（schema.org imageUrl）"""
+    if not link:
+        return ''
+    try:
+        r = requests.get(link, headers=HEADERS, timeout=15, verify=False)
+        r.encoding = 'utf-8'
+        # schema.org image
+        m = re.search(r'"image"\s*:\s*"(https?://[^"]+\.jpg[^"]*)"', r.text)
+        if m:
+            return m.group(1)
+        # og:image fallback
+        m = re.search(r'property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', r.text)
+        if m:
+            return m.group(1)
+    except:
+        pass
+    return ''
 
 def parse_block(block_html):
     """解析單一物件 HTML 區塊"""
@@ -55,6 +74,7 @@ def parse_block(block_html):
     addr_m = re.search(r'[\u96f2\u5f70\u5357\u5317\u9ad8\u53f0\u5609\u5c4f][\u6797\u5316\u7fa9\u96c4\u5317\u5357\u6771\u897f\u90fd]+[\u7e23\u5e02].{2,20}[\u8def\u8857\u6bb5\u5df7\u5f04]', text)
     addr = addr_m.group(0).strip() if addr_m else ''
 
+    # 先試清單頁內嵌圖
     img_m = re.search(r'<img[^>]+src=["\']([^"\']+\.jpg[^"\']*)["\']', block_html)
     img = img_m.group(1) if img_m else ''
     if img and img.startswith('/'):
@@ -115,6 +135,16 @@ def main():
     if not all_items:
         print("⚠️ 未抓到物件，保留舊資料")
         sys.exit(0)
+
+    # 補抓沒有圖片的物件（從詳細頁面取 schema.org image）
+    print("🖼️  補抓物件圖片...")
+    for i, item in enumerate(all_items):
+        if not item.get('img') and item.get('link'):
+            img = fetch_detail_img(item['link'])
+            if img:
+                item['img'] = img
+                print(f"  [{i+1}] {item['title'][:15]}... → {img[:60]}")
+            time.sleep(0.3)  # 避免太快被擋
 
     data = {'updated': today, 'total': len(all_items), 'items': all_items}
     output = os.path.normpath(OUTPUT_FILE)
