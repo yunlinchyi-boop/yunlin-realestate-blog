@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_TC } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Link from 'next/link';
 
@@ -28,8 +29,23 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="zh-TW" className={`${notoSansTC.variable} h-full antialiased`}>
+      <head>
+        {gaId && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="gtag-init" strategy="afterInteractive">{`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gaId}');
+            `}</Script>
+          </>
+        )}
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         {/* 頂部導覽 */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
