@@ -1,0 +1,42 @@
+name: 每日自動產生房市專欄文章
+
+on:
+  schedule:
+    - cron: '30 1 * * *'   # 每天台灣時間 09:30（UTC 01:30）
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests beautifulsoup4
+
+      - name: 產生今日房市文章
+        run: python scripts/generate_post.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: 檢查是否有新文章
+        id: check
+        run: |
+          git diff --quiet content/posts/ || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: 提交新文章
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/posts/
+          git commit -m "feat: 自動產生每日房市專欄文章 $(date '+%Y-%m-%d')"
+          git push

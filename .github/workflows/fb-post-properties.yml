@@ -1,0 +1,27 @@
+name: 每日FB物件自動發文
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 每天台灣時間 10:00（UTC 02:00）
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests
+
+      - name: 發布今日物件到 Facebook
+        run: python scripts/fb_post_properties.py
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
