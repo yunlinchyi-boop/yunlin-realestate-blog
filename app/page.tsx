@@ -9,7 +9,7 @@ export const revalidate = 0;
 export default function HomePage() {
   const allProperties = getProperties();
   const types = getPropertyTypes();
-  const latestPosts = getPosts().slice(0, 2);
+  const latestPosts = getPosts().slice(0, 4);
 
   return (
     <main className="min-h-screen bg-gray-50">

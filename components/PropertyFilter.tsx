@@ -24,7 +24,7 @@ export default function PropertyFilter({
 
   const filtered = (
     activeType === '全部' ? properties : properties.filter((p) => p.type === activeType)
-  ).slice(0, 8);
+  ).slice(0, 4);
 
   return (
     <>
@@ -45,8 +45,8 @@ export default function PropertyFilter({
         ))}
       </div>
 
-      {/* 物件卡片（4欄，最多8筆） */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* 物件卡片（單排4欄） */}
+      <div className="grid grid-cols-4 gap-4">
         {filtered.map((p, i) => (
           <a
             key={i}
