@@ -6,6 +6,12 @@ import html from 'remark-html';
 
 const postsDir = path.join(process.cwd(), 'content/posts');
 
+export function formatDateTW(date: string): string {
+  if (!date) return '';
+  const [y, m, d] = date.split('-');
+  return `${y}年${parseInt(m)}月${parseInt(d)}日`;
+}
+
 export type Post = {
   slug: string;
   title: string;
@@ -27,7 +33,9 @@ export function getPosts(): Post[] {
         slug,
         title: data.title ?? slug,
         description: data.description ?? '',
-        date: data.date ? String(data.date) : '',
+        date: data.date instanceof Date
+          ? `${data.date.getUTCFullYear()}-${String(data.date.getUTCMonth() + 1).padStart(2, '0')}-${String(data.date.getUTCDate()).padStart(2, '0')}`
+          : (data.date ? String(data.date) : ''),
         tags: data.tags ?? [],
         coverImage: data.coverImage ?? '',
       };
@@ -46,7 +54,9 @@ export async function getPostBySlug(slug: string): Promise<{ post: Post; content
       slug,
       title: data.title ?? slug,
       description: data.description ?? '',
-      date: data.date ? String(data.date) : '',
+      date: data.date instanceof Date
+          ? `${data.date.getUTCFullYear()}-${String(data.date.getUTCMonth() + 1).padStart(2, '0')}-${String(data.date.getUTCDate()).padStart(2, '0')}`
+          : (data.date ? String(data.date) : ''),
       tags: data.tags ?? [],
       coverImage: data.coverImage ?? '',
     },

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getPosts } from '@/lib/posts';
+import { getPosts, formatDateTW } from '@/lib/posts';
 
 export default function BlogPage({ searchParams }: { searchParams: Promise<{ tag?: string }> }) {
   const posts = getPosts();
@@ -65,7 +65,7 @@ function BlogList({ posts }: { posts: ReturnType<typeof getPosts> }) {
                   </div>
                   <h2 className="text-xl font-bold text-gray-900 group-hover:text-amber-600 transition mb-2">{post.title}</h2>
                   <p className="text-gray-500 text-sm line-clamp-3 flex-1">{post.description}</p>
-                  <p className="text-xs text-gray-400 mt-4">{post.date}</p>
+                  <p className="text-xs text-gray-400 mt-4">{formatDateTW(post.date)}</p>
                 </div>
               </article>
             </Link>

@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProperties, getPropertyTypes } from '@/lib/properties';
-import { getPosts } from '@/lib/posts';
+import { getPosts, formatDateTW } from '@/lib/posts';
 import PropertyFilter from '@/components/PropertyFilter';
+
+export const revalidate = 0;
 
 export default function HomePage() {
   const allProperties = getProperties();
@@ -59,7 +61,7 @@ export default function HomePage() {
                     </div>
                     <h3 className="font-bold text-gray-900 group-hover:text-amber-600 transition text-sm line-clamp-2 leading-snug">{post.title}</h3>
                   </div>
-                  <p className="text-xs text-gray-400">{post.date}</p>
+                  <p className="text-xs text-gray-400">{formatDateTW(post.date)}</p>
                 </div>
               </article>
             </Link>

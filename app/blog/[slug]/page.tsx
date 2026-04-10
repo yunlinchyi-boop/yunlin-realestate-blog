@@ -1,4 +1,4 @@
-import { getPosts, getPostBySlug } from '@/lib/posts';
+import { getPosts, getPostBySlug, formatDateTW } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -36,7 +36,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           ))}
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-3">{post.title}</h1>
-        <p className="text-gray-500 text-sm">{post.date}</p>
+        <p className="text-gray-500 text-sm">{formatDateTW(post.date)}</p>
       </div>
       {post.coverImage && (
         // eslint-disable-next-line @next/next/no-img-element
