@@ -9,7 +9,9 @@ export const revalidate = 0;
 export default function HomePage() {
   const allProperties = getProperties();
   const types = getPropertyTypes();
-  const latestPosts = getPosts().slice(0, 4);
+  const allPosts = getPosts();
+  const latestNews = allPosts.filter(p => !p.slug.includes('-property-')).slice(0, 4);
+  const latestPropertyPosts = allPosts.filter(p => p.slug.includes('-property-')).slice(0, 4);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -44,12 +46,12 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-5">
-          {latestPosts.map((post, i) => (
+          {latestNews.map((post, i) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
               <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 flex h-36">
                 <div className="w-40 flex-shrink-0 overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center text-4xl">
-                    {i === 0 ? '🏠' : '📊'}
+                    {i === 0 ? '📰' : '📊'}
                   </div>
                 </div>
                 <div className="p-4 flex flex-col justify-between flex-1 min-w-0">
@@ -74,6 +76,44 @@ export default function HomePage() {
           📋 查看所有房市文章
         </Link>
       </section>
+
+      {/* ══════════ 最新物件貼文 ══════════ */}
+      {latestPropertyPosts.length > 0 && (
+        <section className="max-w-6xl mx-auto py-10 px-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-500 pl-3">最新物件介紹</h2>
+              <p className="text-gray-400 text-xs mt-1 pl-3">每日自動更新・透天・公寓・土地・廠房</p>
+            </div>
+            <Link href="/blog" className="text-sm text-blue-600 hover:underline font-medium">查看全部 →</Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            {latestPropertyPosts.map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 flex h-36">
+                  <div className="w-40 flex-shrink-0 overflow-hidden">
+                    <div className="w-full h-full bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center text-4xl">
+                      🏠
+                    </div>
+                  </div>
+                  <div className="p-4 flex flex-col justify-between flex-1 min-w-0">
+                    <div>
+                      <div className="flex gap-1 mb-1.5 flex-wrap">
+                        {post.tags.slice(0, 2).map((tag) => (
+                          <span key={tag} className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">{tag}</span>
+                        ))}
+                      </div>
+                      <h3 className="font-bold text-gray-900 group-hover:text-blue-600 transition text-sm line-clamp-2 leading-snug">{post.title}</h3>
+                    </div>
+                    <p className="text-xs text-gray-400">{formatDateTW(post.date)}</p>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ══════════ 輔助：精選物件 ══════════ */}
       <section className="bg-white py-10 px-6">
