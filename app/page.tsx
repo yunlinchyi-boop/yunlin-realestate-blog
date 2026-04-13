@@ -116,23 +116,24 @@ export default function HomePage() {
       )}
 
       {/* ══════════ 輔助：精選物件 ══════════ */}
-      <section className="bg-white py-10 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 border-l-4 border-gray-300 pl-3">精選物件</h2>
-              <p className="text-gray-400 text-xs mt-1 pl-3">同步自群義房屋官網・每日自動更新</p>
+      {allProperties.length > 0 && (
+        <section className="bg-white py-10 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 border-l-4 border-gray-300 pl-3">精選物件</h2>
+                <p className="text-gray-400 text-xs mt-1 pl-3">同步自群義房屋官網・每日自動更新</p>
+              </div>
+              <a href="https://www.chyi.com.tw/sell_item/?storeid=4759"
+                target="_blank" rel="noopener noreferrer"
+                className="text-sm text-gray-500 hover:text-amber-600 hover:underline">
+                官網查看全部 →
+              </a>
             </div>
-            <a href="https://www.chyi.com.tw/sell_item/?storeid=4759"
-              target="_blank" rel="noopener noreferrer"
-              className="text-sm text-gray-500 hover:text-amber-600 hover:underline">
-              官網查看全部 →
-            </a>
+            <PropertyFilter properties={allProperties} types={types} />
           </div>
-
-          <PropertyFilter properties={allProperties} types={types} />
-        </div>
-      </section>
+        </section>
+      )}
 
     </main>
   );

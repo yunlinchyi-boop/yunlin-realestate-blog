@@ -1,21 +1,5 @@
 {
   "updated": "2026-04-13",
-  "total": 1,
-  "items": [
-    {
-      "no": "",
-      "title": "' + data.city + ' / ' + data.obj_type.split('.')[1] + ' / ' + (data.obj_type == 'I.土地' ? numRoundDown(data.owned_land_pin, 2) : numRoundDown(data.area, 2)) + '坪",
-      "price": "",
-      "addr": "",
-      "unit_price": "",
-      "layout": "",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "",
-      "link": ""
-    }
-  ]
+  "total": 0,
+  "items": []
 }
