@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sitemap:submit": "node scripts/submit-sitemap.js"
+    "sitemap:submit": "node scripts/submit-sitemap.js",
+    "google:index": "npx ts-node --esm scripts/google-index.ts",
+    "google:index:all": "npx ts-node --esm scripts/google-index.ts"
   },
   "dependencies": {
     "@notionhq/client": "^5.17.0",
@@ -27,7 +29,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
+    "googleapis": "^171.4.0",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

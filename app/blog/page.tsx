@@ -49,7 +49,7 @@ function BlogList({ posts }: { posts: ReturnType<typeof getPosts> }) {
       ) : (
         <div className="grid md:grid-cols-2 gap-8">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+            <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`} className="group">
               <article className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition h-full flex flex-col">
                 {post.coverImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
