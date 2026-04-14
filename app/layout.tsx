@@ -30,31 +30,32 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-TW" className={`${playfair.variable} ${notoSansTC.variable}`}>
-      <body className="min-h-full flex flex-col antialiased" style={{ background: '#0C0C0C', color: '#F5F0E8' }}>
+      <body className="min-h-full flex flex-col" style={{ background: '#FFFFFF', color: '#1A1A1A' }}>
 
-        {/* ── 頂部導覽列 ── */}
+        {/* ── 頂部紅色細條 ── */}
+        <div style={{ height: 4, background: '#CC1122' }} />
+
+        {/* ── 導覽列 ── */}
         <header className="sticky top-0 z-50" style={{
-          background: 'rgba(12,12,12,0.96)',
-          borderBottom: '1px solid #2E2E2E',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)'
+          background: '#FFFFFF',
+          borderBottom: '1px solid #E5E5E5',
+          backdropFilter: 'blur(8px)',
         }}>
           <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
             {/* Logo */}
             <Link href="/" className="flex flex-col leading-none">
               <span style={{
-                color: '#C9A84C',
+                color: '#1B2A5E',
                 fontFamily: 'var(--font-playfair)',
-                fontStyle: 'italic',
-                fontSize: '0.7rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase'
+                fontWeight: 700,
+                fontSize: '1.15rem',
+                letterSpacing: '0.05em',
               }}>
-                Chyi Real Estate
+                群義房屋
               </span>
-              <span style={{ color: '#F5F0E8', fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.15em' }}>
-                群義房屋・雲科店
+              <span style={{ color: '#767676', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+                Chyi Real Estate · Yunlin
               </span>
             </Link>
 
@@ -66,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
 
             {/* 手機版 */}
-            <a href="tel:055362808" className="md:hidden btn-consult" style={{ padding: '6px 16px' }}>
+            <a href="tel:055362808" className="md:hidden btn-consult" style={{ padding: '6px 14px' }}>
               諮詢
             </a>
           </div>
@@ -75,22 +76,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex-1">{children}</div>
 
         {/* ── 頁尾 ── */}
-        <footer style={{ background: '#161616', borderTop: '1px solid #2E2E2E' }}>
+        <footer style={{ background: '#1B2A5E', color: '#FFFFFF' }}>
           <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
 
             {/* 品牌 */}
             <div>
               <p style={{
-                color: '#C9A84C', fontFamily: 'var(--font-playfair)', fontStyle: 'italic',
-                fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 6
+                fontFamily: 'var(--font-playfair)', fontWeight: 700,
+                fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF', marginBottom: 4
               }}>
-                Chyi Real Estate
+                群義房屋
               </p>
-              <p style={{ color: '#F5F0E8', fontSize: '1rem', fontWeight: 500, marginBottom: 12 }}>
-                群義房屋｜雲林雲科加盟店
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
+                Chyi Real Estate · Yunlin
               </p>
-              <div style={{ width: 36, height: 1, background: '#C9A84C', marginBottom: 16 }} />
-              <p style={{ color: '#7A7A7A', fontSize: '0.75rem', lineHeight: 1.7 }}>
+              <div style={{ width: 36, height: 3, background: '#CC1122', marginBottom: 16 }} />
+              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.75rem', lineHeight: 1.8 }}>
                 紅火房屋仲介有限公司<br />
                 經紀人證號：113雲縣字第00302號
               </p>
@@ -98,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* 快速連結 */}
             <div>
-              <p style={{ color: '#7A7A7A', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 16 }}>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
                 探索
               </p>
               <div className="flex flex-col gap-3">
@@ -109,18 +110,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* 聯絡 */}
             <div>
-              <p style={{ color: '#7A7A7A', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 16 }}>
-                聯絡
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
+                聯絡我們
               </p>
-              <div className="flex flex-col gap-2" style={{ color: '#7A7A7A', fontSize: '0.875rem' }}>
+              <div className="flex flex-col gap-2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem' }}>
                 <p>📞 05-5362808</p>
                 <p>📍 雲林縣斗六市中正路312號</p>
               </div>
             </div>
           </div>
 
-          <div className="text-center py-5" style={{ borderTop: '1px solid #2E2E2E', color: '#3A3A3A', fontSize: '0.75rem' }}>
-            © {new Date().getFullYear()} 群義房屋 版權所有
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }} className="text-center py-5">
+            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}>
+              © {new Date().getFullYear()} 群義房屋 版權所有
+            </p>
           </div>
         </footer>
       </body>

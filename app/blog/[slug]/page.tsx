@@ -50,35 +50,36 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <main style={{ background: '#0C0C0C', color: '#F5F0E8', minHeight: '100vh' }}>
+    <main style={{ background: '#FFFFFF', color: '#1A1A1A', minHeight: '100vh' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* 文章標題區 */}
-      <header style={{ borderBottom: '1px solid #2E2E2E', padding: '64px 24px 48px', background: '#161616' }}>
+      {/* 標題區 */}
+      <header style={{ background: '#1B2A5E', padding: '56px 24px 44px' }}>
         <div className="max-w-3xl mx-auto">
           <div className="flex gap-2 mb-5 flex-wrap">
             {post.tags.map(tag => (
               <span key={tag} style={{
-                border: '1px solid rgba(201,168,76,0.3)', color: '#C9A84C',
-                fontSize: '0.6rem', padding: '3px 10px', letterSpacing: '0.15em', textTransform: 'uppercase'
+                background: 'rgba(255,255,255,0.12)', color: '#FFFFFF',
+                fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase'
               }}>{tag}</span>
             ))}
           </div>
           <h1 style={{
             fontSize: 'clamp(1.5rem, 4vw, 2.2rem)', fontFamily: 'var(--font-playfair)',
-            color: '#F5F0E8', lineHeight: 1.35, fontWeight: 600, marginBottom: 20
+            color: '#FFFFFF', lineHeight: 1.3, fontWeight: 700, marginBottom: 16
           }}>
             {post.title}
           </h1>
-          <div style={{ width: 36, height: 1, background: '#C9A84C', marginBottom: 16 }} />
-          <p style={{ color: '#7A7A7A', fontSize: '0.75rem', letterSpacing: '0.2em' }}>
+          <div style={{ width: 36, height: 3, background: '#CC1122', marginBottom: 16 }} />
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>
             {formatDateTW(post.date)}
           </p>
         </div>
       </header>
 
+      {/* 封面圖 */}
       {post.coverImage && (
-        <div className="max-w-3xl mx-auto px-6 mt-10">
+        <div className="max-w-3xl mx-auto px-6 mt-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={post.coverImage} alt={post.title} className="w-full object-cover" style={{ height: 320 }} />
         </div>
@@ -89,30 +90,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <article className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       </div>
 
-      {/* 文章底部聯絡 */}
+      {/* 底部聯絡框 */}
       <div className="max-w-3xl mx-auto px-6 pb-16">
-        <div style={{ borderTop: '1px solid #2E2E2E', paddingTop: 40 }}>
-          <div className="flex items-center gap-4 mb-10">
-            <div style={{ flex: 1, height: 1, background: '#2E2E2E' }} />
-            <span style={{ color: '#C9A84C', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase' }}>
-              群義房屋
-            </span>
-            <div style={{ flex: 1, height: 1, background: '#2E2E2E' }} />
-          </div>
-
-          <div className="text-center p-10" style={{ border: '1px solid #2E2E2E', background: '#161616' }}>
-            <p style={{
-              color: '#C9A84C', fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-              fontFamily: 'var(--font-playfair)', fontStyle: 'italic', marginBottom: 8
-            }}>Chyi Real Estate</p>
-            <p style={{ color: '#F5F0E8', fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>
-              群義房屋｜雲林雲科加盟店
-            </p>
-            <p style={{ color: '#7A7A7A', fontSize: '0.875rem', marginBottom: 24 }}>
-              📞 05-5362808　📍 雲林縣斗六市中正路312號
-            </p>
-            <a href="tel:055362808" className="btn-gold">立即諮詢</a>
-          </div>
+        <div style={{ background: '#1B2A5E', padding: '40px', textAlign: 'center' }}>
+          <p style={{
+            color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.3em',
+            textTransform: 'uppercase', fontWeight: 700, marginBottom: 8
+          }}>Chyi Real Estate</p>
+          <p style={{ color: '#FFFFFF', fontSize: '1rem', fontWeight: 700, marginBottom: 4 }}>
+            群義房屋｜雲林雲科加盟店
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.875rem', marginBottom: 24 }}>
+            📞 05-5362808　📍 雲林縣斗六市中正路312號
+          </p>
+          <a href="tel:055362808" className="btn-red">立即諮詢</a>
         </div>
       </div>
     </main>
