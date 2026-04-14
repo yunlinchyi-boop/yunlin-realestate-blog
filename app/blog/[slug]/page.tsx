@@ -62,30 +62,40 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <main style={{ background:'var(--luxury-black)', color:'var(--luxury-cream)', minHeight:'100vh' }}>
+    <main style={{ background: '#0C0C0C', color: '#F5F0E8', minHeight: '100vh' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* 文章標題區 */}
-      <header className="border-b py-16 px-6" style={{ borderColor:'var(--luxury-border)', background:'var(--luxury-dark)' }}>
+      <header style={{ borderBottom: '1px solid #2E2E2E', padding: '64px 24px 48px', background: '#161616' }}>
         <div className="max-w-3xl mx-auto">
           {/* 標籤 */}
           <div className="flex gap-2 mb-5 flex-wrap">
             {post.tags.map(tag => (
-              <span key={tag} className="text-xs px-3 py-1 tracking-widest uppercase"
-                style={{ border:'1px solid #C9A84C44', color:'var(--luxury-gold)', fontSize:'0.65rem' }}>
+              <span key={tag} style={{
+                border: '1px solid rgba(201,168,76,0.3)',
+                color: '#C9A84C',
+                fontSize: '0.6rem',
+                padding: '3px 10px',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase'
+              }}>
                 {tag}
               </span>
             ))}
           </div>
 
-          <h1 className="font-semibold mb-4 leading-snug"
-            style={{ fontSize:'clamp(1.5rem,4vw,2.2rem)', fontFamily:'var(--font-playfair)', color:'var(--luxury-cream)' }}>
+          <h1 className="font-semibold mb-5 leading-snug" style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2.2rem)',
+            fontFamily: 'var(--font-playfair)',
+            color: '#F5F0E8',
+            lineHeight: 1.35
+          }}>
             {post.title}
           </h1>
 
-          <span style={{ display:'block', width:36, height:1, background:'var(--luxury-gold)', marginBottom:14 }} />
+          <div style={{ width: 36, height: 1, background: '#C9A84C', marginBottom: 16 }} />
 
-          <p className="text-xs tracking-widest" style={{ color:'var(--luxury-muted)' }}>
+          <p style={{ color: '#7A7A7A', fontSize: '0.75rem', letterSpacing: '0.2em' }}>
             {formatDateTW(post.date)}
           </p>
         </div>
@@ -96,7 +106,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="max-w-3xl mx-auto px-6 mt-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={post.coverImage} alt={post.title}
-            className="w-full object-cover" style={{ height:300 }} />
+            className="w-full object-cover" style={{ height: 320 }} />
         </div>
       )}
 
@@ -110,24 +120,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       {/* 文章底部 */}
       <div className="max-w-3xl mx-auto px-6 pb-16">
-        <div className="border-t pt-10" style={{ borderColor:'var(--luxury-border)' }}>
+        <div style={{ borderTop: '1px solid #2E2E2E', paddingTop: 40 }}>
           {/* 分隔裝飾 */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="flex-1 h-px" style={{ background:'var(--luxury-border)' }} />
-            <span className="text-xs tracking-[0.3em] uppercase" style={{ color:'var(--luxury-gold)' }}>群義房屋</span>
-            <div className="flex-1 h-px" style={{ background:'var(--luxury-border)' }} />
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1" style={{ height: 1, background: '#2E2E2E' }} />
+            <span style={{ color: '#C9A84C', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase' }}>
+              群義房屋
+            </span>
+            <div className="flex-1" style={{ height: 1, background: '#2E2E2E' }} />
           </div>
 
-          <div className="text-center p-8" style={{ border:'1px solid var(--luxury-border)' }}>
-            <p className="text-xs tracking-[0.3em] uppercase mb-2"
-              style={{ color:'var(--luxury-gold)', fontFamily:'var(--font-playfair)', fontStyle:'italic' }}>
+          <div className="text-center p-10" style={{ border: '1px solid #2E2E2E', background: '#161616' }}>
+            <p style={{
+              color: '#C9A84C', fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
+              fontFamily: 'var(--font-playfair)', fontStyle: 'italic', marginBottom: 8
+            }}>
               Chyi Real Estate
             </p>
-            <p className="text-base font-medium mb-1" style={{ color:'var(--luxury-cream)' }}>群義房屋｜雲林雲科加盟店</p>
-            <p className="text-sm mb-4" style={{ color:'var(--luxury-muted)' }}>📞 05-5362808　📍 雲林縣斗六市中正路312號</p>
+            <p className="text-base font-medium mb-1" style={{ color: '#F5F0E8' }}>群義房屋｜雲林雲科加盟店</p>
+            <p className="text-sm mb-6" style={{ color: '#7A7A7A' }}>📞 05-5362808　📍 雲林縣斗六市中正路312號</p>
             <a href="tel:055362808"
-              className="inline-block text-xs tracking-[0.2em] uppercase px-8 py-2.5 border transition-all duration-300 hover:bg-[#C9A84C] hover:text-black"
-              style={{ borderColor:'var(--luxury-gold)', color:'var(--luxury-gold)' }}>
+              className="inline-block text-xs tracking-[0.2em] uppercase px-8 py-2.5 border transition-all duration-300"
+              style={{ borderColor: '#C9A84C', color: '#C9A84C', background: 'transparent' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#C9A84C'; (e.currentTarget as HTMLElement).style.color = '#0C0C0C'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#C9A84C'; }}>
               立即諮詢
             </a>
           </div>
