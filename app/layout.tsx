@@ -1,59 +1,35 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_TC, Playfair_Display } from 'next/font/google';
-import Script from 'next/script';
+import { Playfair_Display, Noto_Sans_TC } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 
-const notoSansTC = Noto_Sans_TC({
-  variable: '--font-noto-sans-tc',
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700'],
+  variable: '--font-playfair',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
-  variable: '--font-playfair',
+const notoSansTC = Noto_Sans_TC({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '700'],
+  variable: '--font-noto-sans-tc',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: '雲林房地產專家｜群義房屋',
-    template: '%s｜群義房屋',
-  },
-  description: '群義房屋雲林雲科加盟店，提供雲林斗六透天、土地、農地、廠房等房地產專業服務。',
-  keywords: ['雲林房地產', '斗六買房', '雲林透天', '雲林土地', '群義房屋'],
+  title: '群義房屋｜雲林雲科加盟店 — 雲林房地產專家',
+  description: '雲林斗六在地房仲，專營透天、土地、農地、廠房。每日提供雲林房市最新資訊，協助您找到理想物件。',
+  keywords: ['雲林房屋', '斗六房仲', '雲林土地', '雲林透天', '群義房屋'],
   openGraph: {
-    siteName: '雲林房地產專家｜群義房屋',
-    locale: 'zh_TW',
     type: 'website',
-  },
-  verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION ?? '',
+    locale: 'zh_TW',
+    siteName: '群義房屋｜雲林雲科加盟店',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-
   return (
-    <html lang="zh-TW" className={`${notoSansTC.variable} ${playfair.variable}`}>
-      <head>
-        {gaId && (
-          <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
-            <Script id="gtag-init" strategy="afterInteractive">{`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${gaId}');
-            `}</Script>
-          </>
-        )}
-      </head>
+    <html lang="zh-TW" className={`${playfair.variable} ${notoSansTC.variable}`}>
       <body className="min-h-full flex flex-col antialiased" style={{ background: '#0C0C0C', color: '#F5F0E8' }}>
 
         {/* ── 頂部導覽列 ── */}
@@ -67,44 +43,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Logo */}
             <Link href="/" className="flex flex-col leading-none">
-              <span className="text-xs tracking-[0.3em] uppercase" style={{
+              <span style={{
                 color: '#C9A84C',
                 fontFamily: 'var(--font-playfair)',
-                fontStyle: 'italic'
+                fontStyle: 'italic',
+                fontSize: '0.7rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase'
               }}>
                 Chyi Real Estate
               </span>
-              <span className="text-sm font-medium tracking-wider" style={{ color: '#F5F0E8' }}>
+              <span style={{ color: '#F5F0E8', fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.15em' }}>
                 群義房屋・雲科店
               </span>
             </Link>
 
             {/* 導覽連結 */}
             <nav className="hidden md:flex items-center gap-8">
-              {[
-                { href: '/blog', label: '房市專欄' },
-                { href: '/about', label: '關於我們' },
-              ].map(({ href, label }) => (
-                <Link key={href} href={href}
-                  className="text-xs tracking-[0.2em] uppercase transition-colors duration-200"
-                  style={{ color: '#7A7A7A' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#F5F0E8')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#7A7A7A')}>
-                  {label}
-                </Link>
-              ))}
-              <a href="tel:055362808"
-                className="text-xs tracking-[0.2em] uppercase px-5 py-2 border transition-all duration-200"
-                style={{ borderColor: '#C9A84C', color: '#C9A84C', background: 'transparent' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#C9A84C'; (e.currentTarget as HTMLElement).style.color = '#0C0C0C'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#C9A84C'; }}>
-                立即諮詢
-              </a>
+              <Link href="/blog" className="nav-link">房市專欄</Link>
+              <Link href="/about" className="nav-link">關於我們</Link>
+              <a href="tel:055362808" className="btn-consult">立即諮詢</a>
             </nav>
 
             {/* 手機版 */}
-            <a href="tel:055362808" className="md:hidden text-xs tracking-widest px-4 py-1.5 border"
-              style={{ borderColor: '#C9A84C', color: '#C9A84C' }}>
+            <a href="tel:055362808" className="md:hidden btn-consult" style={{ padding: '6px 16px' }}>
               諮詢
             </a>
           </div>
@@ -118,14 +80,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* 品牌 */}
             <div>
-              <p className="text-xs tracking-[0.3em] uppercase mb-1" style={{
-                color: '#C9A84C', fontFamily: 'var(--font-playfair)', fontStyle: 'italic'
+              <p style={{
+                color: '#C9A84C', fontFamily: 'var(--font-playfair)', fontStyle: 'italic',
+                fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 6
               }}>
                 Chyi Real Estate
               </p>
-              <p className="text-base font-medium mb-3" style={{ color: '#F5F0E8' }}>群義房屋｜雲林雲科加盟店</p>
-              <div style={{ width: 36, height: 1, background: '#C9A84C', margin: '10px 0 16px' }} />
-              <p className="text-xs leading-relaxed" style={{ color: '#7A7A7A' }}>
+              <p style={{ color: '#F5F0E8', fontSize: '1rem', fontWeight: 500, marginBottom: 12 }}>
+                群義房屋｜雲林雲科加盟店
+              </p>
+              <div style={{ width: 36, height: 1, background: '#C9A84C', marginBottom: 16 }} />
+              <p style={{ color: '#7A7A7A', fontSize: '0.75rem', lineHeight: 1.7 }}>
                 紅火房屋仲介有限公司<br />
                 經紀人證號：113雲縣字第00302號
               </p>
@@ -133,30 +98,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* 快速連結 */}
             <div>
-              <p className="text-xs tracking-[0.25em] uppercase mb-4" style={{ color: '#7A7A7A' }}>探索</p>
-              <div className="flex flex-col gap-2.5">
-                {[{ href: '/blog', label: '房市專欄' }, { href: '/about', label: '關於我們' }].map(({ href, label }) => (
-                  <Link key={href} href={href} className="text-sm transition-colors duration-200"
-                    style={{ color: '#7A7A7A' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#C9A84C')}
-                    onMouseLeave={e => (e.currentTarget.style.color = '#7A7A7A')}>
-                    {label}
-                  </Link>
-                ))}
+              <p style={{ color: '#7A7A7A', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 16 }}>
+                探索
+              </p>
+              <div className="flex flex-col gap-3">
+                <Link href="/blog" className="footer-link">房市專欄</Link>
+                <Link href="/about" className="footer-link">關於我們</Link>
               </div>
             </div>
 
             {/* 聯絡 */}
             <div>
-              <p className="text-xs tracking-[0.25em] uppercase mb-4" style={{ color: '#7A7A7A' }}>聯絡</p>
-              <div className="flex flex-col gap-2 text-sm" style={{ color: '#7A7A7A' }}>
+              <p style={{ color: '#7A7A7A', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 16 }}>
+                聯絡
+              </p>
+              <div className="flex flex-col gap-2" style={{ color: '#7A7A7A', fontSize: '0.875rem' }}>
                 <p>📞 05-5362808</p>
                 <p>📍 雲林縣斗六市中正路312號</p>
               </div>
             </div>
           </div>
 
-          <div className="text-center py-5 text-xs" style={{ borderTop: '1px solid #2E2E2E', color: '#3A3A3A' }}>
+          <div className="text-center py-5" style={{ borderTop: '1px solid #2E2E2E', color: '#3A3A3A', fontSize: '0.75rem' }}>
             © {new Date().getFullYear()} 群義房屋 版權所有
           </div>
         </footer>

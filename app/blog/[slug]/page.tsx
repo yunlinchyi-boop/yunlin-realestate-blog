@@ -10,8 +10,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const decodedSlug = decodeURIComponent(slug);
-  const result = await getPostBySlug(decodedSlug);
+  const result = await getPostBySlug(decodeURIComponent(slug));
   if (!result) return {};
   const { post } = result;
   const canonicalUrl = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`;
@@ -20,42 +19,31 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: post.description,
     alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: post.title,
-      description: post.description,
-      url: canonicalUrl,
-      type: 'article',
-      publishedTime: post.date,
-      locale: 'zh_TW',
+      title: post.title, description: post.description, url: canonicalUrl,
+      type: 'article', publishedTime: post.date, locale: 'zh_TW',
       siteName: '群義房屋｜雲林雲科加盟店',
       images: post.coverImage
         ? [{ url: post.coverImage, width: 1200, height: 630, alt: post.title }]
-        : [{ url: `${SITE_URL}/og-default.jpg`, width: 1200, height: 630, alt: '群義房屋' }],
+        : [{ url: `${SITE_URL}/og-default.jpg`, width: 1200, height: 630 }],
     },
   };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const decodedSlug = decodeURIComponent(slug);
-  const result = await getPostBySlug(decodedSlug);
+  const result = await getPostBySlug(decodeURIComponent(slug));
   if (!result) return notFound();
   const { post, contentHtml } = result;
 
   const canonicalUrl = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`;
-
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    dateModified: post.date,
-    url: canonicalUrl,
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: post.title, description: post.description,
+    datePublished: post.date, dateModified: post.date, url: canonicalUrl,
     image: post.coverImage || `${SITE_URL}/og-default.jpg`,
     author: { '@type': 'Organization', name: '群義房屋｜雲林雲科加盟店', url: SITE_URL },
     publisher: {
-      '@type': 'Organization',
-      name: '群義房屋｜雲林雲科加盟店',
+      '@type': 'Organization', name: '群義房屋｜雲林雲科加盟店',
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
@@ -68,84 +56,62 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* 文章標題區 */}
       <header style={{ borderBottom: '1px solid #2E2E2E', padding: '64px 24px 48px', background: '#161616' }}>
         <div className="max-w-3xl mx-auto">
-          {/* 標籤 */}
           <div className="flex gap-2 mb-5 flex-wrap">
             {post.tags.map(tag => (
               <span key={tag} style={{
-                border: '1px solid rgba(201,168,76,0.3)',
-                color: '#C9A84C',
-                fontSize: '0.6rem',
-                padding: '3px 10px',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase'
-              }}>
-                {tag}
-              </span>
+                border: '1px solid rgba(201,168,76,0.3)', color: '#C9A84C',
+                fontSize: '0.6rem', padding: '3px 10px', letterSpacing: '0.15em', textTransform: 'uppercase'
+              }}>{tag}</span>
             ))}
           </div>
-
-          <h1 className="font-semibold mb-5 leading-snug" style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.2rem)',
-            fontFamily: 'var(--font-playfair)',
-            color: '#F5F0E8',
-            lineHeight: 1.35
+          <h1 style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2.2rem)', fontFamily: 'var(--font-playfair)',
+            color: '#F5F0E8', lineHeight: 1.35, fontWeight: 600, marginBottom: 20
           }}>
             {post.title}
           </h1>
-
           <div style={{ width: 36, height: 1, background: '#C9A84C', marginBottom: 16 }} />
-
           <p style={{ color: '#7A7A7A', fontSize: '0.75rem', letterSpacing: '0.2em' }}>
             {formatDateTW(post.date)}
           </p>
         </div>
       </header>
 
-      {/* 封面圖 */}
       {post.coverImage && (
         <div className="max-w-3xl mx-auto px-6 mt-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={post.coverImage} alt={post.title}
-            className="w-full object-cover" style={{ height: 320 }} />
+          <img src={post.coverImage} alt={post.title} className="w-full object-cover" style={{ height: 320 }} />
         </div>
       )}
 
       {/* 文章內容 */}
       <div className="max-w-3xl mx-auto px-6 py-12">
-        <article
-          className="prose prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
-        />
+        <article className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       </div>
 
-      {/* 文章底部 */}
+      {/* 文章底部聯絡 */}
       <div className="max-w-3xl mx-auto px-6 pb-16">
         <div style={{ borderTop: '1px solid #2E2E2E', paddingTop: 40 }}>
-          {/* 分隔裝飾 */}
           <div className="flex items-center gap-4 mb-10">
-            <div className="flex-1" style={{ height: 1, background: '#2E2E2E' }} />
+            <div style={{ flex: 1, height: 1, background: '#2E2E2E' }} />
             <span style={{ color: '#C9A84C', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase' }}>
               群義房屋
             </span>
-            <div className="flex-1" style={{ height: 1, background: '#2E2E2E' }} />
+            <div style={{ flex: 1, height: 1, background: '#2E2E2E' }} />
           </div>
 
           <div className="text-center p-10" style={{ border: '1px solid #2E2E2E', background: '#161616' }}>
             <p style={{
               color: '#C9A84C', fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
               fontFamily: 'var(--font-playfair)', fontStyle: 'italic', marginBottom: 8
-            }}>
-              Chyi Real Estate
+            }}>Chyi Real Estate</p>
+            <p style={{ color: '#F5F0E8', fontSize: '1rem', fontWeight: 500, marginBottom: 4 }}>
+              群義房屋｜雲林雲科加盟店
             </p>
-            <p className="text-base font-medium mb-1" style={{ color: '#F5F0E8' }}>群義房屋｜雲林雲科加盟店</p>
-            <p className="text-sm mb-6" style={{ color: '#7A7A7A' }}>📞 05-5362808　📍 雲林縣斗六市中正路312號</p>
-            <a href="tel:055362808"
-              className="inline-block text-xs tracking-[0.2em] uppercase px-8 py-2.5 border transition-all duration-300"
-              style={{ borderColor: '#C9A84C', color: '#C9A84C', background: 'transparent' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#C9A84C'; (e.currentTarget as HTMLElement).style.color = '#0C0C0C'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#C9A84C'; }}>
-              立即諮詢
-            </a>
+            <p style={{ color: '#7A7A7A', fontSize: '0.875rem', marginBottom: 24 }}>
+              📞 05-5362808　📍 雲林縣斗六市中正路312號
+            </p>
+            <a href="tel:055362808" className="btn-gold">立即諮詢</a>
           </div>
         </div>
       </div>

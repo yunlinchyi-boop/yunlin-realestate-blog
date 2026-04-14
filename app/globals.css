@@ -120,3 +120,128 @@ body {
 main, section, article, header, footer, nav, aside {
   background-color: inherit;
 }
+
+/* ── Hover 互動元件（純CSS，不用JS事件）── */
+
+/* 導覽連結 hover */
+.nav-link {
+  color: #7A7A7A;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+.nav-link:hover { color: #F5F0E8; }
+
+/* 金色按鈕 hover */
+.btn-gold {
+  display: inline-block;
+  border: 1px solid #C9A84C;
+  color: #C9A84C;
+  background: transparent;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 10px 32px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn-gold:hover {
+  background: #C9A84C;
+  color: #0C0C0C;
+}
+
+/* 邊框按鈕 hover */
+.btn-outline {
+  display: inline-block;
+  border: 1px solid rgba(245,240,232,0.3);
+  color: #F5F0E8;
+  background: transparent;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 10px 32px;
+  transition: background 0.25s ease;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.08); }
+
+/* 文字連結 hover（金色）*/
+.link-gold {
+  color: #7A7A7A;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid #2E2E2E;
+  padding-bottom: 2px;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.link-gold:hover { color: #C9A84C; border-color: #C9A84C; }
+
+/* footer 連結 */
+.footer-link {
+  color: #7A7A7A;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+.footer-link:hover { color: #C9A84C; }
+
+/* 諮詢 header 按鈕 */
+.btn-consult {
+  border: 1px solid #C9A84C;
+  color: #C9A84C;
+  background: transparent;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-consult:hover { background: #C9A84C; color: #0C0C0C; }
+
+/* 文章標題 hover */
+.post-title {
+  color: #F5F0E8;
+  transition: color 0.2s ease;
+}
+.post-title:hover { color: #C9A84C; }
+
+/* 全部文章按鈕（底部border型）*/
+.btn-all-posts {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border: 1px solid #2E2E2E;
+  color: #7A7A7A;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.btn-all-posts:hover { border-color: #C9A84C; color: #C9A84C; }
+
+/* CTA phone */
+.btn-cta-phone {
+  display: inline-block;
+  border: 1px solid #C9A84C;
+  color: #C9A84C;
+  background: transparent;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 14px 56px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn-cta-phone:hover { background: #C9A84C; color: #0C0C0C; }
+
+/* 官網連結 hover */
+.link-official {
+  color: #7A7A7A;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2E2E2E;
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.link-official:hover { color: #C9A84C; border-color: #C9A84C; }
