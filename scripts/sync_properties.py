@@ -1,84 +1,65 @@
 #!/usr/bin/env python3
 """
-每日自動同步群義房屋官網物件清單
-由 GitHub Actions 每天執行，更新 content/properties.json
+每日自動同步群義房屋官網物件清單（Playwright 版）
+由 Windows 排程器每天執行，更新 content/properties.json
 """
-import requests, json, re, datetime, sys, os, time, warnings
+import json, re, datetime, sys, os, time, warnings
 warnings.filterwarnings('ignore')
+
+from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.chyi.com.tw"
 STORE_ID = "4759"
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), '../content/properties.json')
 
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120',
-    'Referer': f'https://www.chyi.com.tw/sell_item?storeid={STORE_ID}',
-}
-
-def fetch_detail_img(link):
-    """從物件詳細頁面抓取主圖片 URL（schema.org imageUrl）"""
-    if not link:
-        return ''
-    try:
-        r = requests.get(link, headers=HEADERS, timeout=15, verify=False)
-        r.encoding = 'utf-8'
-        # schema.org image
-        m = re.search(r'"image"\s*:\s*"(https?://[^"]+\.jpg[^"]*)"', r.text)
-        if m:
-            return m.group(1)
-        # og:image fallback
-        m = re.search(r'property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', r.text)
-        if m:
-            return m.group(1)
-    except:
-        pass
-    return ''
-
-def parse_block(block_html):
-    """解析單一物件 HTML 區塊"""
-    text = re.sub(r'<[^>]+>', ' ', block_html)
-    text = re.sub(r'\s+', ' ', text).strip()
-
-    link_m = re.search(r'href=["\']([^"\']*sell_item[^"\']*)["\']', block_html)
-    link = BASE_URL + link_m.group(1) if link_m and link_m.group(1).startswith('/') else (link_m.group(1) if link_m else '')
-
+def parse_text(text, title, link, img):
+    """從 innerText 解析物件欄位"""
+    # 物件編號從 link
     no_m = re.search(r'sell_item/([\w-]+)/', link)
     no = no_m.group(1) if no_m else ''
 
-    title_m = re.search(r'class=["\'][^"\']*obj_title[^"\']*["\'][^>]*>([^<]+)', block_html)
-    if not title_m:
-        title_m = re.search(r'<h[23][^>]*>([^<]+)', block_html)
-    title = title_m.group(1).strip() if title_m else text[:30]
-
-    price_m = re.search(r'(\d[\d,]+)\s*萬', text)
+    # 價格：取「總價 xxx 萬」或直接「xxx萬」
+    price_m = re.search(r'總價\s*([\d,]+)\s*萬', text) or re.search(r'([\d,]+)\s*萬', text)
     price = price_m.group(1).replace(',', '') + '萬' if price_m else ''
 
-    type_m = re.search(r'透天|公寓|大樓|別墅|廠房|農地|土地|店面|華廈', text)
-    ptype = type_m.group(0) if type_m else ''
+    # 型態（透天/公寓/大樓等）
+    type_m = re.search(r'型態\s*([\u4e00-\u9fff]+)', text)
+    if not type_m:
+        type_m = re.search(r'透天|公寓|大樓|別墅|廠房|農地|土地|店面|華廈', text)
+        ptype = type_m.group(0) if type_m else ''
+    else:
+        ptype = type_m.group(1).strip()
 
-    age_m = re.search(r'屋齡[：:\s]*([\d.]+)', text)
-    age = age_m.group(1) + '年' if age_m else ''
+    # 格局
+    layout_m = re.search(r'格局\s*([\d]+房[^\n]+)', text)
+    layout = layout_m.group(1).strip() if layout_m else ''
+    if layout:
+        # 只取第一行
+        layout = layout.split('\n')[0].strip()
 
-    build_m = re.search(r'建物[^：:\d]*([\d.]+)\s*坪', text)
+    # 建坪
+    build_m = re.search(r'建坪\s*([\d.]+)\s*坪', text)
     build_ping = build_m.group(1) + '坪' if build_m else ''
 
-    land_m = re.search(r'土地[^：:\d]*([\d.]+)\s*坪', text)
+    # 土地坪
+    land_m = re.search(r'土地坪數\s*([\d.]+)\s*坪', text)
     land_ping = land_m.group(1) + '坪' if land_m else ''
 
-    layout_m = re.search(r'(\d+房\d+廳\d+衛|\d+[LBDK房廳衛]+)', text)
-    layout = layout_m.group(1) if layout_m else ''
+    # 屋齡
+    age_m = re.search(r'屋齡\s*([\d.]+)\s*年', text)
+    age = age_m.group(1) + '年' if age_m else ''
 
-    unit_m = re.search(r'單[坪價][：:\s]*([\d.]+)\s*萬', text)
+    # 單價
+    unit_m = re.search(r'單價\s*([\d.]+)\s*萬', text)
     unit_price = unit_m.group(1) + '萬/坪' if unit_m else ''
 
-    addr_m = re.search(r'[\u96f2\u5f70\u5357\u5317\u9ad8\u53f0\u5609\u5c4f][\u6797\u5316\u7fa9\u96c4\u5317\u5357\u6771\u897f\u90fd]+[\u7e23\u5e02].{2,20}[\u8def\u8857\u6bb5\u5df7\u5f04]', text)
-    addr = addr_m.group(0).strip() if addr_m else ''
-
-    # 先試清單頁內嵌圖
-    img_m = re.search(r'<img[^>]+src=["\']([^"\']+\.jpg[^"\']*)["\']', block_html)
-    img = img_m.group(1) if img_m else ''
-    if img and img.startswith('/'):
-        img = BASE_URL + img
+    # 地址（通常在格局前一行，取中文地址）
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
+    addr = ''
+    for line in lines:
+        if re.search(r'[縣市區鄉鎮]', line) and len(line) < 30 and '電話' not in line:
+            addr = line
+            break
 
     return {
         'no': no, 'title': title, 'price': price, 'addr': addr,
@@ -87,15 +68,42 @@ def parse_block(block_html):
         'img': img, 'link': link,
     }
 
-def fetch_page(page=1):
-    url = f"{BASE_URL}/sell_item?storeid={STORE_ID}&p={page}"
+def fetch_page_items(page_obj, page_num):
+    url = f"{BASE_URL}/sell_item/?storeid={STORE_ID}&Pg1={page_num}"
+    print(f"  🌐 第{page_num}頁: {url}")
+
     try:
-        r = requests.get(url, headers=HEADERS, timeout=20, verify=False)
-        r.encoding = 'utf-8'
-        return r.text
+        page_obj.goto(url, wait_until='networkidle', timeout=30000)
     except Exception as e:
-        print(f"  ❌ 第{page}頁失敗: {e}")
-        return ''
+        print(f"  ⚠️ 載入逾時（繼續解析）: {e}")
+
+    try:
+        page_obj.wait_for_selector('li.house_block', timeout=12000)
+    except:
+        print(f"  第{page_num}頁無物件，結束")
+        return []
+
+    # 滾動觸發圖片載入
+    page_obj.evaluate('window.scrollTo(0, 600)')
+    page_obj.wait_for_timeout(1500)
+
+    items = page_obj.evaluate('''() => {
+        const els = document.querySelectorAll("li.house_block");
+        return Array.from(els).map(el => {
+            const titleEl = el.querySelector("dl.title dt a");
+            const title = titleEl ? titleEl.textContent.trim() : "";
+            const link = titleEl ? titleEl.href : "";
+            const text = el.innerText || "";
+            // 取第一個非 spacer 的圖片
+            const imgs = Array.from(el.querySelectorAll("img"))
+                .map(i => i.src)
+                .filter(s => s && !s.includes("spacer") && !s.includes("favorites"));
+            const img = imgs[0] || "";
+            return { title, link, text, img };
+        });
+    }''')
+
+    return items
 
 def main():
     today = datetime.date.today().isoformat()
@@ -104,47 +112,44 @@ def main():
     all_items = []
     seen = set()
 
-    for page in range(1, 6):
-        html = fetch_page(page)
-        if not html:
-            break
-
-        blocks = re.findall(
-            r'<li[^>]*class=["\'][^"\']*house_block[^"\']*["\'][^>]*>(.*?)</li>',
-            html, re.DOTALL
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        ctx = browser.new_context(
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120',
+            viewport={'width': 1280, 'height': 900},
         )
+        pg = ctx.new_page()
 
-        if not blocks:
-            print(f"  第{page}頁無物件，結束")
-            break
+        for page_num in range(1, 8):
+            raw_items = fetch_page_items(pg, page_num)
 
-        new = 0
-        for b in blocks:
-            item = parse_block(b)
-            key = item['no'] or (item['title'] + item['price'])
-            if key and key not in seen:
+            if not raw_items:
+                break
+
+            new = 0
+            for r in raw_items:
+                if not r['title'] and not r['link']:
+                    continue
+                key = r['link'] or r['title']
+                if key in seen:
+                    continue
                 seen.add(key)
+                item = parse_text(r['text'], r['title'], r['link'], r['img'])
                 all_items.append(item)
                 new += 1
 
-        print(f"  第{page}頁：{new}筆，累計{len(all_items)}筆")
+            print(f"  第{page_num}頁：{new}筆，累計{len(all_items)}筆")
 
-        if new == 0:
-            break
+            if new == 0:
+                break
+
+            time.sleep(1)
+
+        browser.close()
 
     if not all_items:
         print("⚠️ 未抓到物件，保留舊資料")
         sys.exit(0)
-
-    # 補抓沒有圖片的物件（從詳細頁面取 schema.org image）
-    print("🖼️  補抓物件圖片...")
-    for i, item in enumerate(all_items):
-        if not item.get('img') and item.get('link'):
-            img = fetch_detail_img(item['link'])
-            if img:
-                item['img'] = img
-                print(f"  [{i+1}] {item['title'][:15]}... → {img[:60]}")
-            time.sleep(0.3)  # 避免太快被擋
 
     data = {'updated': today, 'total': len(all_items), 'items': all_items}
     output = os.path.normpath(OUTPUT_FILE)
@@ -153,6 +158,9 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
 
     print(f"✅ 完成：共{len(all_items)}筆 → {output}")
+    # 印出摘要
+    for i, item in enumerate(all_items):
+        print(f"  [{i+1}] {item['title']} | {item['price']} | {item['type']} | img={'有' if item['img'] else '無'}")
 
 if __name__ == '__main__':
     main()
