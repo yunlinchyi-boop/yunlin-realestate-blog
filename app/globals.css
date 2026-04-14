@@ -83,7 +83,7 @@ body {
 }
 .btn-red:hover { background: #A50D1C; }
 
-/* ── 導覽連結 ── */
+/* ── 導覽連結（深色背景用）── */
 .nav-link {
   color: #1A1A1A;
   font-size: 0.7rem;
@@ -96,7 +96,33 @@ body {
 }
 .nav-link:hover { color: #1B2A5E; border-bottom-color: #1B2A5E; }
 
-/* ── 諮詢按鈕 ── */
+/* ── 導覽連結（深藍背景白字用）── */
+.nav-link-white {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color 0.2s ease;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+.nav-link-white:hover { color: #FFFFFF; border-bottom-color: #CC1122; }
+
+/* ── 諮詢按鈕（深藍背景上用紅色）── */
+.btn-consult-red {
+  background: #CC1122;
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.btn-consult-red:hover { background: #A50D1C; }
+
+/* ── 諮詢按鈕（舊版，保留相容）── */
 .btn-consult {
   background: #1B2A5E;
   color: #FFFFFF;

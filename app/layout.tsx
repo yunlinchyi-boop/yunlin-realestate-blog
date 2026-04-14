@@ -37,8 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* ── 導覽列 ── */}
         <header className="sticky top-0 z-50" style={{
-          background: '#FFFFFF',
-          borderBottom: '1px solid #E5E5E5',
+          background: '#1B2A5E',
           backdropFilter: 'blur(8px)',
         }}>
           <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -46,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Logo */}
             <Link href="/" className="flex flex-col leading-none">
               <span style={{
-                color: '#1B2A5E',
+                color: '#FFFFFF',
                 fontFamily: 'var(--font-playfair)',
                 fontWeight: 700,
                 fontSize: '1.15rem',
@@ -54,20 +53,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               }}>
                 群義房屋
               </span>
-              <span style={{ color: '#767676', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
                 Chyi Real Estate · Yunlin
               </span>
             </Link>
 
             {/* 導覽連結 */}
             <nav className="hidden md:flex items-center gap-8">
-              <Link href="/blog" className="nav-link">房市專欄</Link>
-              <Link href="/about" className="nav-link">關於我們</Link>
-              <a href="tel:055362808" className="btn-consult">立即諮詢</a>
+              <Link href="/blog" className="nav-link-white">房市專欄</Link>
+              <Link href="/about" className="nav-link-white">關於我們</Link>
+              <a href="tel:055362808" className="btn-consult-red">立即諮詢</a>
             </nav>
 
             {/* 手機版 */}
-            <a href="tel:055362808" className="md:hidden btn-consult" style={{ padding: '6px 14px' }}>
+            <a href="tel:055362808" className="md:hidden btn-consult-red" style={{ padding: '6px 14px' }}>
               諮詢
             </a>
           </div>
