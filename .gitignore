@@ -42,3 +42,4 @@ next-env.d.ts
 
 .vercel
 google-indexing-sa.json
+backups/
