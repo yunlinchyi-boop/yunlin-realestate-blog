@@ -1,7 +1,22 @@
 {
-  "updated": "2026-04-14",
+  "updated": "2026-04-15",
   "total": 10,
   "items": [
+    {
+      "no": "2594-917645W",
+      "title": "雲科透天金店面",
+      "price": "1950萬",
+      "addr": "近市場",
+      "unit_price": "35.5萬/坪",
+      "layout": "5房+0室 2廳 6衛",
+      "build_ping": "54.88坪",
+      "land_ping": "",
+      "age": "18.2年",
+      "type": "透天",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/917645W_obj_256_17761495541821.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-917645W/?storeid=4759"
+    },
     {
       "no": "2594-417318A",
       "title": "台中柳川稀有美房",
@@ -78,21 +93,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-643799V/?storeid=4759"
     },
     {
-      "no": "2594-607095Y",
-      "title": "竹山圓山茶園",
-      "price": "2327萬",
-      "addr": "竹山鎮圓山段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/607095Y_obj_256_17240377487043.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
-    },
-    {
       "no": "2594-897143Q",
       "title": "竹山大面積林地",
       "price": "1萬",
@@ -108,10 +108,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
     },
     {
-      "no": "2594-321719B",
-      "title": "竹山天梯林地",
-      "price": "6880萬",
-      "addr": "竹山鎮嶺頂段",
+      "no": "2594-607095Y",
+      "title": "竹山圓山茶園",
+      "price": "2327萬",
+      "addr": "竹山鎮圓山段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -119,8 +119,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/321719B_obj_256_17328465210189.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-321719B/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/607095Y_obj_256_17240377487043.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
     },
     {
       "no": "2594-643719U",
@@ -138,10 +138,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-643719U/?storeid=4759"
     },
     {
-      "no": "2594-766841U",
-      "title": "古坑下麻園農地",
-      "price": "520萬",
-      "addr": "古坑鄉下麻園段",
+      "no": "2594-316578R",
+      "title": "新竹關西農建地",
+      "price": "1388萬",
+      "addr": "關西鎮上橫坑段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -149,8 +149,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/766841U_obj_256_17158307790177.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-766841U/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/115/316578R_obj_256_17761385774559.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-316578R/?storeid=4759"
     }
   ]
 }
