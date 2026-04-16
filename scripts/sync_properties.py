@@ -120,11 +120,34 @@ def main():
         )
         pg = ctx.new_page()
 
-        for page_num in range(1, 8):
-            raw_items = fetch_page_items(pg, page_num)
+        # 載入第一頁
+        pg.goto(f"{BASE_URL}/sell_item/?storeid={STORE_ID}", wait_until='networkidle', timeout=30000)
+        try:
+            pg.wait_for_selector('li.house_block', timeout=12000)
+        except:
+            print("  無法載入物件清單")
+            browser.close()
+            return
 
-            if not raw_items:
-                break
+        page_num = 1
+        while page_num <= 10:
+            pg.evaluate('window.scrollTo(0, 800)')
+            pg.wait_for_timeout(1500)
+
+            raw_items = pg.evaluate('''() => {
+                const els = document.querySelectorAll("li.house_block");
+                return Array.from(els).map(el => {
+                    const titleEl = el.querySelector("dl.title dt a");
+                    const title = titleEl ? titleEl.textContent.trim() : "";
+                    const link = titleEl ? titleEl.href : "";
+                    const text = el.innerText || "";
+                    const imgs = Array.from(el.querySelectorAll("img"))
+                        .map(i => i.src)
+                        .filter(s => s && !s.includes("spacer") && !s.includes("favorites") && !s.includes("data:"));
+                    const img = imgs[0] || "";
+                    return { title, link, text, img };
+                });
+            }''')
 
             new = 0
             for r in raw_items:
@@ -143,7 +166,19 @@ def main():
             if new == 0:
                 break
 
-            time.sleep(1)
+            # 點「下一頁」
+            next_btn = pg.query_selector('a:text("下一頁")')
+            if not next_btn:
+                break
+            try:
+                next_btn.click()
+                pg.wait_for_timeout(2000)
+                pg.wait_for_load_state('networkidle', timeout=10000)
+            except Exception as e:
+                print(f"  翻頁失敗：{e}")
+                break
+
+            page_num += 1
 
         browser.close()
 
