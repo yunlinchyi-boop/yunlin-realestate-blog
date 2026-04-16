@@ -1,8 +1,9 @@
 name: 每日FB物件自動發文
 
 on:
-  schedule:
-    - cron: '0 2 * * *'   # 每天台灣時間 10:00（UTC 02:00）
+  # 已停用：改由本機 run_daily.py 負責 FB 發文（2026-04-16）
+  # schedule:
+  #   - cron: '0 2 * * *'   # 每天台灣時間 10:00（UTC 02:00）
   workflow_dispatch:
 
 jobs:
