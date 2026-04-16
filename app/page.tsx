@@ -19,10 +19,10 @@ export default function HomePage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden" style={{ minHeight: '72vh', background: '#0F4D24' }}>
         <Image src="/images/storefront.jpg" alt="群義房屋雲林雲科加盟店店頭"
-          fill className="object-cover" style={{ opacity: 0.35 }} priority />
-        {/* 深綠漸層 */}
+          fill className="object-cover" style={{ opacity: 1 }} priority />
+        {/* 半透明深色遮罩（讓文字可讀）*/}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(135deg, rgba(10,40,20,0.96) 0%, rgba(15,77,36,0.88) 60%, rgba(26,107,53,0.82) 100%)'
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 100%)'
         }} />
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-6"
