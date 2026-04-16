@@ -34,23 +34,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col" style={{ background: '#FFFFFF', color: '#1A1A1A' }}>
 
         {/* ── 頂部綠色細條 ── */}
-        <div style={{ height: 4, background: '#1A6B35' }} />
+        <div style={{ height: 4, background: '#2AA02A' }} />
 
         {/* ── 導覽列 ── */}
         <header className="sticky top-0 z-50" style={{
-          background: 'rgba(15, 77, 36, 0.97)',
+          background: '#3CB83C',
           backdropFilter: 'blur(8px)',
         }}>
-          <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
 
             {/* Logo 圖片 */}
             <Link href="/" className="flex items-center">
               <Image
                 src="/images/logo-chyi.png"
                 alt="群義房屋"
-                width={140}
-                height={48}
-                style={{ objectFit: 'contain', height: 40, width: 'auto' }}
+                width={200}
+                height={68}
+                style={{ objectFit: 'contain', height: 58, width: 'auto' }}
                 priority
               />
             </Link>
