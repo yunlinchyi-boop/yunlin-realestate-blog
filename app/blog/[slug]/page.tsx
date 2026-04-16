@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* 標題區 */}
-      <header style={{ background: '#1B2A5E', padding: '56px 24px 44px' }}>
+      <header style={{ background: '#0F4D24', padding: '56px 24px 44px' }}>
         <div className="max-w-3xl mx-auto">
           <div className="flex gap-2 mb-5 flex-wrap">
             {post.tags.map(tag => (
@@ -87,12 +87,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       {/* 文章內容 */}
       <div className="max-w-3xl mx-auto px-6 py-12">
-        <article className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        <article className="prose prose-xl max-w-none" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       </div>
 
       {/* 底部聯絡框 */}
       <div className="max-w-3xl mx-auto px-6 pb-16">
-        <div style={{ background: '#1B2A5E', padding: '40px', textAlign: 'center' }}>
+        <div style={{ background: '#0F4D24', padding: '40px', textAlign: 'center' }}>
           <p style={{
             color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.3em',
             textTransform: 'uppercase', fontWeight: 700, marginBottom: 8

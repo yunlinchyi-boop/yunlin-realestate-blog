@@ -20,7 +20,7 @@
   --font-serif: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
 
-html { scroll-behavior: smooth; background: #FFFFFF; }
+html { scroll-behavior: smooth; background: #FFFFFF; font-size: 18px; }
 
 body {
   background: #FFFFFF;
@@ -197,6 +197,8 @@ body {
 
 /* ── prose 文章（淺色）── */
 .prose {
+  font-size: 1.15rem;
+  line-height: 1.9;
   --tw-prose-body:          #333333;
   --tw-prose-headings:      #1A1A1A;
   --tw-prose-links:         #1A6B35;
