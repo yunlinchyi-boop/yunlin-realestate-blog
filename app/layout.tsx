@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Playfair_Display, Noto_Sans_TC } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -32,30 +33,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="zh-TW" className={`${playfair.variable} ${notoSansTC.variable}`}>
       <body className="min-h-full flex flex-col" style={{ background: '#FFFFFF', color: '#1A1A1A' }}>
 
-        {/* ── 頂部紅色細條 ── */}
-        <div style={{ height: 4, background: '#CC1122' }} />
+        {/* ── 頂部綠色細條 ── */}
+        <div style={{ height: 4, background: '#1A6B35' }} />
 
         {/* ── 導覽列 ── */}
         <header className="sticky top-0 z-50" style={{
-          background: '#1B2A5E',
+          background: 'rgba(15, 77, 36, 0.97)',
           backdropFilter: 'blur(8px)',
         }}>
           <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-            {/* Logo */}
-            <Link href="/" className="flex flex-col leading-none">
-              <span style={{
-                color: '#FFFFFF',
-                fontFamily: 'var(--font-playfair)',
-                fontWeight: 700,
-                fontSize: '1.15rem',
-                letterSpacing: '0.05em',
-              }}>
-                群義房屋
-              </span>
-              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
-                Chyi Real Estate · Yunlin
-              </span>
+            {/* Logo 圖片 */}
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/logo-chyi.png"
+                alt="群義房屋"
+                width={140}
+                height={48}
+                style={{ objectFit: 'contain', height: 40, width: 'auto' }}
+                priority
+              />
             </Link>
 
             {/* 導覽連結 */}
@@ -116,7 +113,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         {/* ── 頁尾 ── */}
-        <footer style={{ background: '#1B2A5E', color: '#FFFFFF' }}>
+        <footer style={{ background: '#0F4D24', color: '#FFFFFF' }}>
           <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
 
             {/* 品牌 */}

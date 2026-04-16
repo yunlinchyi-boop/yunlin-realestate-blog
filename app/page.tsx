@@ -17,12 +17,12 @@ export default function HomePage() {
     <main style={{ background: '#FFFFFF', color: '#1A1A1A' }}>
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: '72vh', background: '#1B2A5E' }}>
-        <Image src="/images/shoptitle.png" alt="群義房屋雲林雲科加盟店"
-          fill className="object-cover" style={{ opacity: 0.18 }} priority />
-        {/* 深藍漸層 */}
+      <section className="relative overflow-hidden" style={{ minHeight: '72vh', background: '#0F4D24' }}>
+        <Image src="/images/storefront.jpg" alt="群義房屋雲林雲科加盟店店頭"
+          fill className="object-cover" style={{ opacity: 0.35 }} priority />
+        {/* 深綠漸層 */}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(135deg, rgba(17,28,66,0.95) 0%, rgba(27,42,94,0.88) 60%, rgba(46,64,128,0.85) 100%)'
+          background: 'linear-gradient(135deg, rgba(10,40,20,0.96) 0%, rgba(15,77,36,0.88) 60%, rgba(26,107,53,0.82) 100%)'
         }} />
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-6"
@@ -99,7 +99,7 @@ export default function HomePage() {
                 {item.num}
               </p>
               <div style={{ width: 32, height: 3, background: '#CC1122', marginBottom: 16 }} />
-              <p style={{ color: '#1B2A5E', fontWeight: 700, fontSize: '1rem', marginBottom: 10, letterSpacing: '0.05em' }}>
+              <p style={{ color: '#1A6B35', fontWeight: 700, fontSize: '1rem', marginBottom: 10, letterSpacing: '0.05em' }}>
                 {item.title}
               </p>
               <p style={{ color: '#767676', fontSize: '0.85rem', lineHeight: 1.8 }}>{item.desc}</p>
@@ -109,7 +109,7 @@ export default function HomePage() {
       </section>
 
       {/* ── 為何選擇我們 ── */}
-      <section style={{ background: '#111C42', padding: '80px 24px' }}>
+      <section style={{ background: '#0F4D24', padding: '80px 24px' }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center" style={{ marginBottom: 48 }}>
             <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>
@@ -184,12 +184,12 @@ export default function HomePage() {
               {latestNews.map((post) => (
                 <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
                   <article className="brand-card overflow-hidden">
-                    <div style={{ height: 4, background: '#1B2A5E' }} />
+                    <div style={{ height: 4, background: '#1A6B35' }} />
                     <div className="p-6">
                       <div className="flex gap-2 mb-3 flex-wrap">
                         {post.tags.slice(0, 2).map(tag => (
                           <span key={tag} style={{
-                            background: '#EEF1F8', color: '#1B2A5E',
+                            background: '#EBF5EF', color: '#1A6B35',
                             fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
                           }}>{tag}</span>
                         ))}
@@ -206,7 +206,7 @@ export default function HomePage() {
                       )}
                       <div className="flex items-center justify-between">
                         <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
-                        <span style={{ color: '#1B2A5E', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
+                        <span style={{ color: '#1A6B35', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
                       </div>
                     </div>
                   </article>
@@ -286,8 +286,8 @@ export default function HomePage() {
             <div className="flex items-end justify-between mb-10">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                  <div style={{ width: 4, height: 24, background: '#1B2A5E' }} />
-                  <p style={{ color: '#1B2A5E', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
+                  <p style={{ color: '#1A6B35', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
                     Featured Listings
                   </p>
                 </div>
@@ -307,7 +307,7 @@ export default function HomePage() {
       )}
 
       {/* ── 底部 CTA ── */}
-      <section style={{ background: '#1B2A5E', padding: '80px 24px', textAlign: 'center' }}>
+      <section style={{ background: '#1A6B35', padding: '80px 24px', textAlign: 'center' }}>
         <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>
           Contact Us
         </p>

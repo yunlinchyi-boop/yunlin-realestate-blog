@@ -1,15 +1,15 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* ── 品牌色系（Tommy-inspired：白底 × 深藍 × 紅） ── */
+/* ── 品牌色系（群義房屋：白底 × 品牌綠 × 紅） ── */
 :root {
   --background: #FFFFFF;
   --foreground: #1A1A1A;
-  --navy:       #1B2A5E;
-  --navy-dark:  #111C42;
-  --navy-lt:    #2E4080;
-  --red:        #CC1122;
-  --cream:      #F7F6F4;
+  --navy:       #1A6B35;   /* 品牌深綠（取代海軍藍） */
+  --navy-dark:  #0F4D24;   /* 更深綠 */
+  --navy-lt:    #2E8B52;   /* 中綠 */
+  --red:        #CC1122;   /* 品牌紅（保留） */
+  --cream:      #F4FAF6;   /* 淡綠底 */
   --border:     #E5E5E5;
   --muted:      #767676;
   --subtle:     #AAAAAA;
@@ -36,14 +36,14 @@ body {
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .brand-card:hover {
-  border-color: #1B2A5E;
+  border-color: #1A6B35;
   box-shadow: 0 4px 20px rgba(27,42,94,0.1);
 }
 
 /* ── 按鈕：深藍實心 ── */
 .btn-navy {
   display: inline-block;
-  background: #1B2A5E;
+  background: #1A6B35;
   color: #FFFFFF;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
@@ -52,13 +52,13 @@ body {
   font-weight: 600;
   transition: background 0.2s ease;
 }
-.btn-navy:hover { background: #111C42; }
+.btn-navy:hover { background: #0F4D24; }
 
 /* ── 按鈕：深藍框線 ── */
 .btn-navy-outline {
   display: inline-block;
-  border: 1.5px solid #1B2A5E;
-  color: #1B2A5E;
+  border: 1.5px solid #1A6B35;
+  color: #1A6B35;
   background: transparent;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
@@ -67,7 +67,7 @@ body {
   font-weight: 600;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.btn-navy-outline:hover { background: #1B2A5E; color: #FFFFFF; }
+.btn-navy-outline:hover { background: #1A6B35; color: #FFFFFF; }
 
 /* ── 按鈕：紅色 ── */
 .btn-red {
@@ -94,7 +94,7 @@ body {
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
 }
-.nav-link:hover { color: #1B2A5E; border-bottom-color: #1B2A5E; }
+.nav-link:hover { color: #1A6B35; border-bottom-color: #1A6B35; }
 
 /* ── 導覽連結（深藍背景白字用）── */
 .nav-link-white {
@@ -124,7 +124,7 @@ body {
 
 /* ── 諮詢按鈕（舊版，保留相容）── */
 .btn-consult {
-  background: #1B2A5E;
+  background: #1A6B35;
   color: #FFFFFF;
   font-size: 0.65rem;
   letter-spacing: 0.15em;
@@ -133,7 +133,7 @@ body {
   font-weight: 600;
   transition: background 0.2s ease;
 }
-.btn-consult:hover { background: #111C42; }
+.btn-consult:hover { background: #0F4D24; }
 
 /* ── 文字連結 ── */
 .link-navy {
@@ -146,7 +146,7 @@ body {
   border-bottom: 1px solid #E5E5E5;
   padding-bottom: 2px;
 }
-.link-navy:hover { color: #1B2A5E; border-color: #1B2A5E; }
+.link-navy:hover { color: #1A6B35; border-color: #1A6B35; }
 
 /* ── footer 連結 ── */
 .footer-link {
@@ -167,17 +167,17 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 600;
-  border: 1.5px solid #1B2A5E;
-  color: #1B2A5E;
+  border: 1.5px solid #1A6B35;
+  color: #1A6B35;
   background: transparent;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.btn-all-posts:hover { background: #1B2A5E; color: #FFFFFF; }
+.btn-all-posts:hover { background: #1A6B35; color: #FFFFFF; }
 
 /* ── CTA 電話按鈕 ── */
 .btn-cta-phone {
   display: inline-block;
-  background: #1B2A5E;
+  background: #1A6B35;
   color: #FFFFFF;
   font-size: 0.75rem;
   letter-spacing: 0.2em;
@@ -186,31 +186,31 @@ body {
   font-weight: 600;
   transition: background 0.2s ease;
 }
-.btn-cta-phone:hover { background: #111C42; }
+.btn-cta-phone:hover { background: #0F4D24; }
 
 /* ── 文章標題 hover ── */
 .post-title {
   color: #1A1A1A;
   transition: color 0.2s ease;
 }
-.post-title:hover { color: #1B2A5E; }
+.post-title:hover { color: #1A6B35; }
 
 /* ── prose 文章（淺色）── */
 .prose {
   --tw-prose-body:          #333333;
   --tw-prose-headings:      #1A1A1A;
-  --tw-prose-links:         #1B2A5E;
+  --tw-prose-links:         #1A6B35;
   --tw-prose-bold:          #1A1A1A;
-  --tw-prose-bullets:       #1B2A5E;
+  --tw-prose-bullets:       #1A6B35;
   --tw-prose-hr:            #E5E5E5;
   --tw-prose-quotes:        #1A1A1A;
-  --tw-prose-quote-borders: #1B2A5E;
+  --tw-prose-quote-borders: #1A6B35;
   --tw-prose-code:          #CC1122;
   --tw-prose-pre-bg:        #F7F6F4;
   color: #333333;
 }
-.prose a { color: #1B2A5E; text-decoration: underline; text-underline-offset: 3px; }
-.prose blockquote { border-left-color: #1B2A5E; background: #F7F6F4; padding: 1rem 1.5rem; }
+.prose a { color: #1A6B35; text-decoration: underline; text-underline-offset: 3px; }
+.prose blockquote { border-left-color: #1A6B35; background: #F7F6F4; padding: 1rem 1.5rem; }
 .prose code { color: #CC1122; background: #F7F6F4; padding: 0.1em 0.4em; border-radius: 3px; }
 .prose pre { background: #F7F6F4 !important; border: 1px solid #E5E5E5; }
 
@@ -218,7 +218,7 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #F7F6F4; }
 ::-webkit-scrollbar-thumb { background: #CCCCCC; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #1B2A5E; }
+::-webkit-scrollbar-thumb:hover { background: #1A6B35; }
 
 /* ── 官網連結 ── */
 .link-official {
@@ -231,4 +231,4 @@ body {
   padding-bottom: 2px;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
-.link-official:hover { color: #1B2A5E; border-color: #1B2A5E; }
+.link-official:hover { color: #1A6B35; border-color: #1A6B35; }
