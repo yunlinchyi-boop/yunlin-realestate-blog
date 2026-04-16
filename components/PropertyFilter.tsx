@@ -20,7 +20,7 @@ export default function PropertyFilter({
 
   const filtered = (
     activeType === '全部' ? properties : properties.filter((p) => p.type === activeType)
-  ).slice(0, 8);
+  );
 
   return (
     <>
