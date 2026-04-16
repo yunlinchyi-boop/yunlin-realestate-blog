@@ -67,6 +67,21 @@ export default function HomePage() {
               05-5362808
             </a>
           </div>
+
+          {/* 統計數字 */}
+          <div className="flex gap-8 md:gap-16 justify-center flex-wrap"
+            style={{ marginTop: 56, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.15)' }}>
+            {[
+              { num: '10+', label: '服務年資' },
+              { num: '200+', label: '成交物件' },
+              { num: '1對1', label: '專屬服務' },
+            ].map((s, i) => (
+              <div key={i} className="text-center">
+                <p style={{ color: '#CC1122', fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-playfair)', lineHeight: 1 }}>{s.num}</p>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: 6 }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -74,19 +89,73 @@ export default function HomePage() {
       <section style={{ background: '#F7F6F4', padding: '56px 24px', borderBottom: '1px solid #E5E5E5' }}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-0" style={{ border: '1px solid #E5E5E5' }}>
           {[
-            { icon: '🏡', title: '在地深耕', desc: '雲林斗六在地服務，熟悉每條巷弄' },
-            { icon: '📊', title: '每日資訊', desc: '即時房市分析，掌握最新行情動態' },
-            { icon: '🤝', title: '專業服務', desc: '一對一顧問陪伴，從看房到成交' },
+            { num: '01', title: '在地深耕', desc: '雲林斗六在地服務 10 年以上，每條巷弄都熟悉' },
+            { num: '02', title: '每日資訊', desc: '即時房市行情分析，第一時間掌握最新動態' },
+            { num: '03', title: '專業服務', desc: '一對一顧問全程陪伴，從看房、議價到成交' },
           ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center text-center p-10"
+            <div key={i} className="flex flex-col p-10"
               style={{ borderRight: i < 2 ? '1px solid #E5E5E5' : 'none', background: '#FFFFFF' }}>
-              <span style={{ fontSize: '2rem', marginBottom: 12 }}>{item.icon}</span>
-              <p style={{ color: '#1B2A5E', fontWeight: 700, fontSize: '1rem', marginBottom: 8, letterSpacing: '0.05em' }}>
+              <p style={{ color: '#E5E5E5', fontSize: '3rem', fontWeight: 700, fontFamily: 'var(--font-playfair)', lineHeight: 1, marginBottom: 16 }}>
+                {item.num}
+              </p>
+              <div style={{ width: 32, height: 3, background: '#CC1122', marginBottom: 16 }} />
+              <p style={{ color: '#1B2A5E', fontWeight: 700, fontSize: '1rem', marginBottom: 10, letterSpacing: '0.05em' }}>
                 {item.title}
               </p>
-              <p style={{ color: '#767676', fontSize: '0.85rem', lineHeight: 1.7 }}>{item.desc}</p>
+              <p style={{ color: '#767676', fontSize: '0.85rem', lineHeight: 1.8 }}>{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── 為何選擇我們 ── */}
+      <section style={{ background: '#111C42', padding: '80px 24px' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>
+              Why Choose Us
+            </p>
+            <h2 style={{
+              color: '#FFFFFF', fontFamily: 'var(--font-playfair)',
+              fontSize: '1.8rem', fontWeight: 700, marginBottom: 10
+            }}>
+              為何選擇群義房屋
+            </h2>
+            <div style={{ width: 40, height: 3, background: '#CC1122', margin: '0 auto' }} />
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { title: '雲林在地，深耕多年', desc: '紮根雲林斗六超過 10 年，熟悉在地市場與每個社區的特性，給您最精準的置產建議。' },
+              { title: '透明議價，保障權益', desc: '全程透明報價，不隱藏費用，從委託到成交每一步都讓您清楚掌握。' },
+              { title: '物件多元，全縣服務', desc: '透天、農地、土地、廠房一手掌握，服務範圍涵蓋雲林全縣。' },
+              { title: '售後陪伴，完整服務', desc: '成交不是終點，代書、貸款、過戶全程協助，讓置產零壓力。' },
+            ].map((item, i) => (
+              <div key={i} style={{
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                padding: '28px 32px',
+                transition: 'background 0.2s',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <div style={{ width: 4, height: 40, background: '#CC1122', flexShrink: 0, marginTop: 2 }} />
+                  <div>
+                    <p style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1rem', marginBottom: 8, letterSpacing: '0.03em' }}>
+                      {item.title}
+                    </p>
+                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.85rem', lineHeight: 1.8 }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center" style={{ marginTop: 48 }}>
+            <a href="tel:055362808" className="btn-red" style={{ fontSize: '0.8rem', padding: '14px 48px' }}>
+              免費諮詢 05-5362808
+            </a>
+          </div>
         </div>
       </section>
 
@@ -111,26 +180,34 @@ export default function HomePage() {
           {latestNews.length === 0 ? (
             <p style={{ color: '#767676', textAlign: 'center', padding: '60px 0' }}>文章準備中，敬請期待...</p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-5">
               {latestNews.map((post) => (
                 <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
-                  <article className="brand-card flex overflow-hidden" style={{ height: 128 }}>
-                    <div className="w-3 flex-shrink-0" style={{ background: '#1B2A5E' }} />
-                    <div className="p-5 flex flex-col justify-between flex-1 min-w-0">
-                      <div>
-                        <div className="flex gap-2 mb-2 flex-wrap">
-                          {post.tags.slice(0, 2).map(tag => (
-                            <span key={tag} style={{
-                              background: '#EEF1F8', color: '#1B2A5E',
-                              fontSize: '0.6rem', padding: '2px 8px', fontWeight: 600, letterSpacing: '0.05em'
-                            }}>{tag}</span>
-                          ))}
-                        </div>
-                        <h3 className="post-title text-sm font-semibold leading-snug line-clamp-2">
-                          {post.title}
-                        </h3>
+                  <article className="brand-card overflow-hidden">
+                    <div style={{ height: 4, background: '#1B2A5E' }} />
+                    <div className="p-6">
+                      <div className="flex gap-2 mb-3 flex-wrap">
+                        {post.tags.slice(0, 2).map(tag => (
+                          <span key={tag} style={{
+                            background: '#EEF1F8', color: '#1B2A5E',
+                            fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
+                          }}>{tag}</span>
+                        ))}
                       </div>
-                      <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                      <h3 className="post-title font-semibold leading-snug line-clamp-2"
+                        style={{ fontSize: '1rem', marginBottom: 10 }}>
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
+                          className="line-clamp-2">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                        <span style={{ color: '#1B2A5E', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
+                      </div>
                     </div>
                   </article>
                 </Link>
@@ -165,26 +242,34 @@ export default function HomePage() {
               </div>
               <Link href="/blog" className="link-navy">查看全部</Link>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-5">
               {latestPropertyPosts.map((post) => (
                 <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
-                  <article className="brand-card flex overflow-hidden" style={{ height: 128 }}>
-                    <div className="w-3 flex-shrink-0" style={{ background: '#CC1122' }} />
-                    <div className="p-5 flex flex-col justify-between flex-1 min-w-0">
-                      <div>
-                        <div className="flex gap-2 mb-2 flex-wrap">
-                          {post.tags.slice(0, 2).map(tag => (
-                            <span key={tag} style={{
-                              background: '#FFF0F0', color: '#CC1122',
-                              fontSize: '0.6rem', padding: '2px 8px', fontWeight: 600
-                            }}>{tag}</span>
-                          ))}
-                        </div>
-                        <h3 className="post-title text-sm font-semibold leading-snug line-clamp-2">
-                          {post.title}
-                        </h3>
+                  <article className="brand-card overflow-hidden">
+                    <div style={{ height: 4, background: '#CC1122' }} />
+                    <div className="p-6">
+                      <div className="flex gap-2 mb-3 flex-wrap">
+                        {post.tags.slice(0, 2).map(tag => (
+                          <span key={tag} style={{
+                            background: '#FFF0F0', color: '#CC1122',
+                            fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600
+                          }}>{tag}</span>
+                        ))}
                       </div>
-                      <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                      <h3 className="post-title font-semibold leading-snug line-clamp-2"
+                        style={{ fontSize: '1rem', marginBottom: 10 }}>
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
+                          className="line-clamp-2">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                        <span style={{ color: '#CC1122', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
+                      </div>
                     </div>
                   </article>
                 </Link>
