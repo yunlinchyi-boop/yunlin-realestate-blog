@@ -41,17 +41,34 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title, description: post.description,
     datePublished: post.date, dateModified: post.date, url: canonicalUrl,
     image: post.coverImage || `${SITE_URL}/og-default.jpg`,
-    author: { '@type': 'Organization', name: '群義房屋｜雲林雲科加盟店', url: SITE_URL },
+    author: {
+      '@type': 'Organization',
+      name: '群義房屋｜雲林雲科加盟店',
+      url: SITE_URL,
+      telephone: '+886-5-5362808',
+      address: { '@type': 'PostalAddress', addressLocality: '斗六市', addressRegion: '雲林縣', addressCountry: 'TW' },
+    },
     publisher: {
       '@type': 'Organization', name: '群義房屋｜雲林雲科加盟店',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-chyi.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: '房市專欄', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: canonicalUrl },
+    ],
   };
 
   return (
     <main style={{ background: '#FFFFFF', color: '#1A1A1A', minHeight: '100vh' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* 標題區 */}
       <header style={{ background: '#0F4D24', padding: '56px 24px 44px' }}>

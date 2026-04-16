@@ -3,8 +3,101 @@ import Image from 'next/image';
 import { getProperties, getPropertyTypes } from '@/lib/properties';
 import { getPosts, formatDateTW } from '@/lib/posts';
 import PropertyFilter from '@/components/PropertyFilter';
+import type { Metadata } from 'next';
 
 export const revalidate = 0;
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yunlin-realestate-blog.vercel.app';
+
+export const metadata: Metadata = {
+  title: '群義房屋｜雲林斗六在地房仲 — 透天、土地、農地、廠房',
+  description: '群義房屋雲林雲科加盟店，斗六在地服務超過10年。專營雲林透天厝、農地、土地、廠房買賣。每日房市資訊，免費不推銷諮詢。電話：05-5362808。',
+  keywords: ['雲林房屋', '斗六房仲', '雲林透天', '雲林土地', '雲林農地', '斗六買房', '群義房屋', '雲科大附近房屋', '雲林廠房', '斗六中正路'],
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    type: 'website', locale: 'zh_TW', url: SITE_URL,
+    siteName: '群義房屋｜雲林雲科加盟店',
+    title: '群義房屋｜雲林斗六在地房仲',
+    description: '雲林斗六在地房仲，專營透天、土地、農地、廠房。免費諮詢 05-5362808。',
+    images: [{ url: `${SITE_URL}/images/storefront.jpg`, width: 1200, height: 630, alt: '群義房屋雲林雲科加盟店' }],
+  },
+};
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['RealEstateAgent', 'LocalBusiness'],
+  name: '群義房屋｜雲林雲科加盟店',
+  alternateName: '紅火房屋仲介有限公司',
+  description: '雲林斗六在地房仲，專營透天厝、農地、土地、廠房。服務雲林全縣，免費諮詢，不推銷。',
+  url: SITE_URL,
+  telephone: '+886-5-5362808',
+  priceRange: '$$',
+  image: `${SITE_URL}/images/storefront.jpg`,
+  logo: `${SITE_URL}/images/logo-chyi.png`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '中正路312號',
+    addressLocality: '斗六市',
+    addressRegion: '雲林縣',
+    postalCode: '640',
+    addressCountry: 'TW',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 23.7134,
+    longitude: 120.5417,
+  },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '18:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '17:00' },
+  ],
+  areaServed: ['雲林縣', '斗六市', '斗南鎮', '虎尾鎮', '西螺鎮', '古坑鄉'],
+  sameAs: ['https://www.chyi.com.tw/store/055362808'],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '雲林斗六透天厝大概多少錢？',
+      acceptedAnswer: { '@type': 'Answer', text: '雲林斗六透天厝目前行情約 600～1,500 萬，市中心精華區或新建案較高，郊區則較為親民。實際價格依坪數、屋齡、地點而有所不同，歡迎來電 05-5362808 免費諮詢。' },
+    },
+    {
+      '@type': 'Question',
+      name: '雲林農地怎麼買？有什麼注意事項？',
+      acceptedAnswer: { '@type': 'Answer', text: '購買雲林農地需注意：1. 確認地目（農牧用地、林業用地等）2. 了解農地農用規定 3. 確認灌溉水源 4. 查詢是否有工業污染。建議透過在地房仲協助確認產權，避免風險。群義房屋提供免費農地諮詢服務。' },
+    },
+    {
+      '@type': 'Question',
+      name: '雲科大附近有哪些好的物件？',
+      acceptedAnswer: { '@type': 'Answer', text: '雲科大周邊（斗六市區、林森路、大學路附近）有不少透天厝與公寓物件，租金報酬率約 4～5%，適合投資出租。目前我們有多筆優質物件，歡迎聯絡群義房屋雲科加盟店（05-5362808）了解最新釋出物件。' },
+    },
+    {
+      '@type': 'Question',
+      name: '斗六買房流程是什麼？',
+      acceptedAnswer: { '@type': 'Answer', text: '斗六買房主要流程：1. 確認預算與需求 2. 委託房仲看物件 3. 出價議價 4. 簽訂買賣契約 5. 辦理貸款（建議先做銀行預審）6. 產權調查 7. 辦理過戶 8. 完成交屋。群義房屋全程陪伴，代書、貸款媒合一站完成。' },
+    },
+    {
+      '@type': 'Question',
+      name: '群義房屋的服務費怎麼計算？',
+      acceptedAnswer: { '@type': 'Answer', text: '依不動產經紀業管理條例，買賣雙方各付成交價 1% 的仲介費（最高），購買方最高 2%。我們提供透明報價，成交前先說明清楚。歡迎電話諮詢：05-5362808，初次諮詢完全免費。' },
+    },
+  ],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '群義房屋｜雲林雲科加盟店',
+  url: SITE_URL,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/blog?q={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
+};
 
 export default function HomePage() {
   const allProperties = getProperties();
@@ -15,6 +108,11 @@ export default function HomePage() {
 
   return (
     <main style={{ background: '#FFFFFF', color: '#1A1A1A' }}>
+
+      {/* ── Schema.org 結構化資料 ── */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden" style={{ background: '#0F4D24' }}>
@@ -291,6 +389,31 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── 常見問題 FAQ ── */}
+      <section style={{ background: '#F7F6F4', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center" style={{ marginBottom: 48 }}>
+            <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>FAQ</p>
+            <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>常見問題</h2>
+          </div>
+          <div className="flex flex-col gap-4">
+            {[
+              { q: '雲林斗六透天厝大概多少錢？', a: '斗六透天厝目前行情約 600～1,500 萬，市中心精華區或新建案較高，郊區則較為親民。實際價格依坪數、屋齡、地點而有所不同，歡迎來電免費諮詢。' },
+              { q: '雲林農地怎麼買？有什麼注意事項？', a: '購買農地需確認地目（農牧/林業用地）、農地農用規定、灌溉水源，並查詢是否有工業污染紀錄。群義房屋提供免費農地諮詢，協助確認產權，避免風險。' },
+              { q: '雲科大附近有哪些好的物件？', a: '雲科大周邊透天與公寓物件，租金報酬率約 4～5%，適合投資出租。目前有多筆優質物件，歡迎聯絡我們了解最新釋出資訊。' },
+              { q: '斗六買房流程是什麼？', a: '確認預算 → 看物件議價 → 簽約 → 辦理貸款 → 產權調查 → 過戶 → 交屋。群義房屋全程陪伴，代書、貸款媒合一站完成。' },
+            ].map((item, i) => (
+              <details key={i} style={{ background: '#FFFFFF', border: '1px solid #E5E5E5', padding: '20px 24px' }}>
+                <summary style={{ fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', color: '#1A1A1A', letterSpacing: '0.02em' }}>
+                  {item.q}
+                </summary>
+                <p style={{ color: '#555', fontSize: '0.875rem', lineHeight: 1.9, marginTop: 12 }}>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── 底部 CTA ── */}
       <section style={{ background: '#1A6B35', padding: '80px 24px', textAlign: 'center' }}>
