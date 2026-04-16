@@ -68,20 +68,6 @@ export default function HomePage() {
             </a>
           </div>
 
-          {/* 統計數字 */}
-          <div className="flex gap-8 md:gap-16 justify-center flex-wrap"
-            style={{ marginTop: 56, paddingTop: 40, borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-            {[
-              { num: '10+', label: '服務年資' },
-              { num: '200+', label: '成交物件' },
-              { num: '1對1', label: '專屬服務' },
-            ].map((s, i) => (
-              <div key={i} className="text-center">
-                <p style={{ color: '#CC1122', fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-playfair)', lineHeight: 1 }}>{s.num}</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: 6 }}>{s.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
