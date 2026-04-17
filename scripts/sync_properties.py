@@ -187,12 +187,45 @@ def main():
         sys.exit(0)
 
     data = {'updated': today, 'total': len(all_items), 'items': all_items}
+
+    # 1. 更新 blog repo 的 properties.json
     output = os.path.normpath(OUTPUT_FILE)
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"✅ blog properties.json 更新：共{len(all_items)}筆 → {output}")
 
-    print(f"✅ 完成：共{len(all_items)}筆 → {output}")
+    # 2. 同步更新 FB 發文用的 物件清單.json
+    fb_items_file = os.path.normpath(
+        os.path.join(os.path.dirname(__file__), '../../群義房屋雲科店/物件清單.json')
+    )
+    try:
+        with open(fb_items_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"✅ 物件清單.json 同步更新 → {fb_items_file}")
+    except Exception as e:
+        print(f"⚠️ 物件清單.json 更新失敗：{e}")
+
+    # 3. git add + commit + push（讓 Vercel 自動重新部署）
+    repo_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+    try:
+        import subprocess
+        subprocess.run(['git', 'add', 'content/properties.json'], cwd=repo_dir, check=True)
+        result = subprocess.run(
+            ['git', 'diff', '--cached', '--quiet'], cwd=repo_dir
+        )
+        if result.returncode != 0:  # 有變更才 commit
+            subprocess.run(
+                ['git', 'commit', '-m', f'sync: 物件自動同步 {today}（共{len(all_items)}筆）'],
+                cwd=repo_dir, check=True
+            )
+            subprocess.run(['git', 'push'], cwd=repo_dir, check=True)
+            print(f"🚀 已推送至 GitHub，Vercel 自動部署中...")
+        else:
+            print("ℹ️ 物件無變動，跳過 git push")
+    except Exception as e:
+        print(f"⚠️ git push 失敗：{e}")
+
     # 印出摘要
     for i, item in enumerate(all_items):
         print(f"  [{i+1}] {item['title']} | {item['price']} | {item['type']} | img={'有' if item['img'] else '無'}")
