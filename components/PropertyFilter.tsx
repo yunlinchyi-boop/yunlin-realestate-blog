@@ -18,9 +18,9 @@ export default function PropertyFilter({
 }) {
   const [activeType, setActiveType] = useState('全部');
 
-  const filtered = (
-    activeType === '全部' ? properties : properties.filter((p) => p.type === activeType)
-  );
+  const [showAll, setShowAll] = useState(false);
+  const allFiltered = activeType === '全部' ? properties : properties.filter((p) => p.type === activeType);
+  const filtered = showAll ? allFiltered : allFiltered.slice(0, 6);
 
   return (
     <>
@@ -159,6 +159,20 @@ export default function PropertyFilter({
         <p style={{ color: '#AAAAAA', textAlign: 'center', padding: '60px 0', fontSize: '0.9rem' }}>
           此類型物件資料整理中...
         </p>
+      )}
+
+      {!showAll && allFiltered.length > 6 && (
+        <div style={{ textAlign: 'center', marginTop: 32 }}>
+          <button
+            onClick={() => setShowAll(true)}
+            style={{
+              background: '#FFFFFF', border: '2px solid #1A6B35', color: '#1A6B35',
+              padding: '12px 48px', fontSize: '0.875rem', fontWeight: 700,
+              letterSpacing: '0.1em', cursor: 'pointer',
+            }}>
+            查看全部 {allFiltered.length} 筆物件
+          </button>
+        </div>
       )}
     </>
   );
