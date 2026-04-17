@@ -95,18 +95,8 @@ export default function GuidesIndexPage() {
                 border: '1px solid #E5E5E0',
                 padding: '28px 30px',
                 background: '#FAFAF8',
-                transition: 'border-color 0.2s, box-shadow 0.2s',
                 cursor: 'pointer',
-              }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.borderColor = '#0F4D24';
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(15,77,36,0.08)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.borderColor = '#E5E5E0';
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                }}
-              >
+              }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>

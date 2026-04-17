@@ -127,15 +127,7 @@ export default function PropertiesPage() {
                   <article style={{
                     border: '1px solid #E5E7EB',
                     overflow: 'hidden',
-                    transition: 'box-shadow 0.2s',
-                  }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.12)';
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                    }}
-                  >
+                  }}>
                     {/* 圖片 */}
                     <div style={{ position: 'relative', height: 180, background: '#F3F4F6', overflow: 'hidden' }}>
                       {p.img ? (
