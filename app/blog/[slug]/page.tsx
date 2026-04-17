@@ -37,10 +37,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const canonicalUrl = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`;
   const jsonLd = {
-    '@context': 'https://schema.org', '@type': 'Article',
-    headline: post.title, description: post.description,
-    datePublished: post.date, dateModified: post.date, url: canonicalUrl,
-    image: post.coverImage || `${SITE_URL}/og-default.jpg`,
+    '@context': 'https://schema.org',
+    '@type': ['NewsArticle', 'BlogPosting'],
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date ? `${post.date}T08:00:00+08:00` : new Date().toISOString(),
+    dateModified: post.date ? `${post.date}T08:00:00+08:00` : new Date().toISOString(),
+    url: canonicalUrl,
+    image: {
+      '@type': 'ImageObject',
+      url: post.coverImage || `${SITE_URL}/images/storefront.jpg`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       '@type': 'Organization',
       name: '群義房屋｜雲林雲科加盟店',
@@ -49,10 +58,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       address: { '@type': 'PostalAddress', addressLocality: '斗六市', addressRegion: '雲林縣', addressCountry: 'TW' },
     },
     publisher: {
-      '@type': 'Organization', name: '群義房屋｜雲林雲科加盟店',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-chyi.png` },
+      '@type': 'Organization',
+      name: '群義房屋｜雲林雲科加盟店',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-chyi.png`, width: 200, height: 68 },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+    inLanguage: 'zh-TW',
+    keywords: post.tags.join(', '),
+    articleSection: '雲林房市',
+    about: { '@type': 'Thing', name: '雲林房地產' },
   };
 
   const breadcrumbLd = {

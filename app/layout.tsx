@@ -17,6 +17,8 @@ const notoSansTC = Noto_Sans_TC({
   display: 'swap',
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yunlin-realestate-blog.vercel.app';
+
 export const metadata: Metadata = {
   title: '群義房屋｜雲林雲科加盟店 — 雲林房地產專家',
   description: '雲林斗六在地房仲，專營透天、土地、農地、廠房。每日提供雲林房市最新資訊，協助您找到理想物件。',
@@ -25,6 +27,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'zh_TW',
     siteName: '群義房屋｜雲林雲科加盟店',
+  },
+  alternates: {
+    types: {
+      'application/rss+xml': `${SITE_URL}/feed`,
+    },
   },
 };
 
