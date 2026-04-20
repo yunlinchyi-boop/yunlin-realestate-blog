@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-18",
+  "updated": "2026-04-20",
   "total": 40,
   "items": [
     {
@@ -108,36 +108,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-643799V/?storeid=4759"
     },
     {
-      "no": "2594-462366H",
-      "title": "斗南板橋美農地",
-      "price": "358萬",
-      "addr": "斗南鎮溫厝角段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/462366H_obj_256_17760703932717.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-462366H/?storeid=4759"
-    },
-    {
-      "no": "2594-643719U",
-      "title": "斗六社口商業區建地",
-      "price": "4888萬",
-      "addr": "斗六社口商業區建地",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/643719U_obj_256_17760681417682.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-643719U/?storeid=4759"
-    },
-    {
       "no": "2594-316578R",
       "title": "新竹關西農建地",
       "price": "1388萬",
@@ -166,6 +136,36 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/115/892841L_obj_256_17762249887010.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-892841L/?storeid=4759"
+    },
+    {
+      "no": "2594-643719U",
+      "title": "斗六社口商業區建地",
+      "price": "4888萬",
+      "addr": "斗六社口商業區建地",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/643719U_obj_256_17760681417682.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-643719U/?storeid=4759"
+    },
+    {
+      "no": "2594-462366H",
+      "title": "斗南板橋美農地",
+      "price": "358萬",
+      "addr": "斗南鎮溫厝角段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/462366H_obj_256_17760703932717.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-462366H/?storeid=4759"
     },
     {
       "no": "2594-694364M",
