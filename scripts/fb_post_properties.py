@@ -26,13 +26,21 @@ def load_properties():
         data = json.load(f)
     return data.get('items', [])
 
-def pick_two(props):
-    """每天固定選2筆（用日期做種子，不重複連續）"""
+def pick_one(props):
+    """每次取1筆：早上用 offset=0，下午用 offset=1，每天輪替不重複"""
     today = datetime.date.today().isoformat()
+    offset = int(os.environ.get('POST_OFFSET', '0'))
     seed = int(hashlib.md5(today.encode()).hexdigest(), 16)
-    rng = random.Random(seed)
-    indices = rng.sample(range(len(props)), min(2, len(props)))
-    return [props[i] for i in indices]
+    rng = random.Random(seed + offset)
+    idx = rng.randint(0, len(props) - 1)
+    # 確保早晚不同筆
+    if offset == 1:
+        seed2 = int(hashlib.md5(today.encode()).hexdigest(), 16)
+        rng0 = random.Random(seed2)
+        morning_idx = rng0.randint(0, len(props) - 1)
+        while idx == morning_idx and len(props) > 1:
+            idx = (idx + 1) % len(props)
+    return [props[idx]]
 
 def make_post_text(prop):
     emoji = TYPE_EMOJI.get(prop.get('type', ''), '🏠')
@@ -94,8 +102,8 @@ def main():
         print("[WARN] 無物件資料")
         sys.exit(0)
 
-    picks = pick_two(props)
-    print(f"今日選出 {len(picks)} 個物件發文")
+    picks = pick_one(props)
+    print(f"今日選出 {len(picks)} 個物件發文（offset={os.environ.get('POST_OFFSET','0')}）")
 
     for i, prop in enumerate(picks, 1):
         print(f"\n--- 第 {i} 篇 ---")
