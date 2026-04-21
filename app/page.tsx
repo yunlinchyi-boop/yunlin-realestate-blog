@@ -115,82 +115,82 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden" style={{ background: '#0F4D24' }}>
-        {/* 完整顯示照片 */}
+      <section className="relative overflow-hidden" style={{ background: '#0F4D24', minHeight: '75vh', display: 'flex', flexDirection: 'column' }}>
         <img src="/images/storefront.jpg" alt="群義房屋雲林雲科加盟店店頭"
-          style={{ width: '100%', height: 'auto', display: 'block' }} />
-        {/* 半透明深色遮罩（讓文字可讀）*/}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.6) 100%)'
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%)'
         }} />
 
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
-
-          {/* 紅色標籤 */}
-          <div className="inline-block mb-6 px-4 py-1.5 text-xs font-bold tracking-widest uppercase"
+        {/* 主文字 */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ flex: 1, paddingTop: 80, paddingBottom: 40 }}>
+          <div className="inline-block mb-5 px-4 py-1.5 text-xs font-bold tracking-widest uppercase"
             style={{ background: '#CC1122', color: '#FFFFFF', letterSpacing: '0.25em' }}>
             雲林 · 斗六在地房仲
           </div>
-
           <h1 style={{
-            fontSize: 'clamp(2rem, 6vw, 3.8rem)',
+            fontSize: 'clamp(2.2rem, 6vw, 4rem)',
             fontFamily: 'var(--font-playfair)',
-            color: '#FFFFFF',
-            fontWeight: 700,
-            lineHeight: 1.15,
-            letterSpacing: '0.05em',
-            marginBottom: 20
+            color: '#FFFFFF', fontWeight: 700,
+            lineHeight: 1.15, letterSpacing: '0.05em', marginBottom: 16
           }}>
             群義房屋<br />雲林雲科加盟店
           </h1>
-
-          <p style={{
-            color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem',
-            letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 40
-          }}>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 32 }}>
             Chyi Real Estate · Yunlin
           </p>
-
-          {/* 白色細線 */}
-          <div style={{ width: 48, height: 2, background: '#FFFFFF', opacity: 0.3, margin: '0 auto 32px' }} />
-
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginBottom: 40, letterSpacing: '0.1em' }}>
-            透天・土地・農地・廠房｜每日房市資訊
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.95rem', marginBottom: 40, letterSpacing: '0.08em' }}>
+            透天・土地・農地・廠房｜免費諮詢・不推銷
           </p>
-
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link href="/blog" className="btn-red">房市專欄</Link>
-            <a href="tel:055362808" className="btn-navy-outline"
-              style={{ borderColor: 'rgba(255,255,255,0.6)', color: '#FFFFFF' }}>
-              05-5362808
-            </a>
+            <a href="tel:055362808" className="btn-red" style={{ fontSize: '0.9rem', padding: '13px 36px' }}>立即致電 05-5362808</a>
+            <Link href="/blog" className="btn-navy-outline" style={{ borderColor: 'rgba(255,255,255,0.5)', color: '#FFFFFF' }}>房市專欄</Link>
           </div>
+        </div>
 
+        {/* 底部三欄數據條 */}
+        <div className="relative z-10" style={{ background: 'rgba(0,0,0,0.45)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="max-w-6xl mx-auto grid grid-cols-3" style={{ divide: 'x' }}>
+            {[
+              { num: '10+', label: '年在地深耕' },
+              { num: '42', label: '筆精選物件' },
+              { num: '免費', label: '帶看・不推銷' },
+            ].map((s, i) => (
+              <div key={i} className="text-center py-5" style={{ borderRight: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+                <p style={{ color: '#FFFFFF', fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', fontWeight: 700, fontFamily: 'var(--font-playfair)', marginBottom: 2 }}>{s.num}</p>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', letterSpacing: '0.1em' }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── 三大特色 ── */}
-      <section style={{ background: '#F7F6F4', padding: '56px 24px', borderBottom: '1px solid #E5E5E5' }}>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-0" style={{ border: '1px solid #E5E5E5' }}>
-          {[
-            { num: '01', title: '在地深耕', desc: '雲林斗六在地服務 10 年以上，每條巷弄都熟悉' },
-            { num: '02', title: '每日資訊', desc: '即時房市行情分析，第一時間掌握最新動態' },
-            { num: '03', title: '專業服務', desc: '一對一顧問全程陪伴，從看房、議價到成交' },
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col p-10"
-              style={{ borderRight: i < 2 ? '1px solid #E5E5E5' : 'none', background: '#FFFFFF' }}>
-              <p style={{ color: '#E5E5E5', fontSize: '3rem', fontWeight: 700, fontFamily: 'var(--font-playfair)', lineHeight: 1, marginBottom: 16 }}>
-                {item.num}
-              </p>
-              <div style={{ width: 32, height: 3, background: '#CC1122', marginBottom: 16 }} />
-              <p style={{ color: '#1A6B35', fontWeight: 700, fontSize: '1rem', marginBottom: 10, letterSpacing: '0.05em' }}>
-                {item.title}
-              </p>
-              <p style={{ color: '#767676', fontSize: '0.85rem', lineHeight: 1.8 }}>{item.desc}</p>
+      {/* ── 精選物件 ── */}
+      {allProperties.length > 0 && (
+        <section style={{ background: '#F7F6F4', padding: '72px 24px' }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                  <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
+                  <p style={{ color: '#1A6B35', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
+                    Featured Listings
+                  </p>
+                </div>
+                <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+                  精選物件
+                </h2>
+                <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>同步自群義房屋官網・每日自動更新</p>
+              </div>
+              <a href="https://www.chyi.com.tw/sell_item/?storeid=4759" target="_blank" rel="noopener noreferrer"
+                className="link-official">
+                官網查看全部
+              </a>
             </div>
-          ))}
-        </div>
-      </section>
+            <PropertyFilter properties={allProperties} types={types} />
+          </div>
+        </section>
+      )}
 
       {/* ── 每日房市專欄 ── */}
       <section style={{ background: '#FFFFFF', padding: '72px 24px' }}>
@@ -253,33 +253,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
-      {/* ── 精選物件 ── */}
-      {allProperties.length > 0 && (
-        <section style={{ background: '#FFFFFF', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                  <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
-                  <p style={{ color: '#1A6B35', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
-                    Featured Listings
-                  </p>
-                </div>
-                <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>
-                  精選物件
-                </h2>
-                <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>同步自群義房屋官網・每日自動更新</p>
-              </div>
-              <a href="https://www.chyi.com.tw/sell_item/?storeid=4759" target="_blank" rel="noopener noreferrer"
-                className="link-official">
-                官網查看全部
-              </a>
-            </div>
-            <PropertyFilter properties={allProperties} types={types} />
-          </div>
-        </section>
-      )}
 
       {/* ── 常見問題 FAQ ── */}
       <section style={{ background: '#F7F6F4', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
