@@ -120,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         {/* ── 頁尾 ── */}
-        <footer style={{ background: '#111111', color: '#FFFFFF' }}>
+        <footer style={{ background: '#2C2C2C', color: '#FFFFFF' }}>
 
           {/* 主體 */}
           <div style={{ padding: '64px 24px', textAlign: 'center' }}>
@@ -151,7 +151,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* 底部版權 */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
             <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>
               © {new Date().getFullYear()} 紅火房屋仲介有限公司　經紀人證號：113雲縣字第00302號
             </p>
