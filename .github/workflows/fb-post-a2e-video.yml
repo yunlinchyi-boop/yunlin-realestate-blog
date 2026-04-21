@@ -1,0 +1,30 @@
+name: 每2天FB數字人影片（A2E.ai）
+
+on:
+  schedule:
+    - cron: '0 2 */2 * *'   # 每2天台灣時間 10:00（UTC 02:00）
+  workflow_dispatch:          # 手動觸發
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests edge-tts
+
+      - name: 產生數字人影片並發布到 Facebook
+        run: python scripts/fb_post_a2e_video.py
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+          A2E_TOKEN: ${{ secrets.A2E_TOKEN }}
+          A2E_USER_ID: ${{ secrets.A2E_USER_ID }}
+          A2E_AVATAR_URL: ${{ secrets.A2E_AVATAR_URL }}
