@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """
 每2天：A2E.ai 數字人影片 → 發布到 Facebook
-流程：抓新聞 → edge-tts語音 → 上傳R2 → A2E.ai生成 → 下載 → 發FB
+流程：抓物件資料 → edge-tts語音 → 上傳R2 → A2E.ai生成 → 下載 → 發FB
 環境變數：FB_PAGE_ID, FB_ACCESS_TOKEN, A2E_TOKEN, A2E_USER_ID
 """
-import asyncio, json, os, sys, requests, datetime, re
-import xml.etree.ElementTree as ET
+import asyncio, json, os, sys, requests, datetime, re, hashlib, random
 import tempfile, time
 sys.stdout.reconfigure(encoding='utf-8') if hasattr(sys.stdout, 'reconfigure') else None
 
-PAGE_ID   = os.environ.get('FB_PAGE_ID', '')
-FB_TOKEN  = os.environ.get('FB_ACCESS_TOKEN', '')
-A2E_TOKEN = os.environ.get('A2E_TOKEN', '')
-A2E_UID   = os.environ.get('A2E_USER_ID', '69e1a0c44d8259007f55495f')
-AVATAR_URL = os.environ.get('A2E_AVATAR_URL', '')  # 業務員照片公開URL
+PAGE_ID    = os.environ.get('FB_PAGE_ID', '')
+FB_TOKEN   = os.environ.get('FB_ACCESS_TOKEN', '')
+A2E_TOKEN  = os.environ.get('A2E_TOKEN', '')
+A2E_UID    = os.environ.get('A2E_USER_ID', '69e1a0c44d8259007f55495f')
+AVATAR_URL = os.environ.get('A2E_AVATAR_URL', '')
+
+PROPERTIES_FILE = os.path.join(os.path.dirname(__file__), '..', 'content', 'properties.json')
 
 HEADERS_A2E = {
     'Authorization': f'Bearer {A2E_TOKEN}',
@@ -21,39 +22,73 @@ HEADERS_A2E = {
     'Origin': 'https://video.a2e.ai',
     'Referer': 'https://video.a2e.ai/'
 }
-HEADERS_RSS = {'User-Agent': 'Mozilla/5.0'}
-HIGH_KW = ['聯準會','Fed','升息','降息','利率','房貸','外資','景氣','通膨','預售屋','實價','重劃']
+
+TYPE_EMOJI = {
+    '透天': '🏡', '公寓': '🏢', '大樓': '🏬', '華廈': '🏛️',
+    '農地': '🌾', '土地': '📐', '廠房': '🏭', '店面': '🏪', '別墅': '🏰',
+}
 
 STORE_INFO = """🏠 群義房屋｜雲林雲科加盟店
 📞 05-5362808
 📍 斗六市中正路312號"""
 
-# ── 抓新聞 ──────────────────────────────────────
-def fetch_news():
-    import warnings; warnings.filterwarnings('ignore')
-    news = []
-    for url, src in [
-        ('https://www.myhousing.com.tw/feed', '住展房屋網'),
-        ('https://house.ettoday.net/rss.xml', 'ETtoday房產'),
-    ]:
-        try:
-            r = requests.get(url, headers=HEADERS_RSS, timeout=10, verify=False)
-            root = ET.fromstring(r.content)
-            for item in root.iter('item'):
-                title = item.findtext('title', '').strip()
-                link  = item.findtext('link', '').strip()
-                if not title: continue
-                score = sum(1 for k in HIGH_KW if k in title)
-                news.append({'title': title, 'link': link, 'score': score})
-        except Exception as e:
-            print(f'[WARN] {e}')
-    news = sorted(news, key=lambda x: x['score'], reverse=True)
-    return news[0] if news else {'title': '雲林房市行情穩定，自住需求持續', 'link': ''}
+# ── 抓物件資料 ──────────────────────────────────
+def pick_property():
+    with open(PROPERTIES_FILE, encoding='utf-8') as f:
+        data = json.load(f)
+    props = data.get('items', [])
+    if not props:
+        return None
+    # 每2天輪替不重複（用日期做 seed）
+    today = datetime.date.today().isoformat()
+    day_num = (datetime.date.today() - datetime.date(2026, 1, 1)).days
+    idx = day_num % len(props)
+    return props[idx]
 
 # ── 產口播稿（8秒）──────────────────────────────
-def build_script(title):
-    clean = re.sub(r'【[^】]*】', '', title).strip()[:25]
-    return f"大家好，我是群義房屋雲科店。今日房市快訊：{clean}。歡迎來電洽詢，電話 05，5362808。"
+def build_script(prop):
+    title     = prop.get('title', '優質物件')
+    price     = prop.get('price', '')
+    addr      = prop.get('addr', '')
+    layout    = prop.get('layout', '')
+    prop_type = prop.get('type', '')
+    return (
+        f"大家好，我是群義房屋雲科店。"
+        f"今日為您推薦「{title}」，"
+        f"位於{addr}，"
+        f"類型{prop_type}，格局{layout}，"
+        f"售價{price}。"
+        f"有興趣歡迎來電，電話 05，5362808。"
+    )
+
+def build_fb_text(prop):
+    emoji     = TYPE_EMOJI.get(prop.get('type', ''), '🏠')
+    title     = prop.get('title', '優質物件')
+    price     = prop.get('price', '')
+    addr      = prop.get('addr', '')
+    layout    = prop.get('layout', '')
+    build_ping= prop.get('build_ping', '')
+    age       = prop.get('age', '')
+    prop_type = prop.get('type', '')
+    unit_price= prop.get('unit_price', '')
+    link      = prop.get('link', '')
+    return f"""{emoji}【今日物件推薦】{title}
+
+💰 售價：{price}
+📍 地址：{addr}
+🏠 類型：{prop_type}
+📐 格局：{layout}
+📏 建坪：{build_ping}
+🕐 屋齡：{age}
+💵 單價：{unit_price}
+
+👉 物件詳情：{link}
+
+有興趣歡迎致電或私訊，提供免費帶看服務 😊
+
+{STORE_INFO}
+
+#雲林買房 #斗六房屋 #群義房屋 #{prop_type} #{addr[:4]}"""
 
 # ── edge-tts 產語音 ──────────────────────────────
 async def gen_audio(script, path):
@@ -130,20 +165,8 @@ def wait_and_download(task_id, output_path, max_wait=600):
     raise Exception('A2E生成超時')
 
 # ── 發布到 FB ────────────────────────────────────
-def post_to_fb(video_path, title, link):
-    desc = f"""🎬【今日房市播報】
-
-{title}
-
-{('🔗 ' + link) if link else ''}
-
-💡 這則消息對你的買房決策有什麼影響？歡迎私訊！
-
-➖➖➖➖➖➖➖➖
-{STORE_INFO}
-
-#群義房屋雲科店 #雲林房地產 #斗六買房 #房市播報"""
-
+def post_to_fb(video_path, prop):
+    desc = build_fb_text(prop)
     print('[..] 上傳影片到 FB...')
     with open(video_path, 'rb') as vf:
         r = requests.post(
@@ -166,27 +189,32 @@ async def main():
         sys.exit(1)
 
     today = datetime.date.today().strftime('%Y%m%d')
-    news = fetch_news()
-    print(f'[新聞] {news["title"]}')
+
+    # 1. 抓物件
+    prop = pick_property()
+    if not prop:
+        print('[ERROR] 無物件資料')
+        sys.exit(1)
+    print(f'[物件] {prop.get("title","")} | {prop.get("price","")} | {prop.get("addr","")}')
 
     with tempfile.TemporaryDirectory() as tmpdir:
         audio_path = os.path.join(tmpdir, 'voice.mp3')
         video_path = os.path.join(tmpdir, 'avatar.mp4')
 
-        # 1. 產語音
-        script = build_script(news['title'])
+        # 2. 產語音
+        script = build_script(prop)
         print(f'[稿] {script}')
         await gen_audio(script, audio_path)
 
-        # 2. 上傳音檔到 R2
+        # 3. 上傳音檔到 R2
         audio_url = upload_to_r2(audio_path, f'audio/{today}.mp3', 'audio/mpeg')
 
-        # 3. A2E.ai 生成
-        task_id = a2e_generate(AVATAR_URL, audio_url, f'news_{today}')
+        # 4. A2E.ai 生成
+        task_id = a2e_generate(AVATAR_URL, audio_url, f'prop_{today}')
         wait_and_download(task_id, video_path)
 
-        # 4. 發FB
-        post_to_fb(video_path, news['title'], news['link'])
+        # 5. 發FB（帶完整物件資訊）
+        post_to_fb(video_path, prop)
 
 if __name__ == '__main__':
     asyncio.run(main())
