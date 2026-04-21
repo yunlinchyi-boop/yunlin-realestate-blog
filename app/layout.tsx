@@ -129,7 +129,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 fontFamily: 'var(--font-playfair)', fontWeight: 700,
                 fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF', marginBottom: 4
               }}>
-                群義房屋
+                群義房屋雲林雲科加盟店
               </p>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
                 Chyi Real Estate · Yunlin
@@ -166,7 +166,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }} className="text-center py-5">
             <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}>
-              © {new Date().getFullYear()} 群義房屋 版權所有
+              © {new Date().getFullYear()} 群義房屋雲林雲科加盟店 版權所有
             </p>
           </div>
         </footer>
