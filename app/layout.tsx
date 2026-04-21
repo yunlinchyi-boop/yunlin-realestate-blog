@@ -139,14 +139,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}>
               05-5362808
             </a>
-            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.78rem', marginBottom: 36 }}>
-              雲林縣斗六市中正路312號　·　週一至五 09:00–18:00　·　週六 09:00–17:00
+            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.9rem', marginBottom: 36 }}>
+              雲林縣斗六市中正路312號
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
-              <Link href="/blog" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>房市專欄</Link>
-              <Link href="/about" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>關於我們</Link>
+              <Link href="/blog" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>房市專欄</Link>
+              <Link href="/about" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>關於我們</Link>
               <a href="https://www.chyi.com.tw/store/055362808" target="_blank" rel="noopener noreferrer"
-                style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>群義官網</a>
+                style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>群義官網</a>
             </div>
           </div>
 
