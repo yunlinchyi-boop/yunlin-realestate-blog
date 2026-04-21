@@ -120,53 +120,43 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         {/* ── 頁尾 ── */}
-        <footer style={{ background: '#0F4D24', color: '#FFFFFF' }}>
-          <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
+        <footer style={{ background: '#111111', color: '#FFFFFF' }}>
 
-            {/* 品牌 */}
-            <div>
-              <p style={{
-                fontFamily: 'var(--font-playfair)', fontWeight: 700,
-                fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF', marginBottom: 4
-              }}>
-                群義房屋雲林雲科加盟店
-              </p>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
-                Chyi Real Estate · Yunlin
-              </p>
-              <div style={{ width: 36, height: 3, background: '#CC1122', marginBottom: 16 }} />
-              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.75rem', lineHeight: 1.8 }}>
-                紅火房屋仲介有限公司<br />
-                經紀人證號：113雲縣字第00302號
-              </p>
-            </div>
-
-            {/* 快速連結 */}
-            <div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
-                探索
-              </p>
-              <div className="flex flex-col gap-3">
-                <Link href="/blog" className="footer-link">房市專欄</Link>
-                <Link href="/about" className="footer-link">關於我們</Link>
-              </div>
-            </div>
-
-            {/* 聯絡 */}
-            <div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
-                聯絡我們
-              </p>
-              <div className="flex flex-col gap-2" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem' }}>
-                <p>📞 05-5362808</p>
-                <p>📍 雲林縣斗六市中正路312號</p>
-              </div>
+          {/* 主體 */}
+          <div style={{ padding: '64px 24px', textAlign: 'center' }}>
+            <p style={{ color: '#CC1122', fontSize: '0.6rem', letterSpacing: '0.4em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20 }}>
+              群義房屋 · 雲林雲科加盟店
+            </p>
+            <a href="tel:055362808" style={{
+              display: 'block',
+              color: '#FFFFFF',
+              fontFamily: 'var(--font-playfair)',
+              fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+              fontWeight: 700,
+              letterSpacing: '0.04em',
+              textDecoration: 'none',
+              marginBottom: 24,
+            }}>
+              05-5362808
+            </a>
+            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.78rem', marginBottom: 36 }}>
+              雲林縣斗六市中正路312號　·　週一至五 09:00–18:00　·　週六 09:00–17:00
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
+              <Link href="/blog" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>房市專欄</Link>
+              <Link href="/about" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>關於我們</Link>
+              <a href="https://www.chyi.com.tw/store/055362808" target="_blank" rel="noopener noreferrer"
+                style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', textDecoration: 'none', letterSpacing: '0.1em' }}>群義官網</a>
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }} className="text-center py-5">
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}>
-              © {new Date().getFullYear()} 群義房屋雲林雲科加盟店 版權所有
+          {/* 底部版權 */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+            <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>
+              © {new Date().getFullYear()} 紅火房屋仲介有限公司　經紀人證號：113雲縣字第00302號
+            </p>
+            <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>
+              Chyi Real Estate · Yunlin
             </p>
           </div>
         </footer>
