@@ -150,7 +150,7 @@ export default function HomePage() {
 
         {/* 底部三欄數據條 */}
         <div className="relative z-10" style={{ background: 'rgba(0,0,0,0.45)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <div className="max-w-6xl mx-auto grid grid-cols-3" style={{ divide: 'x' }}>
+          <div className="max-w-6xl mx-auto grid grid-cols-3" >
             {[
               { num: '10+', label: '年在地深耕' },
               { num: '42', label: '筆精選物件' },
