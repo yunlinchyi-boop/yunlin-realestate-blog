@@ -121,52 +121,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* ── 頁尾 ── */}
         <footer style={{ background: '#0F4D24', color: '#FFFFFF' }}>
-
-          {/* CTA 橫幅 */}
-          <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '40px 24px' }}>
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>Contact Us</p>
-                <p style={{ color: '#FFFFFF', fontFamily: 'var(--font-playfair)', fontSize: '1.5rem', fontWeight: 700 }}>開始您的置產旅程</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', marginTop: 4 }}>專業顧問一對一服務，雲林斗六在地深耕</p>
-              </div>
-              <a href="tel:055362808" className="btn-cta-phone" style={{ background: '#CC1122', whiteSpace: 'nowrap' }}>
-                立即致電　05-5362808
-              </a>
-            </div>
-          </div>
-
-          {/* 四欄資訊 */}
-          <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
+          <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
 
             {/* 品牌 */}
             <div>
-              <p style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', marginBottom: 4 }}>
+              <p style={{
+                fontFamily: 'var(--font-playfair)', fontWeight: 700,
+                fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF', marginBottom: 4
+              }}>
                 群義房屋雲林雲科加盟店
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
                 Chyi Real Estate · Yunlin
               </p>
-              <div style={{ width: 32, height: 3, background: '#CC1122', marginBottom: 14 }} />
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', lineHeight: 1.8 }}>
+              <div style={{ width: 36, height: 3, background: '#CC1122', marginBottom: 16 }} />
+              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.75rem', lineHeight: 1.8 }}>
                 紅火房屋仲介有限公司<br />
                 經紀人證號：113雲縣字第00302號
               </p>
-            </div>
-
-            {/* 服務特色 */}
-            <div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
-                服務特色
-              </p>
-              <div className="flex flex-col gap-3">
-                {['雲林在地，深耕多年', '透明議價，保障權益', '物件多元，全縣服務', '售後陪伴，完整服務'].map(t => (
-                  <p key={t} style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ width: 4, height: 4, background: '#CC1122', borderRadius: '50%', flexShrink: 0, display: 'inline-block' }} />
-                    {t}
-                  </p>
-                ))}
-              </div>
             </div>
 
             {/* 快速連結 */}
