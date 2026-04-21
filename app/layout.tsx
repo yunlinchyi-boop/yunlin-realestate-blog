@@ -122,65 +122,51 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* ── 頁尾 ── */}
         <footer style={{ background: '#0F4D24', color: '#FFFFFF' }}>
 
-          {/* 為何選擇我們 + CTA */}
-          <div style={{ padding: '72px 24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center" style={{ marginBottom: 48 }}>
-                <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>
-                  Why Choose Us
-                </p>
-                <h2 style={{ color: '#FFFFFF', fontFamily: 'var(--font-playfair)', fontSize: '1.8rem', fontWeight: 700, marginBottom: 10 }}>
-                  為何選擇群義房屋
-                </h2>
-                <div style={{ width: 40, height: 3, background: '#CC1122', margin: '0 auto' }} />
+          {/* CTA 橫幅 */}
+          <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '40px 24px' }}>
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 6 }}>Contact Us</p>
+                <p style={{ color: '#FFFFFF', fontFamily: 'var(--font-playfair)', fontSize: '1.5rem', fontWeight: 700 }}>開始您的置產旅程</p>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', marginTop: 4 }}>專業顧問一對一服務，雲林斗六在地深耕</p>
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  { title: '雲林在地，深耕多年', desc: '紮根雲林斗六超過 10 年，熟悉在地市場與每個社區的特性，給您最精準的置產建議。' },
-                  { title: '透明議價，保障權益', desc: '全程透明報價，不隱藏費用，從委託到成交每一步都讓您清楚掌握。' },
-                  { title: '物件多元，全縣服務', desc: '透天、農地、土地、廠房一手掌握，服務範圍涵蓋雲林全縣。' },
-                  { title: '售後陪伴，完整服務', desc: '成交不是終點，代書、貸款、過戶全程協助，讓置產零壓力。' },
-                ].map((item, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', padding: '28px 32px' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-                      <div style={{ width: 4, height: 40, background: '#CC1122', flexShrink: 0, marginTop: 2 }} />
-                      <div>
-                        <p style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1rem', marginBottom: 8 }}>{item.title}</p>
-                        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.85rem', lineHeight: 1.8 }}>{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ width: 1, height: 48, background: 'rgba(255,255,255,0.15)', margin: '64px auto 0' }} />
-              <div className="text-center" style={{ marginTop: 48 }}>
-                <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>Contact Us</p>
-                <h2 style={{ color: '#FFFFFF', fontFamily: 'var(--font-playfair)', fontSize: '1.8rem', fontWeight: 700, marginBottom: 10 }}>開始您的置產旅程</h2>
-                <div style={{ width: 40, height: 3, background: '#CC1122', margin: '0 auto 20px' }} />
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', marginBottom: 36 }}>專業顧問一對一服務，雲林斗六在地深耕</p>
-                <a href="tel:055362808" className="btn-cta-phone" style={{ background: '#CC1122' }}>立即致電　05-5362808</a>
-              </div>
+              <a href="tel:055362808" className="btn-cta-phone" style={{ background: '#CC1122', whiteSpace: 'nowrap' }}>
+                立即致電　05-5362808
+              </a>
             </div>
           </div>
 
-          <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
+          {/* 四欄資訊 */}
+          <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-10">
 
             {/* 品牌 */}
             <div>
-              <p style={{
-                fontFamily: 'var(--font-playfair)', fontWeight: 700,
-                fontSize: '1.15rem', letterSpacing: '0.05em', color: '#FFFFFF', marginBottom: 4
-              }}>
+              <p style={{ fontFamily: 'var(--font-playfair)', fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', marginBottom: 4 }}>
                 群義房屋雲林雲科加盟店
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
                 Chyi Real Estate · Yunlin
               </p>
-              <div style={{ width: 36, height: 3, background: '#CC1122', marginBottom: 16 }} />
-              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.75rem', lineHeight: 1.8 }}>
+              <div style={{ width: 32, height: 3, background: '#CC1122', marginBottom: 14 }} />
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', lineHeight: 1.8 }}>
                 紅火房屋仲介有限公司<br />
                 經紀人證號：113雲縣字第00302號
               </p>
+            </div>
+
+            {/* 服務特色 */}
+            <div>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 16 }}>
+                服務特色
+              </p>
+              <div className="flex flex-col gap-3">
+                {['雲林在地，深耕多年', '透明議價，保障權益', '物件多元，全縣服務', '售後陪伴，完整服務'].map(t => (
+                  <p key={t} style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ width: 4, height: 4, background: '#CC1122', borderRadius: '50%', flexShrink: 0, display: 'inline-block' }} />
+                    {t}
+                  </p>
+                ))}
+              </div>
             </div>
 
             {/* 快速連結 */}
