@@ -124,7 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* 主體 */}
           <div style={{ padding: '64px 24px', textAlign: 'center' }}>
-            <p style={{ color: '#CC1122', fontSize: '0.6rem', letterSpacing: '0.4em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 20 }}>
+            <p style={{ color: '#CC1122', fontSize: '1.1rem', letterSpacing: '0.05em', fontWeight: 700, marginBottom: 20 }}>
               群義房屋 · 雲林雲科加盟店
             </p>
             <a href="tel:055362808" style={{
