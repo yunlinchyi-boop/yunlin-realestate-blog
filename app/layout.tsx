@@ -124,9 +124,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* 主體 */}
           <div style={{ padding: '64px 24px', textAlign: 'center' }}>
-            <p style={{ color: '#CC1122', fontSize: '1.1rem', letterSpacing: '0.05em', fontWeight: 700, marginBottom: 20 }}>
+            <p style={{ color: '#FFFFFF', fontSize: '1.3rem', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>
               群義房屋 · 雲林雲科加盟店
             </p>
+            <p style={{ color: '#CC1122', fontSize: '0.75rem', letterSpacing: '0.2em', marginBottom: 28 }}>Chyi Real Estate · Yunlin</p>
             <a href="tel:055362808" style={{
               display: 'block',
               color: '#FFFFFF',
@@ -135,24 +136,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               fontWeight: 700,
               letterSpacing: '0.04em',
               textDecoration: 'none',
-              marginBottom: 24,
+              marginBottom: 20,
             }}>
               05-5362808
             </a>
-            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.9rem', marginBottom: 36 }}>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginBottom: 36 }}>
               雲林縣斗六市中正路312號
             </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
-              <Link href="/blog" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>房市專欄</Link>
-              <Link href="/about" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>關於我們</Link>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap' }}>
+              <Link href="/blog" style={{ color: '#FFFFFF', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.08em' }}>房市專欄</Link>
+              <Link href="/about" style={{ color: '#FFFFFF', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.08em' }}>關於我們</Link>
               <a href="https://www.chyi.com.tw/store/055362808" target="_blank" rel="noopener noreferrer"
-                style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.1em' }}>群義官網</a>
+                style={{ color: '#FFFFFF', fontSize: '1rem', textDecoration: 'none', letterSpacing: '0.08em' }}>群義官網</a>
             </div>
           </div>
 
           {/* 底部版權 */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-            <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem' }}>
               © {new Date().getFullYear()} 紅火房屋仲介有限公司　經紀人證號：113雲縣字第00302號
             </p>
             <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>
