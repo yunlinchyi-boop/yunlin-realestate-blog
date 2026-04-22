@@ -254,6 +254,62 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* ── 每日物件介紹 ── */}
+      {latestPropertyPosts.length > 0 && (
+        <section style={{ background: '#FFFFFF', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                  <div style={{ width: 4, height: 24, background: '#CC1122' }} />
+                  <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
+                    Daily Property
+                  </p>
+                </div>
+                <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+                  每日物件介紹
+                </h2>
+                <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>每日精選物件深度介紹</p>
+              </div>
+              <Link href="/blog" className="link-navy">查看全部</Link>
+            </div>
+            <div className="grid md:grid-cols-2 gap-5">
+              {latestPropertyPosts.map((post) => (
+                <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
+                  <article className="brand-card overflow-hidden">
+                    <div style={{ height: 4, background: '#CC1122' }} />
+                    <div className="p-6">
+                      <div className="flex gap-2 mb-3 flex-wrap">
+                        {post.tags.slice(0, 2).map(tag => (
+                          <span key={tag} style={{
+                            background: '#FFF0F0', color: '#CC1122',
+                            fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
+                          }}>{tag}</span>
+                        ))}
+                      </div>
+                      <h3 className="post-title font-semibold leading-snug line-clamp-2"
+                        style={{ fontSize: '1rem', marginBottom: 10 }}>
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
+                          className="line-clamp-2">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                        <span style={{ color: '#CC1122', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>查看物件 →</span>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── 常見問題 FAQ ── */}
       <section style={{ background: '#F7F6F4', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
         <div className="max-w-3xl mx-auto">
