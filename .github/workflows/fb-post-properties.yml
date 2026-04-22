@@ -1,9 +1,10 @@
-name: 每日FB物件自動發文（早上8點 + 下午2點）
+name: 每日FB物件自動發文（早上8點 + 下午2點 + 下午4點）
 
 on:
   schedule:
     - cron: '0 0 * * *'   # 台灣時間 08:00（UTC 00:00）
     - cron: '0 6 * * *'   # 台灣時間 14:00（UTC 06:00）
+    - cron: '0 8 * * *'   # 台灣時間 16:00（UTC 08:00）
   workflow_dispatch:
     inputs:
       slot:
@@ -26,14 +27,16 @@ jobs:
       - name: 安裝套件
         run: pip install requests
 
-      - name: 判斷時段（早 or 晚）
+      - name: 判斷時段（早 / 午 / 晚）
         id: slot
         run: |
           HOUR=$(date -u +%H)
           if [ "$HOUR" -lt 3 ]; then
             echo "offset=0" >> $GITHUB_OUTPUT
-          else
+          elif [ "$HOUR" -lt 7 ]; then
             echo "offset=1" >> $GITHUB_OUTPUT
+          else
+            echo "offset=2" >> $GITHUB_OUTPUT
           fi
 
       - name: 發布今日物件到 Facebook

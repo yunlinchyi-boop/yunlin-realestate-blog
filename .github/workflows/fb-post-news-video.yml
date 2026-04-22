@@ -1,8 +1,9 @@
-name: 每日FB新聞語音影片（早上9:00）
+name: 每日FB新聞語音影片（早上9:00 + 下午3:00）
 
 on:
   schedule:
     - cron: '0 1 * * *'   # 台灣時間 09:00（UTC 01:00）
+    - cron: '0 7 * * *'   # 台灣時間 15:00（UTC 07:00）
   workflow_dispatch:
 
 jobs:
