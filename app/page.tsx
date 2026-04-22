@@ -165,33 +165,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 精選物件 ── */}
-      {allProperties.length > 0 && (
-        <section style={{ background: '#F7F6F4', padding: '72px 24px' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                  <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
-                  <p style={{ color: '#1A6B35', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
-                    Featured Listings
-                  </p>
-                </div>
-                <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>
-                  精選物件
-                </h2>
-                <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>同步自群義房屋官網・每日自動更新</p>
-              </div>
-              <a href="https://www.chyi.com.tw/sell_item/?storeid=4759" target="_blank" rel="noopener noreferrer"
-                className="link-official">
-                官網查看全部
-              </a>
-            </div>
-            <PropertyFilter properties={allProperties} types={types} />
-          </div>
-        </section>
-      )}
-
       {/* ── 每日房市專欄 ── */}
       <section style={{ background: '#FFFFFF', padding: '72px 24px' }}>
         <div className="max-w-6xl mx-auto">
@@ -253,6 +226,33 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* ── 精選物件 ── */}
+      {allProperties.length > 0 && (
+        <section style={{ background: '#F7F6F4', padding: '72px 24px' }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                  <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
+                  <p style={{ color: '#1A6B35', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 700 }}>
+                    Featured Listings
+                  </p>
+                </div>
+                <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+                  精選物件
+                </h2>
+                <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>同步自群義房屋官網・每日自動更新</p>
+              </div>
+              <a href="https://www.chyi.com.tw/sell_item/?storeid=4759" target="_blank" rel="noopener noreferrer"
+                className="link-official">
+                官網查看全部
+              </a>
+            </div>
+            <PropertyFilter properties={allProperties} types={types} />
+          </div>
+        </section>
+      )}
 
       {/* ── 常見問題 FAQ ── */}
       <section style={{ background: '#F7F6F4', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
