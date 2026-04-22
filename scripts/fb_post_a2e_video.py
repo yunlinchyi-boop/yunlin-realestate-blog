@@ -33,16 +33,17 @@ STORE_INFO = """🏠 群義房屋｜雲林雲科加盟店
 📍 斗六市中正路312號"""
 
 # ── 抓物件資料 ──────────────────────────────────
-def pick_property():
+# 各管道 slot 編號（確保當天不重複）：
+# slot 0 = 文字早上, slot 1 = 文字下午
+# slot 2 = SadTalker 本機, slot 3 = A2E.ai 數字人
+def pick_property(slot=3):
     with open(PROPERTIES_FILE, encoding='utf-8') as f:
         data = json.load(f)
     props = data.get('items', [])
     if not props:
         return None
-    # 每2天輪替不重複（用日期做 seed）
-    today = datetime.date.today().isoformat()
     day_num = (datetime.date.today() - datetime.date(2026, 1, 1)).days
-    idx = day_num % len(props)
+    idx = (day_num * 4 + slot) % len(props)
     return props[idx]
 
 # ── 產口播稿（8秒）──────────────────────────────
