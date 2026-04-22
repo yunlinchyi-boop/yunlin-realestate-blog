@@ -90,7 +90,11 @@ def post_to_fb(text, image_url=None):
     result = r.json()
 
     if 'id' in result:
-        print(f"[OK] 發文成功：ID={result['id']}")
+        post_id = result['id']
+        print(f"[OK] 發文成功：ID={post_id}")
+        from fb_verify import verify_post
+        if not verify_post(post_id, TOKEN, PAGE_ID):
+            print('[WARN] 驗證失敗，請手動確認')
         return True
     else:
         print(f"[ERROR] 發文失敗：{result}")

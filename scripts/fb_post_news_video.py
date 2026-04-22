@@ -127,7 +127,11 @@ def post_video_to_fb(video_path, title, link):
         )
     d = r.json()
     if 'id' in d:
-        print(f'[OK] 影片發文成功 ID={d["id"]}')
+        post_id = d['id']
+        print(f'[OK] 影片發文成功 ID={post_id}')
+        from fb_verify import verify_video_post
+        if not verify_video_post(post_id, TOKEN):
+            print('[WARN] 驗證失敗，請手動確認')
     else:
         print(f'[ERROR] {d}')
         sys.exit(1)
