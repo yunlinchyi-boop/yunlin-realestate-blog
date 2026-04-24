@@ -12,10 +12,9 @@ PAGE_ID = os.environ.get('FB_PAGE_ID', '')
 TOKEN = os.environ.get('FB_ACCESS_TOKEN', '')
 PROPERTIES_FILE = os.path.join(os.path.dirname(__file__), '..', 'content', 'properties.json')
 
-STORE_INFO = """公司名稱：紅火房屋（群義房屋雲科店）
+STORE_INFO = """公司：紅火房屋
 經紀人證號：(113)雲縣地字第302號
-📞 服務專線：05-5362808
-📍 門市地址：雲林縣斗六市中正路312號"""
+📞 服務地址：雲林縣斗六市中正路312號"""
 
 TYPE_EMOJI = {
     '透天': '🏡', '公寓': '🏢', '大樓': '🏬', '華廈': '🏛️',
