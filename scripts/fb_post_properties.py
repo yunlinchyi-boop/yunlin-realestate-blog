@@ -6,11 +6,12 @@
   FB_PAGE_ID      - 粉絲專頁 ID
   FB_ACCESS_TOKEN - 長效頁面存取權杖（Page Access Token）
 """
-import json, os, sys, requests, datetime, hashlib, random
+import json, os, sys, requests, datetime
 
 PAGE_ID = os.environ.get('FB_PAGE_ID', '')
 TOKEN = os.environ.get('FB_ACCESS_TOKEN', '')
 PROPERTIES_FILE = os.path.join(os.path.dirname(__file__), '..', 'content', 'properties.json')
+BASE_DATE = datetime.date(2026, 1, 1)
 
 STORE_INFO = """公司：紅火房屋
 經紀人證號：(113)雲縣地字第302號
@@ -27,20 +28,30 @@ def load_properties():
     return data.get('items', [])
 
 def pick_one(props):
-    """每次取1筆：早上用 offset=0，下午用 offset=1，每天輪替不重複"""
-    today = datetime.date.today().isoformat()
+    """固定公式：(day_num * 4 + offset) % len(props)，與 daily_avatar_post.py slot=2 一致，保證不重複"""
     offset = int(os.environ.get('POST_OFFSET', '0'))
-    seed = int(hashlib.md5(today.encode()).hexdigest(), 16)
-    rng = random.Random(seed + offset)
-    idx = rng.randint(0, len(props) - 1)
-    # 確保早晚不同筆
-    if offset == 1:
-        seed2 = int(hashlib.md5(today.encode()).hexdigest(), 16)
-        rng0 = random.Random(seed2)
-        morning_idx = rng0.randint(0, len(props) - 1)
-        while idx == morning_idx and len(props) > 1:
-            idx = (idx + 1) % len(props)
-    return [props[idx]]
+    day_num = (datetime.date.today() - BASE_DATE).days
+    idx = (day_num * 4 + offset) % len(props)
+    return props[idx]
+
+def already_posted_today(title):
+    """查今天 FB 是否已有同物件貼文，避免重複發送"""
+    if not PAGE_ID or not TOKEN:
+        return False
+    try:
+        today_tw = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).date().isoformat()
+        r = requests.get(
+            f'https://graph.facebook.com/v19.0/{PAGE_ID}/posts',
+            params={'access_token': TOKEN, 'fields': 'message,created_time', 'limit': 10},
+            timeout=10
+        )
+        for post in r.json().get('data', []):
+            post_date = post.get('created_time', '')[:10]
+            if post_date == today_tw and title in post.get('message', ''):
+                return True
+    except Exception as e:
+        print(f'[WARN] 查重複失敗（繼續發文）：{e}')
+    return False
 
 def make_post_text(prop):
     import re as _re
@@ -201,19 +212,22 @@ def main():
         print("[WARN] 無物件資料")
         sys.exit(0)
 
-    picks = pick_one(props)
-    print(f"今日選出 {len(picks)} 個物件發文（offset={os.environ.get('POST_OFFSET','0')}）")
+    prop = pick_one(props)
+    offset = os.environ.get('POST_OFFSET', '0')
+    print(f"今日物件（offset={offset}）：{prop.get('title','')}")
 
-    for i, prop in enumerate(picks, 1):
-        print(f"\n--- 第 {i} 篇 ---")
-        text = make_post_text(prop)
-        image_url = prop.get('img', '')
-        print(text[:100] + '...')
-        success = post_to_fb(text, image_url if image_url else None)
-        if not success:
-            sys.exit(1)
-        if i < len(picks):
-            import time; time.sleep(5)  # 避免連發過快
+    # ── 防重複發文 ──────────────────────────
+    title = prop.get('title', '')
+    if already_posted_today(title):
+        print(f"[SKIP] 今天已發過「{title}」，跳過。")
+        sys.exit(0)
+
+    text = make_post_text(prop)
+    image_url = prop.get('img', '')
+    print(text[:100] + '...')
+    success = post_to_fb(text, image_url if image_url else None)
+    if not success:
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
