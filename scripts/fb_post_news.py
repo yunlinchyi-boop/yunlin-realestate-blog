@@ -6,7 +6,7 @@
 """
 import json, os, sys, requests, datetime, random, re, time, io, urllib.parse
 import xml.etree.ElementTree as ET
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 PAGE_ID = os.environ.get('FB_PAGE_ID', '')
 TOKEN   = os.environ.get('FB_ACCESS_TOKEN', '')
@@ -211,19 +211,20 @@ def news_to_image_prompt(title, source):
     return prompt
 
 def _find_font(size: int) -> ImageFont.FreeTypeFont:
-    """尋找系統中文字型，依優先順序嘗試"""
+    """尋找系統中文字型，TTC 檔指定 index=0"""
     candidates = [
-        # Windows 標準中文字體
-        'C:/Windows/Fonts/msjh.ttc',       # 微軟正黑體
-        'C:/Windows/Fonts/msjhbd.ttc',     # 微軟正黑體 Bold
-        'C:/Windows/Fonts/mingliu.ttc',    # 細明體
-        'C:/Windows/Fonts/kaiu.ttf',       # 標楷體
-        'C:/Windows/Fonts/simsun.ttc',     # 宋體
-        'C:/Windows/Fonts/arial.ttf',      # fallback
+        ('C:/Windows/Fonts/msjhbd.ttc', 0),   # 微軟正黑體 Bold
+        ('C:/Windows/Fonts/msjh.ttc',   0),   # 微軟正黑體
+        ('C:/Windows/Fonts/kaiu.ttf',   None), # 標楷體
+        ('C:/Windows/Fonts/mingliu.ttc',0),   # 細明體
+        ('C:/Windows/Fonts/simsun.ttc', 0),   # 宋體
+        ('C:/Windows/Fonts/arial.ttf',  None), # fallback
     ]
-    for path in candidates:
+    for path, idx in candidates:
         if os.path.exists(path):
             try:
+                if idx is not None:
+                    return ImageFont.truetype(path, size, index=idx)
                 return ImageFont.truetype(path, size)
             except Exception:
                 continue
@@ -232,56 +233,107 @@ def _find_font(size: int) -> ImageFont.FreeTypeFont:
 
 def generate_news_image(scene_prompt: str, title: str = '') -> bytes | None:
     """
-    免費圖片生成流程：
-    1. Pollinations.ai 生成背景（免費，無需 API Key）
-    2. Pillow 合成：暗色遮罩 + 繁體中文標題 + 品牌底欄
-    回傳 PNG bytes（直接傳給 FB /photos 的 source 欄位）
+    純 Pillow 設計海報（免費、零外部依賴）：
+    - 漸層背景依新聞類型換色
+    - 幾何裝飾圖形
+    - 繁體中文大標題
+    - 品牌底欄
     """
-    print(f'[IMG] Pollinations 生成背景中...')
-    try:
-        encoded = urllib.parse.quote(scene_prompt)
-        url = f'https://image.pollinations.ai/prompt/{encoded}?width=1024&height=1024&nologo=true&seed={random.randint(1,99999)}'
-        r = requests.get(url, timeout=60)
-        if r.status_code != 200:
-            print(f'[WARN] Pollinations 失敗 {r.status_code}')
-            return None
-        bg = Image.open(io.BytesIO(r.content)).convert('RGB').resize((1024, 1024))
-    except Exception as e:
-        print(f'[WARN] 背景圖下載失敗：{e}')
-        return None
-
-    draw = ImageDraw.Draw(bg)
+    print(f'[IMG] 設計海報中...')
     W, H = 1024, 1024
 
-    # ── 1. 中間標題區暗色半透明遮罩 ──
-    overlay = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    ov_draw = ImageDraw.Draw(overlay)
-    ov_draw.rectangle([(0, int(H*0.58)), (W, int(H*0.78))], fill=(0, 0, 0, 160))
-    bg = Image.alpha_composite(bg.convert('RGBA'), overlay).convert('RGB')
+    # ── 依 scene_prompt 關鍵字選配色方案 ──
+    if 'navy blue' in scene_prompt or 'financial' in scene_prompt:
+        c1, c2, accent = (10, 20, 60), (5, 60, 120), (255, 200, 50)    # 深藍金
+    elif 'orange' in scene_prompt or 'construction' in scene_prompt:
+        c1, c2, accent = (60, 20, 5), (140, 60, 10), (255, 160, 40)    # 深橙棕
+    elif 'green' in scene_prompt or 'farmland' in scene_prompt:
+        c1, c2, accent = (5, 40, 20), (10, 80, 40), (180, 220, 100)    # 深綠
+    elif 'crimson' in scene_prompt or 'upward' in scene_prompt:
+        c1, c2, accent = (50, 5, 5), (120, 10, 10), (255, 200, 100)    # 深紅金
+    elif 'blue' in scene_prompt and 'white' in scene_prompt:
+        c1, c2, accent = (10, 25, 70), (20, 50, 130), (200, 220, 255)  # 官方藍
+    elif 'wood' in scene_prompt or 'apartment interior' in scene_prompt:
+        c1, c2, accent = (40, 25, 10), (90, 60, 30), (220, 190, 140)   # 木質暖棕
+    else:
+        c1, c2, accent = (30, 5, 5), (100, 10, 10), (255, 210, 80)     # 預設深紅金
+
+    # ── 1. 漸層背景 ──
+    bg = Image.new('RGB', (W, H), c1)
+    draw = ImageDraw.Draw(bg)
+    for y in range(H):
+        t = y / H
+        r = int(c1[0] + (c2[0] - c1[0]) * t)
+        g = int(c1[1] + (c2[1] - c1[1]) * t)
+        b = int(c1[2] + (c2[2] - c1[2]) * t)
+        draw.line([(0, y), (W, y)], fill=(r, g, b))
+
+    # ── 2. 幾何裝飾（右側大圓＋斜線帶）──
+    # 右上大圓（半透明 accent）
+    circle_layer = Image.new('RGBA', (W, H), (0,0,0,0))
+    cd = ImageDraw.Draw(circle_layer)
+    cd.ellipse([(580, -120), (1100, 400)], fill=(*accent, 30))
+    cd.ellipse([(640, -60), (1040, 340)], fill=(*accent, 20))
+    # 右下小圓
+    cd.ellipse([(750, 650), (980, 880)], fill=(*accent, 15))
+    bg = Image.alpha_composite(bg.convert('RGBA'), circle_layer)
+
+    # 斜線裝飾帶（左側）
+    sl = Image.new('RGBA', (W, H), (0,0,0,0))
+    sd = ImageDraw.Draw(sl)
+    for i in range(0, 300, 40):
+        sd.line([(i, 0), (0, i)], fill=(*accent, 40), width=2)
+    bg = Image.alpha_composite(bg, sl).convert('RGB')
     draw = ImageDraw.Draw(bg)
 
-    # ── 2. 品牌底欄（深紅色實底）──
-    footer_y = int(H * 0.82)
-    draw.rectangle([(0, footer_y), (W, H)], fill=(139, 0, 0))
+    # ── 3. 頂部 accent 色橫條 ──
+    draw.rectangle([(0, 0), (W, 8)], fill=accent)
 
-    # ── 3. 繁體中文標題 ──
+    # ── 4. 標題區：左側色塊 ──
+    title_y = int(H * 0.30)
+    draw.rectangle([(0, title_y), (8, title_y + 200)], fill=accent)  # 左邊豎線
+
+    # ── 5. 繁體中文大標題（自動換行，每14字一行）──
     if title:
-        short = title[:18] + ('…' if len(title) > 18 else '')
-        font_title = _find_font(52)
-        # 陰影
-        draw.text((42, int(H*0.61)), short, font=font_title, fill=(0, 0, 0))
-        draw.text((40, int(H*0.60)), short, font=font_title, fill=(255, 255, 255))
+        font_xl = _find_font(60)
+        font_lg = _find_font(46)
+        font_md = _find_font(34)
+        lines = [title[i:i+14] for i in range(0, min(len(title), 42), 14)]
+        fonts = [font_xl, font_lg, font_md]
+        y_pos = title_y + 20
+        for idx, line in enumerate(lines[:3]):
+            fnt = fonts[min(idx, 2)]
+            # 陰影
+            draw.text((34, y_pos + 2), line, font=fnt, fill=(0, 0, 0))
+            draw.text((32, y_pos),     line, font=fnt, fill=(255, 255, 255))
+            bbox = draw.textbbox((0, 0), line, font=fnt)
+            y_pos += (bbox[3] - bbox[1]) + 12
 
-    # ── 4. 品牌文字 ──
+    # ── 6. accent 分隔線 ──
+    sep_y = int(H * 0.75)
+    draw.rectangle([(32, sep_y), (W - 32, sep_y + 3)], fill=(*accent, 200) if len(accent)==4 else accent)
+
+    # ── 7. 來源小字 ──
+    font_src = _find_font(26)
+    draw.text((36, sep_y + 14), '📰 房市快訊', font=font_src, fill=accent)
+
+    # ── 8. 品牌底欄（深紅色）──
+    footer_y = int(H * 0.84)
+    draw.rectangle([(0, footer_y), (W, H)], fill=(139, 0, 0))
+    draw.line([(0, footer_y), (W, footer_y)], fill=accent, width=4)
+
     font_brand = _find_font(40)
-    font_sub   = _find_font(28)
-    draw.text((30, footer_y + 18), '群義房屋｜雲林雲科加盟店', font=font_brand, fill=(255, 255, 255))
-    draw.text((W - 280, footer_y + 28), '專業雲林在地房仲', font=font_sub, fill=(255, 220, 180))
+    font_sub   = _find_font(27)
+    draw.text((24, footer_y + 16), '群義房屋｜雲林雲科加盟店', font=font_brand, fill=(255, 255, 255))
+    sub_text = '專業雲林在地房仲'
+    bbox = draw.textbbox((0, 0), sub_text, font=font_sub)
+    sub_w = bbox[2] - bbox[0]
+    draw.text((W - sub_w - 24, footer_y + 26), sub_text, font=font_sub, fill=(255, 220, 170))
 
-    # ── 5. 輸出 PNG bytes ──
+    # ── 9. 輸出 ──
     buf = io.BytesIO()
     bg.save(buf, format='PNG')
-    print(f'[IMG] 合成完成（{len(buf.getvalue())//1024} KB）')
+    print(f'[IMG] 海報完成（{len(buf.getvalue())//1024} KB）')
     return buf.getvalue()
 
 def post_to_fb(text, img_bytes=None):
