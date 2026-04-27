@@ -1,6 +1,6 @@
 {
-  "updated": "2026-04-24",
-  "total": 44,
+  "updated": "2026-04-27",
+  "total": 46,
   "items": [
     {
       "no": "2594-417318A",
@@ -93,10 +93,40 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-643799V/?storeid=4759"
     },
     {
-      "no": "2594-519638T",
-      "title": "古坑棋盤農地",
-      "price": "238萬",
-      "addr": "古坑鄉棋盤段",
+      "no": "2594-279078S",
+      "title": "斗南富旺悅榕花園",
+      "price": "755萬",
+      "addr": "近市場",
+      "unit_price": "23.4萬/坪",
+      "layout": "2房+0室 2廳 1衛",
+      "build_ping": "32.23坪",
+      "land_ping": "",
+      "age": "",
+      "type": "公寓",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/114/279078S_obj_256_17374425941881.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-279078S/?storeid=4759"
+    },
+    {
+      "no": "2594-544198C",
+      "title": "古坑新光國小透天",
+      "price": "588萬",
+      "addr": "古坑鄉新庄",
+      "unit_price": "24.5萬/坪",
+      "layout": "2房+0室 1廳 1衛",
+      "build_ping": "23.97坪",
+      "land_ping": "",
+      "age": "45.7年",
+      "type": "透天",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/114/544198C_obj_256_17574690693922.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-544198C/?storeid=4759"
+    },
+    {
+      "no": "2594-218690G",
+      "title": "古坑新光農地",
+      "price": "750萬",
+      "addr": "古坑鄉頂新庄段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -104,8 +134,23 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/115/218690G_obj_256_17770199501233.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-218690G/?storeid=4759"
+    },
+    {
+      "no": "2594-798374K",
+      "title": "古坑美農地",
+      "price": "438萬",
+      "addr": "古坑鄉頂新庄段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/798374K_obj_256_17770186953793.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-798374K/?storeid=4759"
     },
     {
       "no": "2594-169483N",
@@ -138,34 +183,19 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-653470T/?storeid=4759"
     },
     {
-      "no": "2594-279078S",
-      "title": "斗南富旺悅榕花園",
-      "price": "755萬",
-      "addr": "近市場",
-      "unit_price": "23.4萬/坪",
-      "layout": "2房+0室 2廳 1衛",
-      "build_ping": "32.23坪",
+      "no": "2594-519638T",
+      "title": "古坑棋盤農地",
+      "price": "238萬",
+      "addr": "古坑鄉棋盤段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
       "land_ping": "",
       "age": "",
-      "type": "公寓",
+      "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/279078S_obj_256_17374425941881.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-279078S/?storeid=4759"
-    },
-    {
-      "no": "2594-544198C",
-      "title": "古坑新光國小透天",
-      "price": "588萬",
-      "addr": "古坑鄉新庄",
-      "unit_price": "24.5萬/坪",
-      "layout": "2房+0室 1廳 1衛",
-      "build_ping": "23.97坪",
-      "land_ping": "",
-      "age": "45.7年",
-      "type": "透天",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/544198C_obj_256_17574690693922.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-544198C/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
     },
     {
       "no": "2594-892841L",
@@ -243,21 +273,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-694364M/?storeid=4759"
     },
     {
-      "no": "2594-607095Y",
-      "title": "竹山圓山茶園",
-      "price": "2327萬",
-      "addr": "竹山鎮圓山段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/607095Y_obj_256_17240377487043.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
-    },
-    {
       "no": "2594-897143Q",
       "title": "竹山大面積林地",
       "price": "1萬",
@@ -271,6 +286,21 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/113/897143Q_obj_256_17212913645011.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
+    },
+    {
+      "no": "2594-607095Y",
+      "title": "竹山圓山茶園",
+      "price": "2327萬",
+      "addr": "竹山鎮圓山段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/113/607095Y_obj_256_17240377487043.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
     },
     {
       "no": "2594-281079Y",
@@ -318,9 +348,9 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-766841U/?storeid=4759"
     },
     {
-      "no": "2594-698186S",
+      "no": "2594-718547N",
       "title": "斗六雲科大周邊特定區農地",
-      "price": "6279萬",
+      "price": "6788萬",
       "addr": "斗六雲科大周邊特定區農地",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
@@ -329,8 +359,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/698186S_obj_256_17564486109825.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-698186S/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/114/718547N_obj_256_17564498549025.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-718547N/?storeid=4759"
     },
     {
       "no": "2594-983629Y",
@@ -348,9 +378,9 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-983629Y/?storeid=4759"
     },
     {
-      "no": "2594-718547N",
+      "no": "2594-698186S",
       "title": "斗六雲科大周邊特定區農地",
-      "price": "6788萬",
+      "price": "6279萬",
       "addr": "斗六雲科大周邊特定區農地",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
@@ -359,8 +389,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/718547N_obj_256_17564498549025.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-718547N/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/114/698186S_obj_256_17564486109825.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-698186S/?storeid=4759"
     },
     {
       "no": "2594-306935M",
@@ -453,21 +483,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-804796D/?storeid=4759"
     },
     {
-      "no": "2594-948411J",
-      "title": "古坑棋山正庄邊農地",
-      "price": "880萬",
-      "addr": "古坑鄉棋山段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/948411J_obj_256_17685412408465.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-948411J/?storeid=4759"
-    },
-    {
       "no": "2594-347378F",
       "title": "古坑棋山農保地",
       "price": "300萬",
@@ -481,6 +496,21 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/115/347378F_obj_256_17685421069661.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-347378F/?storeid=4759"
+    },
+    {
+      "no": "2594-948411J",
+      "title": "古坑棋山正庄邊農地",
+      "price": "880萬",
+      "addr": "古坑鄉棋山段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/948411J_obj_256_17685412408465.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-948411J/?storeid=4759"
     },
     {
       "no": "2594-328154D",
