@@ -28,8 +28,24 @@ def load_properties():
     return data.get('items', [])
 
 def pick_one(props):
-    """固定公式：(day_num * 4 + offset) % len(props)，與 daily_avatar_post.py slot=2 一致，保證不重複"""
-    offset = int(os.environ.get('POST_OFFSET', '0'))
+    """
+    固定公式：(day_num * 4 + offset) % len(props)
+    offset 優先讀 POST_OFFSET 環境變數；
+    若未設定（例如 monitor 補跑的 workflow_dispatch），
+    則自動依台灣時間判斷：08-12點=0, 12-15點=1, 15點以後=2
+    """
+    env_offset = os.environ.get('POST_OFFSET', '').strip()
+    if env_offset.isdigit():
+        offset = int(env_offset)
+    else:
+        # 自動依台灣時間決定 offset，防止補跑重複
+        tw_hour = (datetime.datetime.utcnow() + datetime.timedelta(hours=8)).hour
+        if tw_hour < 12:
+            offset = 0
+        elif tw_hour < 15:
+            offset = 1
+        else:
+            offset = 2
     day_num = (datetime.date.today() - BASE_DATE).days
     idx = (day_num * 4 + offset) % len(props)
     return props[idx]
@@ -46,7 +62,17 @@ def already_posted_today(title):
             timeout=10
         )
         for post in r.json().get('data', []):
-            post_date = post.get('created_time', '')[:10]
+            # FB created_time 是 UTC，轉成台灣時間再比對
+            ct = post.get('created_time', '')
+            if ct:
+                try:
+                    dt_utc = datetime.datetime.fromisoformat(ct.replace('Z','+00:00'))
+                    dt_tw  = dt_utc + datetime.timedelta(hours=8)
+                    post_date = dt_tw.date().isoformat()
+                except Exception:
+                    post_date = ct[:10]
+            else:
+                continue
             if post_date == today_tw and title in post.get('message', ''):
                 return True
     except Exception as e:
