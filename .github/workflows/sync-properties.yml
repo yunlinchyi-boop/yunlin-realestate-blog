@@ -22,8 +22,23 @@ jobs:
       - name: 安裝 Playwright 瀏覽器
         run: playwright install chromium --with-deps
 
-      - name: 抓取物件清單
-        run: python scripts/sync_properties.py
+      - name: 抓取物件清單（最多重試3次）
+        run: |
+          for i in 1 2 3; do
+            python scripts/sync_properties.py
+            COUNT=$(python -c "import json; d=json.load(open('content/properties.json')); print(d.get('total',0))")
+            echo "第${i}次：抓到 ${COUNT} 筆"
+            if [ "$COUNT" -ge 30 ]; then
+              echo "✅ 筆數足夠，完成"
+              break
+            fi
+            echo "⚠️ 筆數不足（${COUNT}<30），等30秒後補跑..."
+            sleep 30
+          done
+          if [ "$COUNT" -lt 30 ]; then
+            echo "❌ 重試3次後仍不足30筆（${COUNT}筆），視為失敗"
+            exit 1
+          fi
 
       - name: 檢查是否有變動
         id: check
