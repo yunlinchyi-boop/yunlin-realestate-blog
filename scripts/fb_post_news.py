@@ -41,12 +41,121 @@ def fetch_news():
     news += fetch_rss('https://www.cnyes.com/rss/cat/tw_stock', '鉅亨網')
     return sorted(news, key=lambda x: x['score'], reverse=True)
 
+
+def fetch_article_content(url: str) -> str:
+    """抓新聞內文（純文字，取前800字分析用）"""
+    if not url:
+        return ''
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=10, verify=False)
+        # 簡單移除 HTML tag
+        text = re.sub(r'<[^>]+>', ' ', r.text)
+        text = re.sub(r'\s+', ' ', text)
+        # 取中文段落
+        chinese = re.findall(r'[\u4e00-\u9fff，。！？、：；「」【】\w]+', text)
+        return ' '.join(chinese)[:800]
+    except Exception:
+        return ''
+
+
+def analyze_content_for_image(title: str, content: str) -> dict:
+    """
+    讀新聞標題＋內文，判斷：
+    1. Unsplash 搜尋關鍵字（英文）
+    2. 海報配色
+    3. 三條重點說明（繁體中文）
+    """
+    full = title + ' ' + content
+
+    # ── 判斷主題（政策優先於純金融）──
+    if any(k in full for k in ['打炒房','政策','內政部','財政部','金管會','禁止','限購']):
+        query   = 'taiwan,government,parliament,official'
+        colors  = {'bg1':'#0d1f3c','bg2':'#1a3560','accent':'#E8D080'}
+        bullets = [
+            ('政策方向影響市場信心', '觀察後續配套措施'),
+            ('自住需求不受限制', '在地購屋族不必過度擔憂'),
+            ('雲林房市基本面穩健', '歡迎免費諮詢評估'),
+        ]
+
+    elif any(k in full for k in ['聯準會','Fed','升息','降息','利率','央行','貨幣']):
+        query   = 'bank,finance,interest-rate,money'
+        colors  = {'bg1':'#0a1628','bg2':'#1a3a6b','accent':'#FFC328'}
+        bullets = [
+            ('房貸利率可能波動', '建議提前鎖定貸款條件'),
+            ('自住族評估還款能力', '固定利率降低長期風險'),
+            ('雲林房市受影響較小', '在地需求穩健支撐'),
+        ]
+
+    elif any(k in full for k in ['預售屋','新建案','建商','完工','交屋']):
+        query   = 'construction,building,apartment,architecture,taiwan'
+        colors  = {'bg1':'#1a2a0a','bg2':'#2d4a15','accent':'#90E050'}
+        bullets = [
+            ('新供給釋出 選擇更多', '評估建商信用與履約保證'),
+            ('預售屋風險與機會並存', '找在地專業房仲把關'),
+            ('雲林新案性價比高', '歡迎諮詢詳細資訊'),
+        ]
+
+    elif any(k in full for k in ['農地','土地','建地','地價','徵收','開發']):
+        query   = 'farmland,aerial,countryside,land,taiwan'
+        colors  = {'bg1':'#0a1e0a','bg2':'#143214','accent':'#80D840'}
+        bullets = [
+            ('土地資源日趨稀缺', '掌握開發動向是關鍵'),
+            ('地價波動影響建案成本', '評估長期增值潛力'),
+            ('雲林農地轉用值得關注', '專業諮詢免費提供'),
+        ]
+
+    elif any(k in full for k in ['房價','漲','創新高','突破','上漲','增值']):
+        query   = 'cityscape,skyline,building,urban,taiwan'
+        colors  = {'bg1':'#2a0505','bg2':'#5a0a0a','accent':'#FFC328'}
+        bullets = [
+            ('房價上漲趨勢持續', '自住族宜早不宜遲'),
+            ('雲林房價仍相對親民', '是進場好時機'),
+            ('長期持有 保值抗通膨', '立即免費諮詢'),
+        ]
+
+    elif any(k in full for k in ['下跌','修正','崩盤','跌價','量縮']):
+        query   = 'city,buildings,residential,downtown'
+        colors  = {'bg1':'#0a1520','bg2':'#102030','accent':'#60A8E0'}
+        bullets = [
+            ('市場修正 買點浮現', '理性評估長期價值'),
+            ('自住需求不受短期波動影響', '把握好價入場時機'),
+            ('雲林抗跌性相對佳', '專業評估免費諮詢'),
+        ]
+
+    elif any(k in full for k in ['租金','出租','租屋','包租','租賃']):
+        query   = 'apartment,interior,living-room,home,modern'
+        colors  = {'bg1':'#1a1205','bg2':'#2e200a','accent':'#D4A840'}
+        bullets = [
+            ('租金行情持續走升', '投資包租報酬可期'),
+            ('評估租金收益率', '找在地專業管理'),
+            ('雲林租屋需求穩定', '歡迎投資諮詢'),
+        ]
+
+    elif any(k in full for k in ['房貸','貸款','銀行','信貸','寬限期']):
+        query   = 'bank,finance,family,home,document'
+        colors  = {'bg1':'#051520','bg2':'#0a2535','accent':'#40C880'}
+        bullets = [
+            ('精算貸款成數與年限', '多家銀行比較最划算'),
+            ('注意寬限期後還款壓力', '提前做好財務規劃'),
+            ('群義專業協助貸款諮詢', '免費服務不收費'),
+        ]
+
+    else:
+        query   = 'real-estate,taiwan,city,building,housing'
+        colors  = {'bg1':'#1a0505','bg2':'#3a0a0a','accent':'#FFC328'}
+        bullets = [
+            ('掌握市場第一手資訊', '做出最正確的決策'),
+            ('雲林在地專業服務', '20年深耕在地經驗'),
+            ('免費諮詢 歡迎私訊', '群義房屋雲科加盟店'),
+        ]
+
+    return {'query': query, 'colors': colors, 'bullets': bullets}
+
 def make_post(title, link, source):
     templates = [
-        f"""📊【今日房市觀察】
+        f"""📰 今日房市重點
 
-{title}
-📰 來源：{source}
+【{source}】{title}
 
 這則消息對雲林、斗六想買房的朋友可能有影響：
 • 利率與資金走向持續變動
@@ -54,30 +163,43 @@ def make_post(title, link, source):
 • 現在掌握資訊，才能做對決策
 
 有問題歡迎私訊，免費諮詢 😊
-
-{('🔗 ' + link) if link else ''}
+{('🔗 完整分析：' + link) if link else ''}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
 
 #群義房屋雲科店 #雲林房地產 #斗六買房 #房市新聞""",
 
-        f"""🌐【今日國際房市】
+        f"""🏠 今日房市重點
 
-{title}
-📰 來源：{source}
+【{source}】{title}
 
 全球資金動向直接影響台灣房貸利率。
 身為雲林在地房仲，我們幫你看懂市場！
 
-{('🔗 ' + link) if link else ''}
-
 💬 有疑問歡迎私訊，不推銷、純諮詢
+{('🔗 完整分析：' + link) if link else ''}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
 
-#群義房屋雲科店 #雲林房地產 #房市快訊"""
+#群義房屋雲科店 #雲林房地產 #房市快訊""",
+
+        f"""📊 今日房市重點
+
+【{source}】{title}
+
+雲林斗六在地房仲第一手觀察：
+• 掌握市場動態，買賣不吃虧
+• 雲林房市溫和穩健，自住好時機
+• 免費諮詢，不推銷
+
+{('🔗 ' + link) if link else ''}
+
+➖➖➖➖➖➖➖➖
+{STORE_INFO}
+
+#群義房屋雲科店 #雲林房地產 #斗六房市"""
     ]
     return random.choice(templates)
 
@@ -231,110 +353,199 @@ def _find_font(size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default()
 
 
-def generate_news_image(scene_prompt: str, title: str = '') -> bytes | None:
-    """
-    純 Pillow 設計海報（免費、零外部依賴）：
-    - 漸層背景依新聞類型換色
-    - 幾何裝飾圖形
-    - 繁體中文大標題
-    - 品牌底欄
-    """
-    print(f'[IMG] 設計海報中...')
-    W, H = 1024, 1024
-
-    # ── 依 scene_prompt 關鍵字選配色方案 ──
-    if 'navy blue' in scene_prompt or 'financial' in scene_prompt:
-        c1, c2, accent = (10, 20, 60), (5, 60, 120), (255, 200, 50)    # 深藍金
-    elif 'orange' in scene_prompt or 'construction' in scene_prompt:
-        c1, c2, accent = (60, 20, 5), (140, 60, 10), (255, 160, 40)    # 深橙棕
-    elif 'green' in scene_prompt or 'farmland' in scene_prompt:
-        c1, c2, accent = (5, 40, 20), (10, 80, 40), (180, 220, 100)    # 深綠
-    elif 'crimson' in scene_prompt or 'upward' in scene_prompt:
-        c1, c2, accent = (50, 5, 5), (120, 10, 10), (255, 200, 100)    # 深紅金
-    elif 'blue' in scene_prompt and 'white' in scene_prompt:
-        c1, c2, accent = (10, 25, 70), (20, 50, 130), (200, 220, 255)  # 官方藍
-    elif 'wood' in scene_prompt or 'apartment interior' in scene_prompt:
-        c1, c2, accent = (40, 25, 10), (90, 60, 30), (220, 190, 140)   # 木質暖棕
+def _get_bullet_points_legacy(title: str) -> list[str]:
+    """依新聞標題產生三條重點說明"""
+    if any(k in title for k in ['升息','降息','利率','聯準會','Fed']):
+        return ['房貸利率將隨之波動', '自住族提前評估還款能力', '鎖定固定利率降低風險']
+    elif any(k in title for k in ['打炒房','政策','央行','規定','限制']):
+        return ['回歸市場機制', '健全房市發展', '保障居住權益']
+    elif any(k in title for k in ['預售屋','新建案','建商']):
+        return ['新案供給量增加', '購屋前做好財務規劃', '在地需求持續穩健']
+    elif any(k in title for k in ['農地','土地','建地','地價']):
+        return ['土地資源日趨稀缺', '開發潛力值得關注', '在地投資機會浮現']
+    elif any(k in title for k in ['房價','漲','創新高','突破']):
+        return ['剛需族趁早進場', '雲林房價相對親民', '長期持有保值抗通膨']
+    elif any(k in title for k in ['房價','跌','下跌','修正']):
+        return ['市場修正買點浮現', '自住族把握進場時機', '理性評估長期價值']
+    elif any(k in title for k in ['租金','出租','租屋']):
+        return ['租金報酬率值得評估', '包租代管降低風險', '雲林租屋需求穩定']
+    elif any(k in title for k in ['房貸','貸款','銀行']):
+        return ['精算貸款成數與利率', '多家銀行比較最划算', '免費諮詢歡迎私訊']
     else:
-        c1, c2, accent = (30, 5, 5), (100, 10, 10), (255, 210, 80)     # 預設深紅金
+        return ['掌握市場第一手資訊', '雲林在地專業服務', '免費諮詢歡迎私訊']
 
-    # ── 1. 漸層背景 ──
-    bg = Image.new('RGB', (W, H), c1)
-    draw = ImageDraw.Draw(bg)
-    for y in range(H):
-        t = y / H
-        r = int(c1[0] + (c2[0] - c1[0]) * t)
-        g = int(c1[1] + (c2[1] - c1[1]) * t)
-        b = int(c1[2] + (c2[2] - c1[2]) * t)
-        draw.line([(0, y), (W, y)], fill=(r, g, b))
 
-    # ── 2. 幾何裝飾（右側大圓＋斜線帶）──
-    # 右上大圓（半透明 accent）
-    circle_layer = Image.new('RGBA', (W, H), (0,0,0,0))
-    cd = ImageDraw.Draw(circle_layer)
-    cd.ellipse([(580, -120), (1100, 400)], fill=(*accent, 30))
-    cd.ellipse([(640, -60), (1040, 340)], fill=(*accent, 20))
-    # 右下小圓
-    cd.ellipse([(750, 650), (980, 880)], fill=(*accent, 15))
-    bg = Image.alpha_composite(bg.convert('RGBA'), circle_layer)
+def _fetch_bg_photo(query: str) -> Image.Image | None:
+    """從 Unsplash source 取得免費照片（無需 API Key）"""
+    keywords = {
+        'financial': 'bank,finance,city',
+        'policy':    'taiwan,government,building',
+        'apartment': 'apartment,modern,building',
+        'land':      'farmland,aerial,nature',
+        'luxury':    'luxury,penthouse,skyline',
+        'interior':  'apartment,interior,modern',
+        'cityview':  'city,skyline,taiwan',
+    }
+    kw = 'city,building,taiwan'
+    for k, v in keywords.items():
+        if k in query:
+            kw = v
+            break
+    seed = random.randint(1, 500)
+    url = f'https://source.unsplash.com/1024x1024/?{kw}&sig={seed}'
+    try:
+        r = requests.get(url, timeout=20, allow_redirects=True)
+        if r.status_code == 200 and 'image' in r.headers.get('content-type', ''):
+            return Image.open(io.BytesIO(r.content)).convert('RGB').resize((1024, 1024))
+    except Exception as e:
+        print(f'[WARN] Unsplash 失敗：{e}')
+    return None
 
-    # 斜線裝飾帶（左側）
-    sl = Image.new('RGBA', (W, H), (0,0,0,0))
-    sd = ImageDraw.Draw(sl)
-    for i in range(0, 300, 40):
-        sd.line([(i, 0), (0, i)], fill=(*accent, 40), width=2)
-    bg = Image.alpha_composite(bg, sl).convert('RGB')
-    draw = ImageDraw.Draw(bg)
 
-    # ── 3. 頂部 accent 色橫條 ──
-    draw.rectangle([(0, 0), (W, 8)], fill=accent)
+def _fetch_unsplash_photo(query: str) -> Image.Image | None:
+    """Unsplash source（免費，無需 API Key）"""
+    try:
+        url = f'https://source.unsplash.com/1024x1024/?{query}&sig={random.randint(1,9999)}'
+        r = requests.get(url, timeout=25, allow_redirects=True)
+        if r.status_code == 200 and 'image' in r.headers.get('content-type',''):
+            return Image.open(io.BytesIO(r.content)).convert('RGB').resize((1024,1024))
+    except Exception as e:
+        print(f'[WARN] Unsplash: {e}')
+    return None
 
-    # ── 4. 標題區：左側色塊 ──
-    title_y = int(H * 0.30)
-    draw.rectangle([(0, title_y), (8, title_y + 200)], fill=accent)  # 左邊豎線
 
-    # ── 5. 繁體中文大標題（自動換行，每14字一行）──
-    if title:
-        font_xl = _find_font(60)
-        font_lg = _find_font(46)
-        font_md = _find_font(34)
-        lines = [title[i:i+14] for i in range(0, min(len(title), 42), 14)]
-        fonts = [font_xl, font_lg, font_md]
-        y_pos = title_y + 20
-        for idx, line in enumerate(lines[:3]):
-            fnt = fonts[min(idx, 2)]
-            # 陰影
-            draw.text((34, y_pos + 2), line, font=fnt, fill=(0, 0, 0))
-            draw.text((32, y_pos),     line, font=fnt, fill=(255, 255, 255))
-            bbox = draw.textbbox((0, 0), line, font=fnt)
-            y_pos += (bbox[3] - bbox[1]) + 12
+def generate_news_image(title: str, content: str = '') -> bytes | None:
+    """
+    讀新聞內文 → 分析主題 → 抓對應照片 → HTML 合成海報
+    完全依新聞內容決定，不套固定公式
+    """
+    print(f'[IMG] 分析新聞內容，設計海報中...')
 
-    # ── 6. accent 分隔線 ──
-    sep_y = int(H * 0.75)
-    draw.rectangle([(32, sep_y), (W - 32, sep_y + 3)], fill=(*accent, 200) if len(accent)==4 else accent)
+    # 1. 分析內文決定配色、照片關鍵字、重點條列
+    meta = analyze_content_for_image(title, content)
+    c     = meta['colors']
+    bulls = meta['bullets']
+    query = meta['query']
 
-    # ── 7. 來源小字 ──
-    font_src = _find_font(26)
-    draw.text((36, sep_y + 14), '📰 房市快訊', font=font_src, fill=accent)
+    # 2. 載入本地主題照片（依新聞內容選對應圖）
+    import base64, os as _os
+    # 直接用 query 關鍵字對應本地照片
+    if 'government' in query or 'parliament' in query or 'official' in query:
+        photo_key = 'government'
+    elif 'construction' in query or 'architecture' in query:
+        photo_key = 'building'
+    elif 'farmland' in query or 'countryside' in query or 'land' in query:
+        photo_key = 'land'
+    elif 'interior' in query or 'living' in query:
+        photo_key = 'interior'
+    elif 'finance' in query or 'interest' in query or 'money' in query:
+        photo_key = 'finance'
+    elif 'bank' in query and 'family' in query:
+        photo_key = 'bank'
+    else:
+        photo_key = 'cityview'
 
-    # ── 8. 品牌底欄（深紅色）──
-    footer_y = int(H * 0.84)
-    draw.rectangle([(0, footer_y), (W, H)], fill=(139, 0, 0))
-    draw.line([(0, footer_y), (W, footer_y)], fill=accent, width=4)
+    base_dir = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..')
+    photo_path = _os.path.join(base_dir, 'assets', 'bg_photos', f'{photo_key}.jpg')
+    print(f'[IMG] 使用照片：{photo_key}.jpg')
+    photo_b64 = ''
+    if _os.path.exists(photo_path):
+        photo_b64 = base64.b64encode(open(photo_path,'rb').read()).decode()
 
-    font_brand = _find_font(40)
-    font_sub   = _find_font(27)
-    draw.text((24, footer_y + 16), '群義房屋｜雲林雲科加盟店', font=font_brand, fill=(255, 255, 255))
-    sub_text = '專業雲林在地房仲'
-    bbox = draw.textbbox((0, 0), sub_text, font=font_sub)
-    sub_w = bbox[2] - bbox[0]
-    draw.text((W - sub_w - 24, footer_y + 26), sub_text, font=font_sub, fill=(255, 220, 170))
+    # 3. 標題換行（每8字一行，最多3行）
+    lines, rem = [], title
+    while rem:
+        lines.append(rem[:8]); rem = rem[8:]
+        if len(lines) == 3:
+            if rem: lines[-1] = lines[-1][:7] + '…'
+            break
+    title_html = '<br>'.join(lines)
 
-    # ── 9. 輸出 ──
-    buf = io.BytesIO()
-    bg.save(buf, format='PNG')
-    print(f'[IMG] 海報完成（{len(buf.getvalue())//1024} KB）')
-    return buf.getvalue()
+    # 4. 子彈條列 HTML
+    bullet_html = ''
+    for main_txt, sub_txt in bulls:
+        bullet_html += f'''
+        <li class="bullet-item">
+          <div class="bullet-dot"></div>
+          <div>
+            <div class="bt">{main_txt}</div>
+            <div class="bs">{sub_txt}</div>
+          </div>
+        </li>'''
+
+    # 5. 背景：若有照片用 base64 嵌入，否則用漸層
+    if photo_b64:
+        bg_style = f'background: linear-gradient(to right, {c["bg1"]}ff 0%, {c["bg1"]}ff 42%, {c["bg1"]}cc 58%, {c["bg1"]}55 75%, transparent 100%), url(data:image/jpeg;base64,{photo_b64}) center/cover no-repeat;'
+    else:
+        bg_style = f'background: linear-gradient(135deg, {c["bg1"]} 0%, {c["bg2"]} 100%);'
+
+    # 6. HTML 海報
+    html = f'''<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+*{{margin:0;padding:0;box-sizing:border-box;}}
+html,body{{width:1024px;height:1024px;overflow:hidden;}}
+body{{
+  font-family:"Microsoft JhengHei","微軟正黑體",sans-serif;
+  {bg_style}
+  position:relative;
+}}
+.top-bar{{position:absolute;top:0;left:0;right:0;height:8px;background:{c["accent"]};}}
+.left-bar{{position:absolute;left:26px;top:52px;width:6px;height:820px;
+  background:linear-gradient(180deg,{c["accent"]},{c["accent"]}22);border-radius:3px;}}
+.glow{{position:absolute;width:500px;height:500px;border-radius:50%;
+  right:-80px;top:-80px;
+  background:radial-gradient(circle,{c["accent"]}28 0%,transparent 65%);}}
+.content{{position:absolute;left:52px;top:58px;right:40px;}}
+.tag{{display:inline-block;background:{c["accent"]};color:#111;
+  font-size:21px;font-weight:900;padding:5px 16px;border-radius:6px;
+  letter-spacing:1px;margin-bottom:26px;}}
+.title{{font-size:96px;font-weight:900;color:#fff;line-height:1.08;
+  text-shadow:3px 3px 14px rgba(0,0,0,0.75);margin-bottom:26px;word-break:break-all;}}
+.divider{{width:88px;height:5px;background:{c["accent"]};border-radius:3px;margin-bottom:30px;}}
+ul{{list-style:none;}}
+.bullet-item{{display:flex;align-items:flex-start;margin-bottom:20px;}}
+.bullet-dot{{width:13px;height:13px;border-radius:50%;background:{c["accent"]};
+  box-shadow:0 0 8px {c["accent"]};flex-shrink:0;margin-top:8px;margin-right:16px;}}
+.bt{{font-size:29px;font-weight:800;color:#fff;}}
+.bs{{font-size:19px;color:rgba(255,255,255,0.72);margin-top:3px;}}
+.footer{{position:absolute;bottom:0;left:0;right:0;height:112px;
+  background:#8B0000;border-top:5px solid {c["accent"]};
+  display:flex;align-items:center;justify-content:space-between;padding:0 34px;}}
+.brand{{font-size:41px;font-weight:900;color:#fff;letter-spacing:1px;}}
+.sub{{font-size:25px;color:#FFD8A0;font-weight:700;}}
+</style></head>
+<body>
+<div class="glow"></div>
+<div class="top-bar"></div>
+<div class="left-bar"></div>
+<div class="content">
+  <div class="tag">&#128240; 房市快訊</div>
+  <div class="title">{title_html}</div>
+  <div class="divider"></div>
+  <ul>{bullet_html}</ul>
+</div>
+<div class="footer">
+  <span class="brand">群義房屋｜雲林雲科加盟店</span>
+  <span class="sub">專業雲林在地房仲</span>
+</div>
+</body></html>'''
+
+    try:
+        from html2image import Html2Image
+        import tempfile, os
+        with tempfile.TemporaryDirectory() as tmp:
+            hti = Html2Image(output_path=tmp, size=(1024, 1024))
+            hti.screenshot(html_str=html, save_as='poster.png')
+            out_path = os.path.join(tmp, 'poster.png')
+            if os.path.exists(out_path):
+                data = open(out_path, 'rb').read()
+                print(f'[IMG] 海報完成（{len(data)//1024} KB）')
+                return data
+    except Exception as e:
+        print(f'[WARN] html2image 失敗：{e}')
+
+    return None
 
 def post_to_fb(text, img_bytes=None):
     if not PAGE_ID or not TOKEN:
@@ -377,9 +588,10 @@ def main():
     print(f'今日新聞（第1則）：{top["title"]}')
     text = make_post(top['title'], top['link'], top['source'])
 
-    # 免費生成配圖（Pollinations.ai + Pillow，0點數）
-    scene_prompt = news_to_image_prompt(top['title'], top['source'])
-    img_bytes = generate_news_image(scene_prompt, title=top['title'])
+    # 讀新聞內文 → 分析 → 生成海報（完全免費）
+    print(f'[NEWS] 讀取新聞內文：{top["link"]}')
+    content = fetch_article_content(top['link'])
+    img_bytes = generate_news_image(title=top['title'], content=content)
 
     post_to_fb(text, img_bytes)
 
