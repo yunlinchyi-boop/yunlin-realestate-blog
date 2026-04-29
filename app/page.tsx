@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getProperties, getPropertyTypes } from '@/lib/properties';
 import { getPosts, formatDateTW } from '@/lib/posts';
 import PropertyFilter from '@/components/PropertyFilter';
+import FeaturedWeeklySection from '@/components/FeaturedWeeklySection';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -282,6 +283,9 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── 本週熱門精選（互動式） ── */}
+      <FeaturedWeeklySection />
 
       {/* ── 精選物件 ── */}
       {allProperties.length > 0 && (
