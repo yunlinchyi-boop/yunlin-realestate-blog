@@ -3,7 +3,7 @@ title: "雲林房市週報｜台南招商再創高峰　新增872億元投資打
 description: "台南招商再創高峰　新增872億元投資打造半導體產業聚落。群義房屋雲林雲科加盟店第一線觀點：雲林斗六買家該如何因應？透天厝、農地、土地最新行情一次解析。"
 date: "2026-04-30"
 tags: ["房市分析", "雲林房市", "買房攻略"]
-coverImage: "/images/prop_01.jpg"
+coverImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&auto=format&fit=crop"
 ---
 
 ## 今日房市焦點

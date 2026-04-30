@@ -71,19 +71,19 @@ ARTICLE_TEMPLATES = [
         'slug_suffix': 'market-trend',
         'title_prefix': '雲林房市週報',
         'tags': ['房市分析', '雲林房市', '買房攻略'],
-        'cover': '/images/prop_01.jpg',
+        'cover': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&auto=format&fit=crop',
     },
     {
         'slug_suffix': 'buy-guide',
         'title_prefix': '雲林買房指南',
         'tags': ['買房攻略', '首購族', '投資分析'],
-        'cover': '/images/prop_03.jpg',
+        'cover': 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1200&auto=format&fit=crop',
     },
     {
         'slug_suffix': 'news-insight',
         'title_prefix': '今日房市解析',
         'tags': ['房市新聞', '利率分析', '雲林房市'],
-        'cover': '/images/prop_05.jpg',
+        'cover': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop',
     },
 ]
 
