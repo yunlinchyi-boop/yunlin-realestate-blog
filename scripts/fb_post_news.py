@@ -535,7 +535,7 @@ ul{{list-style:none;}}
         from html2image import Html2Image
         import tempfile, os
         with tempfile.TemporaryDirectory() as tmp:
-            hti = Html2Image(output_path=tmp, size=(1024, 1024))
+            hti = Html2Image(output_path=tmp, size=(1024, 1024), custom_flags=['--no-sandbox', '--disable-dev-shm-usage'])
             hti.screenshot(html_str=html, save_as='poster.png')
             out_path = os.path.join(tmp, 'poster.png')
             if os.path.exists(out_path):
