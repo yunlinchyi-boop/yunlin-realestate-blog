@@ -18,7 +18,7 @@ jobs:
           python-version: '3.11'
 
       - name: 安裝套件
-        run: pip install requests
+        run: pip install requests Pillow
 
       - name: 發布今日新聞文字貼文到 Facebook
         run: python scripts/fb_post_news.py
