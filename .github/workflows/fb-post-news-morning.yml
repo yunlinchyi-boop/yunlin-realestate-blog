@@ -1,0 +1,26 @@
+name: 每日房地產早報（早上7:00）
+
+on:
+  schedule:
+    # 台灣時間 07:00 = UTC 前一天 23:00
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安裝套件
+        run: pip install requests
+
+      - name: 發布早報到 Facebook
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+        run: python scripts/fb_post_news_morning.py
