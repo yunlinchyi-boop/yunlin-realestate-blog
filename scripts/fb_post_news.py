@@ -486,7 +486,7 @@ def generate_news_image(title: str, content: str = '') -> bytes | None:
 *{{margin:0;padding:0;box-sizing:border-box;}}
 html,body{{width:1024px;height:1024px;overflow:hidden;}}
 body{{
-  font-family:"Microsoft JhengHei","微軟正黑體",sans-serif;
+  font-family:"Noto Sans CJK TC","Noto Sans TC","Microsoft JhengHei","微軟正黑體",sans-serif;
   {bg_style}
   position:relative;
 }}
