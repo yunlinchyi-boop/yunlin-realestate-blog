@@ -43,3 +43,9 @@ jobs:
           git add content/posts/
           git commit -m "feat: 自動產生每日文章（房市專欄 + 物件介紹）$(date '+%Y-%m-%d')"
           git push
+
+      - name: FB 發布今日房市文章
+        run: python scripts/fb_post_article.py
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}

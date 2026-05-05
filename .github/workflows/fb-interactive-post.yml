@@ -1,0 +1,27 @@
+name: 每日FB互動發文（09:00每週輪替物件）
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 目標台灣時間 09:00（UTC 22:00 前一天，提前3小時補延遲）
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests
+
+      - name: 發布今日互動貼文到 Facebook
+        run: python scripts/fb_interactive_post.py --post-today
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
