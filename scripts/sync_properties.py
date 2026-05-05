@@ -18,8 +18,9 @@ def parse_text(text, title, link, img):
     no_m = re.search(r'sell_item/([\w-]+)/', link)
     no = no_m.group(1) if no_m else ''
 
-    # 價格：取「總價 xxx 萬」或直接「xxx萬」
-    price_m = re.search(r'總價\s*([\d,]+)\s*萬', text) or re.search(r'([\d,]+)\s*萬', text)
+    # 價格：取「總價 xxx 萬」或直接「xxx萬」（支援小數，排除「萬/坪」單價）
+    price_m = re.search(r'總價\s*([\d,]+\.?\d*)\s*萬', text) or \
+              re.search(r'([\d,]+\.?\d*)\s*萬(?!\s*/)', text)
     price = price_m.group(1).replace(',', '') + '萬' if price_m else ''
 
     # 型態（透天/公寓/大樓等）
