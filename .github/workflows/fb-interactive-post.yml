@@ -2,7 +2,7 @@ name: 每日FB互動發文（09:00每週輪替物件）
 
 on:
   schedule:
-    - cron: '0 22 * * *'  # 目標台灣時間 09:00（UTC 22:00 前一天，提前3小時補延遲）
+    - cron: '0 1 * * *'   # 台灣時間 09:00（UTC 01:00）
   workflow_dispatch:
 
 jobs:
