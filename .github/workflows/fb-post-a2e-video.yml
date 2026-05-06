@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 2 */2 * *'   # 每2天台灣時間 10:00（UTC 02:00）
   workflow_dispatch:          # 手動觸發
+    inputs:
+      property_index:
+        description: '指定物件編號（留空=自動）'
+        required: false
+        default: ''
 
 jobs:
   post:
@@ -28,3 +33,4 @@ jobs:
           A2E_TOKEN: ${{ secrets.A2E_TOKEN }}
           A2E_USER_ID: ${{ secrets.A2E_USER_ID }}
           A2E_AVATAR_URL: ${{ secrets.A2E_AVATAR_URL }}
+          PROPERTY_INDEX: ${{ github.event.inputs.property_index }}

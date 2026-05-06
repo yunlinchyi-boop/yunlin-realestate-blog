@@ -42,8 +42,14 @@ def pick_property(slot=3):
     props = data.get('items', [])
     if not props:
         return None
-    day_num = (datetime.date.today() - datetime.date(2026, 1, 1)).days
-    idx = (day_num * 4 + slot) % len(props)
+    # 允許用環境變數指定物件編號（手動觸發時使用）
+    override = os.environ.get('PROPERTY_INDEX', '')
+    if override.isdigit():
+        idx = int(override) % len(props)
+    else:
+        day_num = (datetime.date.today() - datetime.date(2026, 1, 1)).days
+        idx = (day_num * 4 + slot) % len(props)
+    print(f'[物件索引] {idx}')
     return props[idx]
 
 # ── 產口播稿（8秒）──────────────────────────────
