@@ -173,10 +173,10 @@ def wait_and_download(task_id, output_path, max_wait=600):
             raise Exception(f'A2E生成失敗：{d}')
     raise Exception('A2E生成超時')
 
-# ── 發布到 FB ────────────────────────────────────
+# ── 發布到 FB（一般影片貼文）────────────────────────
 def post_to_fb(video_path, prop):
     desc = build_fb_text(prop)
-    print('[..] 上傳影片到 FB...')
+    print('[..] 上傳影片到 FB 一般貼文...')
     with open(video_path, 'rb') as vf:
         r = requests.post(
             f'https://graph.facebook.com/v19.0/{PAGE_ID}/videos',
@@ -186,10 +186,64 @@ def post_to_fb(video_path, prop):
         )
     d = r.json()
     if 'id' in d:
-        print(f'[OK] FB發文成功 ID={d["id"]}')
+        print(f'[OK] FB一般貼文成功 ID={d["id"]}')
     else:
-        print(f'[ERROR] {d}')
+        print(f'[ERROR] 一般貼文失敗 {d}')
         sys.exit(1)
+
+# ── 發布到 FB Reels ───────────────────────────────
+def post_as_reel(video_path, desc):
+    print('[..] 發布 FB Reels...')
+    file_size = os.path.getsize(video_path)
+
+    # Step 1: 初始化上傳
+    r = requests.post(
+        f'https://graph.facebook.com/v19.0/{PAGE_ID}/video_reels',
+        json={'upload_phase': 'start', 'access_token': FB_TOKEN},
+        timeout=30
+    )
+    d = r.json()
+    if 'video_id' not in d:
+        print(f'[WARN] Reels 初始化失敗，略過：{d}')
+        return
+    video_id = d['video_id']
+    upload_url = d['upload_url']
+    print(f'[OK] Reels video_id={video_id}')
+
+    # Step 2: 上傳影片
+    with open(video_path, 'rb') as vf:
+        r2 = requests.post(
+            upload_url,
+            headers={
+                'Authorization': f'OAuth {FB_TOKEN}',
+                'offset': '0',
+                'file_size': str(file_size),
+            },
+            data=vf,
+            timeout=300
+        )
+    if not r2.json().get('success'):
+        print(f'[WARN] Reels 上傳失敗，略過：{r2.text[:200]}')
+        return
+    print('[OK] Reels 影片上傳完成')
+
+    # Step 3: 發布
+    r3 = requests.post(
+        f'https://graph.facebook.com/v19.0/{PAGE_ID}/video_reels',
+        params={
+            'access_token': FB_TOKEN,
+            'video_id': video_id,
+            'upload_phase': 'finish',
+            'video_state': 'PUBLISHED',
+            'description': desc,
+        },
+        timeout=30
+    )
+    d3 = r3.json()
+    if d3.get('success'):
+        print(f'[OK] FB Reels 發布成功')
+    else:
+        print(f'[WARN] Reels 發布失敗（不影響一般貼文）：{d3}')
 
 # ── 主流程 ────────────────────────────────────────
 async def main():
@@ -222,8 +276,9 @@ async def main():
         task_id = a2e_generate(AVATAR_URL, audio_url, f'prop_{today}')
         wait_and_download(task_id, video_path)
 
-        # 5. 發FB（帶完整物件資訊）
+        # 5. 發FB（一般貼文 + Reels）
         post_to_fb(video_path, prop)
+        post_as_reel(video_path, build_fb_text(prop))
 
 if __name__ == '__main__':
     asyncio.run(main())

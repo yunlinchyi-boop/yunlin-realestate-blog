@@ -136,6 +136,52 @@ def post_video_to_fb(video_path, title, link):
         print(f'[ERROR] {d}')
         sys.exit(1)
 
+    # 同步發布為 Reels
+    _post_as_reel(video_path, desc)
+
+def _post_as_reel(video_path, desc):
+    """將影片同步發布為 FB Reels"""
+    print('[..] 發布 FB Reels...')
+    file_size = os.path.getsize(video_path)
+
+    # Step 1: 初始化
+    r = requests.post(
+        f'https://graph.facebook.com/v19.0/{PAGE_ID}/video_reels',
+        json={'upload_phase': 'start', 'access_token': TOKEN},
+        timeout=30
+    )
+    d = r.json()
+    if 'video_id' not in d:
+        print(f'[WARN] Reels 初始化失敗，略過：{d}')
+        return
+    video_id = d['video_id']
+    upload_url = d['upload_url']
+
+    # Step 2: 上傳
+    with open(video_path, 'rb') as vf:
+        r2 = requests.post(
+            upload_url,
+            headers={'Authorization': f'OAuth {TOKEN}', 'offset': '0', 'file_size': str(file_size)},
+            data=vf,
+            timeout=300
+        )
+    if not r2.json().get('success'):
+        print(f'[WARN] Reels 上傳失敗，略過：{r2.text[:200]}')
+        return
+
+    # Step 3: 發布
+    r3 = requests.post(
+        f'https://graph.facebook.com/v19.0/{PAGE_ID}/video_reels',
+        params={'access_token': TOKEN, 'video_id': video_id,
+                'upload_phase': 'finish', 'video_state': 'PUBLISHED', 'description': desc},
+        timeout=30
+    )
+    d3 = r3.json()
+    if d3.get('success'):
+        print('[OK] FB Reels 發布成功')
+    else:
+        print(f'[WARN] Reels 發布失敗（不影響一般貼文）：{d3}')
+
 async def main():
     # 1. 取新聞
     title, link, source = fetch_news(rank=2)
