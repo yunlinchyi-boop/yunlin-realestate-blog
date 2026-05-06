@@ -2,8 +2,8 @@ name: 每日房地產早報（早上7:00）
 
 on:
   schedule:
-    # 台灣時間 07:00 = UTC 前一天 23:00
-    - cron: "0 23 * * *"
+    # 目標台灣時間 07:00，提前2小時補 GHA 延遲 → UTC 21:00（前一天）
+    - cron: "0 21 * * *"
   workflow_dispatch:
 
 jobs:

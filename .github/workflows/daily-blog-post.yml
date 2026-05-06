@@ -2,7 +2,7 @@ name: 每日自動產生房市專欄文章
 
 on:
   schedule:
-    - cron: '30 1 * * *'   # 每天台灣時間 09:30（UTC 01:30）
+    - cron: '30 23 * * *'  # 目標 TW 09:30（UTC 23:30 前一天，提前2小時補延遲）
   workflow_dispatch:
 
 jobs:
