@@ -25,8 +25,8 @@ jobs:
         run: |
           HOUR=$(date -u +%H)
           MIN=$(date -u +%M)
-          # 取「2小時前」時間點，用來判斷該時段內是否有成功執行
-          SINCE=$(date -u -d "2 hours ago" --iso-8601=seconds)
+          # 取「4小時前」時間點（GHA free tier 最多延遲約2-3小時，給足夠緩衝避免誤補跑）
+          SINCE=$(date -u -d "4 hours ago" --iso-8601=seconds)
 
           check_workflow() {
             local WF=$1

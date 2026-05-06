@@ -124,7 +124,29 @@ def post_to_fb(text: str, img_bytes: bytes | None = None) -> None:
         sys.exit(1)
 
 
+def already_posted_today() -> bool:
+    """檢查粉絲專頁今天是否已發過早報，防止 GHA cron 重複觸發"""
+    try:
+        today_str = datetime.date.today().strftime("%Y年%m月%d日")
+        r = requests.get(
+            f"https://graph.facebook.com/v19.0/{PAGE_ID}/posts",
+            params={"fields": "message,created_time", "limit": 10, "access_token": TOKEN},
+            timeout=10
+        )
+        for post in r.json().get("data", []):
+            msg = post.get("message", "")
+            if f"{today_str} 房地產早報" in msg:
+                print(f"[SKIP] 今天已發過早報，跳過（防重複）")
+                return True
+    except Exception as e:
+        print(f"[WARN] 無法檢查已發貼文：{e}")
+    return False
+
+
 def main():
+    if already_posted_today():
+        sys.exit(0)
+
     print(f"[{datetime.datetime.now():%Y-%m-%d %H:%M}] 抓取今日房地產新聞...")
     news = fetch_news(3)
     if not news:
