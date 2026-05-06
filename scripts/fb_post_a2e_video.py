@@ -131,6 +131,8 @@ def a2e_generate(image_url, audio_url, name):
             'name': name,
             'image_url': image_url,
             'audio_url': audio_url,
+            'prompt': 'speaking, looking at the camera, detailed eyes, clear teeth, static view point, still background, elegant, clear facial features, stable camera, professional shooting angle',
+            'negative_prompt': 'vivid colors, overexposed, flickering, blurry details, subtitles, logo, style, artwork, painting, image, static, overall grayish, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed limbs, fused fingers, motionless person, cluttered background',
         },
         timeout=30
     )
