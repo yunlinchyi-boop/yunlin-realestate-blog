@@ -2,14 +2,14 @@ name: 監控每日 Workflows（自動補跑）
 
 on:
   schedule:
-    - cron: '0 1 * * *'    # 09:00 TW → 檢查 fb-post-properties（早場08:00）
-    - cron: '30 1 * * *'   # 09:30 TW → 檢查 fb-post-news（08:30）
-    - cron: '0 2 * * *'    # 10:00 TW → 檢查 sync-properties + fb-post-news-video（09:00）
-    - cron: '30 2 * * *'   # 10:30 TW → 檢查 daily-blog-post（09:30）
-    - cron: '0 7 * * *'    # 15:00 TW → 檢查 fb-post-properties（午場14:00）
-    - cron: '0 8 * * *'    # 16:00 TW → 檢查 fb-post-news-video（下午場15:00）
-    - cron: '0 9 * * *'    # 17:00 TW → 檢查 fb-post-properties（晚場16:00）
-  workflow_dispatch:        # 可手動觸發
+    - cron: '0 1 * * *'    # TW 09:00 — 早場補跑窗口
+    - cron: '0 2 * * *'    # TW 10:00 — 早場補跑窗口
+    - cron: '30 2 * * *'   # TW 10:30 — 早場補跑窗口
+    - cron: '0 7 * * *'    # TW 15:00 — 午場補跑窗口
+    - cron: '0 8 * * *'    # TW 16:00 — 下午補跑窗口
+    - cron: '0 9 * * *'    # TW 17:00 — 晚場補跑窗口
+    - cron: '0 11 * * *'   # TW 19:00 — 全日最終補跑（確保今天沒漏）
+  workflow_dispatch:
 
 jobs:
   monitor:
@@ -21,83 +21,90 @@ jobs:
       REPO: ${{ github.repository }}
 
     steps:
-      - name: 確認並補跑未執行的 Workflows
+      - name: 補跑未執行的 Workflows
         run: |
-          HOUR=$(date -u +%H)
-          MIN=$(date -u +%M)
-          # 取「4小時前」時間點（GHA free tier 最多延遲約2-3小時，給足夠緩衝避免誤補跑）
-          SINCE=$(date -u -d "4 hours ago" --iso-8601=seconds)
+          UTC_HOUR=$(date -u +%H)
+          UTC_MIN=$(date -u +%M)
+          echo "當前 UTC 時間：${UTC_HOUR}:${UTC_MIN}"
 
-          check_workflow() {
+          # 台灣今日開始 = UTC 昨天 16:00
+          TW_TODAY_START=$(date -u -d "$(date -u +%Y-%m-%d) -16 hours" --iso-8601=seconds)
+          echo "台灣今日起始點（UTC）: $TW_TODAY_START"
+          echo ""
+
+          # 檢查單一 workflow 今天是否已成功執行，若未執行就補跑
+          # 參數: $1=workflow檔名  $2=最少應執行次數（預設1）
+          check_and_run() {
             local WF=$1
-            echo "=============================="
-            echo "🔍 檢查 workflow: $WF"
-            echo "   時間窗口: $SINCE 之後"
+            local MIN_COUNT=${2:-1}
 
             SUCCESS=$(gh run list \
               --workflow="$WF" \
               --repo="$REPO" \
               --limit=20 \
               --json conclusion,createdAt \
-              --jq "[.[] | select(.createdAt >= \"$SINCE\" and .conclusion==\"success\")] | length")
+              --jq "[.[] | select(.createdAt >= \"$TW_TODAY_START\" and .conclusion==\"success\")] | length")
 
-            if [ "$SUCCESS" -gt 0 ]; then
-              echo "✅ $WF：近2小時內已成功執行（${SUCCESS} 筆）"
+            IN_PROGRESS=$(gh run list \
+              --workflow="$WF" \
+              --repo="$REPO" \
+              --limit=5 \
+              --json status,createdAt \
+              --jq "[.[] | select(.createdAt >= \"$TW_TODAY_START\" and (.status==\"in_progress\" or .status==\"queued\"))] | length")
+
+            echo "  📊 $WF → 今日成功:${SUCCESS} 進行中:${IN_PROGRESS}"
+
+            if [ "$SUCCESS" -ge "$MIN_COUNT" ]; then
+              echo "  ✅ 已達標（${SUCCESS}/${MIN_COUNT}），跳過"
+            elif [ "$IN_PROGRESS" -gt 0 ]; then
+              echo "  ⏳ 執行中，跳過"
             else
-              # 也檢查是否有 in_progress（避免重複觸發）
-              IN_PROGRESS=$(gh run list \
-                --workflow="$WF" \
-                --repo="$REPO" \
-                --limit=5 \
-                --json status,createdAt \
-                --jq "[.[] | select(.createdAt >= \"$SINCE\" and .status==\"in_progress\")] | length")
-
-              if [ "$IN_PROGRESS" -gt 0 ]; then
-                echo "⏳ $WF：正在執行中，跳過補跑"
+              echo "  ⚠️  補觸發 $WF..."
+              if gh workflow run "$WF" --repo="$REPO"; then
+                echo "  ✅ 補觸發成功"
               else
-                echo "⚠️  $WF：近2小時未成功執行，補觸發中..."
-                if gh workflow run "$WF" --repo="$REPO"; then
-                  echo "✅ 補觸發成功"
-                else
-                  echo "❌ 補觸發失敗"
-                fi
+                echo "  ❌ 補觸發失敗"
               fi
             fi
           }
 
-          echo "當前 UTC 時間：${HOUR}:${MIN}"
-          echo ""
+          # ── 早場（TW 09-11，UTC 01-03）──────────────────────────────
+          if [ "$UTC_HOUR" -ge 1 ] && [ "$UTC_HOUR" -le 3 ]; then
+            echo "=== 早場補跑（TW 09-11） ==="
+            check_and_run "fb-post-properties.yml"
+            check_and_run "fb-post-news.yml"
+            check_and_run "sync-properties.yml"
+            check_and_run "fb-post-news-video.yml"
+            check_and_run "fb-interactive-post.yml"
+            check_and_run "daily-blog-post.yml"
 
-          # 根據當前 UTC 時間決定要檢查哪些 workflow
-          if   [ "$HOUR" = "01" ] && [ "$MIN" -lt 20 ]; then
-            echo "📌 時段：09:00 TW → 檢查早場物件貼文"
-            check_workflow "fb-post-properties.yml"
+          # ── 午場（TW 15，UTC 07）────────────────────────────────────
+          elif [ "$UTC_HOUR" -eq 7 ]; then
+            echo "=== 午場補跑（TW 15） ==="
+            # fb-post-properties 今天需跑3次（早/午/晚），此時段至少要有1次
+            check_and_run "fb-post-properties.yml"
 
-          elif [ "$HOUR" = "01" ] && [ "$MIN" -ge 30 ]; then
-            echo "📌 時段：09:30 TW → 檢查新聞文字貼文"
-            check_workflow "fb-post-news.yml"
+          # ── 下午場（TW 16，UTC 08）──────────────────────────────────
+          elif [ "$UTC_HOUR" -eq 8 ]; then
+            echo "=== 下午場補跑（TW 16） ==="
+            check_and_run "fb-post-news-video.yml"
 
-          elif [ "$HOUR" = "02" ] && [ "$MIN" -lt 20 ]; then
-            echo "📌 時段：10:00 TW → 檢查物件同步 + 新聞影片（早）"
-            check_workflow "sync-properties.yml"
-            check_workflow "fb-post-news-video.yml"
+          # ── 晚場（TW 17，UTC 09）────────────────────────────────────
+          elif [ "$UTC_HOUR" -eq 9 ]; then
+            echo "=== 晚場補跑（TW 17） ==="
+            check_and_run "fb-post-properties.yml"
 
-          elif [ "$HOUR" = "02" ] && [ "$MIN" -ge 30 ]; then
-            echo "📌 時段：10:30 TW → 檢查自動產房市文章"
-            check_workflow "daily-blog-post.yml"
-
-          elif [ "$HOUR" = "07" ]; then
-            echo "📌 時段：15:00 TW → 檢查午場物件貼文"
-            check_workflow "fb-post-properties.yml"
-
-          elif [ "$HOUR" = "08" ]; then
-            echo "📌 時段：16:00 TW → 檢查新聞影片（下午）"
-            check_workflow "fb-post-news-video.yml"
-
-          elif [ "$HOUR" = "09" ]; then
-            echo "📌 時段：17:00 TW → 檢查晚場物件貼文"
-            check_workflow "fb-post-properties.yml"
+          # ── 全日最終補跑（TW 19，UTC 11）────────────────────────────
+          elif [ "$UTC_HOUR" -eq 11 ]; then
+            echo "=== 全日最終補跑（TW 19）— 確保今天所有 workflow 都跑過 ==="
+            check_and_run "fb-post-news-morning.yml"
+            check_and_run "fb-post-properties.yml"
+            check_and_run "fb-post-news.yml"
+            check_and_run "sync-properties.yml"
+            check_and_run "fb-post-news-video.yml"
+            check_and_run "fb-interactive-post.yml"
+            check_and_run "daily-blog-post.yml"
 
           else
-            echo "⚠️  未知時段（UTC ${HOUR}:${MIN}），跳過"
+            echo "⚠️  UTC ${UTC_HOUR}:${UTC_MIN} 不在任何補跑窗口，跳過"
           fi
