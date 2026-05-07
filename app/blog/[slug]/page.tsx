@@ -1,6 +1,7 @@
 import { getPosts, getPostBySlug, formatDateTW } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import ShareButtons from '@/components/ShareButtons';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yunlin-realestate-blog.vercel.app';
 
@@ -119,6 +120,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* 文章內容 */}
       <div className="max-w-3xl mx-auto px-6 py-12">
         <article className="prose prose-xl max-w-none" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        <ShareButtons url={canonicalUrl} title={post.title} />
       </div>
 
       {/* 底部聯絡框 */}
