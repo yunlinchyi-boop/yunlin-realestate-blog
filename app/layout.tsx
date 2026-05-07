@@ -3,6 +3,7 @@ import { Playfair_Display, Noto_Sans_TC } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import MobileNav from '@/components/MobileNav';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -69,10 +70,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="tel:055362808" className="btn-consult-red">立即諮詢</a>
             </nav>
 
-            {/* 手機版 */}
-            <a href="tel:055362808" className="md:hidden btn-consult-red" style={{ padding: '6px 14px' }}>
-              諮詢
-            </a>
+            {/* 手機版漢堡選單 */}
+            <MobileNav />
           </div>
         </header>
 
