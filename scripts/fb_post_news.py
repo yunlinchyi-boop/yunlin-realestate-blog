@@ -152,6 +152,13 @@ def analyze_content_for_image(title: str, content: str) -> dict:
     return {'query': query, 'colors': colors, 'bullets': bullets}
 
 def make_post(title, link, source):
+    import urllib.parse
+    encoded_link = urllib.parse.quote(link, safe='') if link else ''
+    encoded_title = urllib.parse.quote(title, safe='')
+    line_share = f'https://social-plugins.line.me/lineit/share?url={encoded_link}' if link else ''
+    twitter_share = f'https://twitter.com/intent/tweet?url={encoded_link}&text={encoded_title}' if link else ''
+    share_block = f'\n📲 分享給朋友：\n　LINE → {line_share}\n　X / Twitter → {twitter_share}' if link else ''
+
     templates = [
         f"""📰 今日房市重點
 
@@ -163,7 +170,7 @@ def make_post(title, link, source):
 • 現在掌握資訊，才能做對決策
 
 有問題歡迎私訊，免費諮詢 😊
-{('🔗 完整分析：' + link) if link else ''}
+{('🔗 完整分析：' + link) if link else ''}{share_block}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
@@ -178,7 +185,7 @@ def make_post(title, link, source):
 身為雲林在地房仲，我們幫你看懂市場！
 
 💬 有疑問歡迎私訊，不推銷、純諮詢
-{('🔗 完整分析：' + link) if link else ''}
+{('🔗 完整分析：' + link) if link else ''}{share_block}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
@@ -194,7 +201,7 @@ def make_post(title, link, source):
 • 雲林房市溫和穩健，自住好時機
 • 免費諮詢，不推銷
 
-{('🔗 ' + link) if link else ''}
+{('🔗 ' + link) if link else ''}{share_block}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
@@ -414,10 +421,35 @@ def _fetch_unsplash_photo(query: str) -> Image.Image | None:
     return None
 
 
+def fetch_og_image(url: str) -> bytes | None:
+    """直接抓新聞文章的 OG 圖片（og:image meta tag）"""
+    if not url:
+        return None
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=15, verify=False)
+        # 找 og:image
+        match = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', r.text)
+        if not match:
+            match = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', r.text)
+        if not match:
+            print('[IMG] 找不到 og:image')
+            return None
+        img_url = match.group(1).strip()
+        print(f'[IMG] OG圖片：{img_url}')
+        ir = requests.get(img_url, headers=HEADERS, timeout=20, verify=False)
+        if ir.status_code == 200 and 'image' in ir.headers.get('content-type', ''):
+            print(f'[IMG] 抓到 OG 圖片 {len(ir.content)//1024} KB')
+            return ir.content
+    except Exception as e:
+        print(f'[WARN] fetch_og_image 失敗：{e}')
+    return None
+
+
 def generate_news_image(title: str, content: str = '') -> bytes | None:
     """
     讀新聞內文 → 分析主題 → 抓對應照片 → HTML 合成海報
     完全依新聞內容決定，不套固定公式
+    ⚠️ 此函數已棄用（使用者要求不合成，改用 fetch_og_image 直接抓原圖）
     """
     print(f'[IMG] 分析新聞內容，設計海報中...')
 
@@ -588,10 +620,9 @@ def main():
     print(f'今日新聞（第1則）：{top["title"]}')
     text = make_post(top['title'], top['link'], top['source'])
 
-    # 讀新聞內文 → 分析 → 生成海報（完全免費）
-    print(f'[NEWS] 讀取新聞內文：{top["link"]}')
-    content = fetch_article_content(top['link'])
-    img_bytes = generate_news_image(title=top['title'], content=content)
+    # 直接抓新聞文章的 OG 圖片（不合成，不自製海報）
+    print(f'[NEWS] 抓取新聞 OG 圖片：{top["link"]}')
+    img_bytes = fetch_og_image(top['link'])
 
     post_to_fb(text, img_bytes)
 
