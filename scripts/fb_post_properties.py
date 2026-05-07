@@ -6,7 +6,7 @@
   FB_PAGE_ID      - 粉絲專頁 ID
   FB_ACCESS_TOKEN - 長效頁面存取權杖（Page Access Token）
 """
-import json, os, sys, requests, datetime
+import json, os, sys, requests, datetime, random
 
 PAGE_ID = os.environ.get('FB_PAGE_ID', '')
 TOKEN = os.environ.get('FB_ACCESS_TOKEN', '')
@@ -17,10 +17,22 @@ STORE_INFO = """公司：紅火房屋
 經紀人證號：(113)雲縣地字第302號
 📞 服務地址：雲林縣斗六市中正路312號"""
 
-TYPE_EMOJI = {
-    '透天': '🏡', '公寓': '🏢', '大樓': '🏬', '華廈': '🏛️',
-    '農地': '🌾', '土地': '📐', '廠房': '🏭', '店面': '🏪', '別墅': '🏰',
+# 每種類型有多個 emoji，每次隨機挑一個
+TYPE_EMOJI_POOL = {
+    '透天': ['🏡', '🏠', '🏘️', '🏗️', '🔑', '🌟', '💎'],
+    '公寓': ['🏢', '🏠', '🏙️', '🔑', '🌆', '✨', '💫'],
+    '大樓': ['🏬', '🏙️', '🌇', '🏗️', '🔑', '⭐', '🌟'],
+    '華廈': ['🏛️', '💎', '🏙️', '👑', '🌟', '✨', '🔑'],
+    '農地': ['🌾', '🌿', '🌳', '🍃', '🌱', '🌻', '🏕️'],
+    '土地': ['🗺️', '📍', '🌄', '🏔️', '🌏', '💡', '🔭'],
+    '廠房': ['🏭', '⚙️', '🔧', '🏗️', '🚛', '🔩', '🏢'],
+    '店面': ['🏪', '🛍️', '🏬', '💼', '💰', '🎯', '🌟'],
+    '別墅': ['🏰', '🏡', '👑', '💎', '🌟', '🌺', '✨'],
 }
+
+def get_emoji(prop_type: str) -> str:
+    pool = TYPE_EMOJI_POOL.get(prop_type, ['🏠', '🔑', '🌟', '✨', '💎', '🏙️', '🌆'])
+    return random.choice(pool)
 
 def load_properties():
     with open(PROPERTIES_FILE, encoding='utf-8') as f:
@@ -81,7 +93,7 @@ def already_posted_today(title):
 
 def make_post_text(prop):
     import re as _re
-    emoji = TYPE_EMOJI.get(prop.get('type', ''), '🏠')
+    emoji = get_emoji(prop.get('type', ''))
     title = prop.get('title', '優質物件')
     price = prop.get('price', '')
     addr = prop.get('addr', '')
