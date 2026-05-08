@@ -74,9 +74,13 @@ jobs:
             check_and_run "fb-post-properties.yml"
             check_and_run "fb-post-news.yml"
             check_and_run "sync-properties.yml"
-            check_and_run "fb-post-news-video.yml"
             check_and_run "fb-interactive-post.yml"
             check_and_run "daily-blog-post.yml"
+            # fb-post-news-video 09:00 同時跑，UTC 01:00 不補（避免重複）
+            # 改由 UTC 02:00（TW 10:00）補跑
+            if [ "$UTC_HOUR" -ge 2 ]; then
+              check_and_run "fb-post-news-video.yml"
+            fi
 
           # ── 午場（TW 15，UTC 07）────────────────────────────────────
           elif [ "$UTC_HOUR" -eq 7 ]; then
