@@ -1,9 +1,7 @@
 name: 每2天FB數字人影片（A2E.ai）
 
 on:
-  schedule:
-    - cron: '0 2 */2 * *'   # 每2天台灣時間 10:00（UTC 02:00）
-  workflow_dispatch:          # 手動觸發
+  workflow_dispatch:          # 由 a2e-daily-reminder MCP 簽到後觸發（簽到→確認coins≥48→dispatch）
     inputs:
       property_index:
         description: '指定物件編號（留空=自動）'
