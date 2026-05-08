@@ -216,6 +216,30 @@ body {
 .prose code { color: #CC1122; background: #F7F6F4; padding: 0.1em 0.4em; border-radius: 3px; }
 .prose pre { background: #F7F6F4 !important; border: 1px solid #E5E5E5; }
 
+/* ── About 頁豪華深色主題變數 ── */
+:root {
+  --luxury-black:  #111111;
+  --luxury-dark:   #1A1A1A;
+  --luxury-card:   #1E1E1E;
+  --luxury-gold:   #C9A84C;
+  --luxury-cream:  #EDE8DC;
+  --luxury-border: rgba(201,168,76,0.25);
+  --luxury-muted:  rgba(237,232,220,0.45);
+}
+
+/* ── 淡入上升動畫 ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fadeInUp 0.55s ease both;
+}
+.fade-in-up-1 { animation-delay: 0.05s; }
+.fade-in-up-2 { animation-delay: 0.15s; }
+.fade-in-up-3 { animation-delay: 0.25s; }
+.fade-in-up-4 { animation-delay: 0.35s; }
+
 /* ── 捲軸 ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #F7F6F4; }

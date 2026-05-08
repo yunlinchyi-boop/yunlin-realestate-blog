@@ -4,6 +4,7 @@ import { getProperties, getPropertyTypes } from '@/lib/properties';
 import { getPosts, formatDateTW } from '@/lib/posts';
 import PropertyFilter from '@/components/PropertyFilter';
 import FeaturedWeeklySection from '@/components/FeaturedWeeklySection';
+import AccordionFAQ from '@/components/AccordionFAQ';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -147,7 +148,17 @@ export default function HomePage() {
             <a href="tel:055362808" className="btn-red" style={{ fontSize: '0.9rem', padding: '13px 36px' }}>立即致電 05-5362808</a>
             <Link href="/blog" className="btn-navy-outline" style={{ borderColor: 'rgba(255,255,255,0.5)', color: '#FFFFFF' }}>房市專欄</Link>
           </div>
+
+          {/* 向下滾動提示 */}
+          <div style={{ marginTop: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>Scroll</p>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2"
+              style={{ animation: 'bounce 1.8s ease-in-out infinite' }}>
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+          </div>
         </div>
+        <style>{`@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }`}</style>
 
         {/* 底部三欄數據條 */}
         <div className="relative z-10" style={{ background: 'rgba(0,0,0,0.45)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
@@ -321,21 +332,13 @@ export default function HomePage() {
             <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>FAQ</p>
             <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>常見問題</h2>
           </div>
-          <div className="flex flex-col gap-4">
-            {[
-              { q: '雲林斗六透天厝大概多少錢？', a: '斗六透天厝目前行情約 600～1,500 萬，市中心精華區或新建案較高，郊區則較為親民。實際價格依坪數、屋齡、地點而有所不同，歡迎來電免費諮詢。' },
-              { q: '雲林農地怎麼買？有什麼注意事項？', a: '購買農地需確認地目（農牧/林業用地）、農地農用規定、灌溉水源，並查詢是否有工業污染紀錄。群義房屋提供免費農地諮詢，協助確認產權，避免風險。' },
-              { q: '雲科大附近有哪些好的物件？', a: '雲科大周邊透天與公寓物件，租金報酬率約 4～5%，適合投資出租。目前有多筆優質物件，歡迎聯絡我們了解最新釋出資訊。' },
-              { q: '斗六買房流程是什麼？', a: '確認預算 → 看物件議價 → 簽約 → 辦理貸款 → 產權調查 → 過戶 → 交屋。群義房屋全程陪伴，代書、貸款媒合一站完成。' },
-            ].map((item, i) => (
-              <details key={i} style={{ background: '#FFFFFF', border: '1px solid #E5E5E5', padding: '20px 24px' }}>
-                <summary style={{ fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', color: '#1A1A1A', letterSpacing: '0.02em' }}>
-                  {item.q}
-                </summary>
-                <p style={{ color: '#555', fontSize: '0.875rem', lineHeight: 1.9, marginTop: 12 }}>{item.a}</p>
-              </details>
-            ))}
-          </div>
+          <AccordionFAQ items={[
+            { q: '雲林斗六透天厝大概多少錢？', a: '斗六透天厝目前行情約 600～1,500 萬，市中心精華區或新建案較高，郊區則較為親民。實際價格依坪數、屋齡、地點而有所不同，歡迎來電免費諮詢。' },
+            { q: '雲林農地怎麼買？有什麼注意事項？', a: '購買農地需確認地目（農牧/林業用地）、農地農用規定、灌溉水源，並查詢是否有工業污染紀錄。群義房屋提供免費農地諮詢，協助確認產權，避免風險。' },
+            { q: '雲科大附近有哪些好的物件？', a: '雲科大周邊透天與公寓物件，租金報酬率約 4～5%，適合投資出租。目前有多筆優質物件，歡迎聯絡我們了解最新釋出資訊。' },
+            { q: '斗六買房流程是什麼？', a: '確認預算 → 看物件議價 → 簽約 → 辦理貸款 → 產權調查 → 過戶 → 交屋。群義房屋全程陪伴，代書、貸款媒合一站完成。' },
+            { q: '群義房屋的服務費怎麼計算？', a: '依不動產經紀業管理條例，買賣雙方各付成交價 1%（最高 2%）。我們透明報價，成交前先說明清楚。初次諮詢完全免費，歡迎電話聯絡：05-5362808。' },
+          ]} />
         </div>
       </section>
 
