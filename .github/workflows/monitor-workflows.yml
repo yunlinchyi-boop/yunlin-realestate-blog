@@ -2,8 +2,7 @@ name: 監控每日 Workflows（自動補跑）
 
 on:
   schedule:
-    - cron: '0 1 * * *'    # TW 09:00 — 早場補跑窗口
-    - cron: '0 2 * * *'    # TW 10:00 — 早場補跑窗口
+    - cron: '0 2 * * *'    # TW 10:00 — 早場補跑窗口（早上 workflow 已完成）
     - cron: '30 2 * * *'   # TW 10:30 — 早場補跑窗口
     - cron: '0 7 * * *'    # TW 15:00 — 午場補跑窗口
     - cron: '0 8 * * *'    # TW 16:00 — 下午補跑窗口
@@ -68,19 +67,17 @@ jobs:
             fi
           }
 
-          # ── 早場（TW 09-11，UTC 01-03）──────────────────────────────
-          if [ "$UTC_HOUR" -ge 1 ] && [ "$UTC_HOUR" -le 3 ]; then
-            echo "=== 早場補跑（TW 09-11） ==="
+          # ── 早場（TW 10-11，UTC 02-03）──────────────────────────────
+          # ⚠️ 不在 UTC 01:00（TW 09:00）補跑，避免與同時段 workflow 衝突造成重複
+          if [ "$UTC_HOUR" -ge 2 ] && [ "$UTC_HOUR" -le 3 ]; then
+            echo "=== 早場補跑（TW 10-11，早上 workflow 已完成後才補）==="
+            check_and_run "fb-post-news-morning.yml"
             check_and_run "fb-post-properties.yml"
             check_and_run "fb-post-news.yml"
             check_and_run "sync-properties.yml"
+            check_and_run "fb-post-news-video.yml"
             check_and_run "fb-interactive-post.yml"
             check_and_run "daily-blog-post.yml"
-            # fb-post-news-video 09:00 同時跑，UTC 01:00 不補（避免重複）
-            # 改由 UTC 02:00（TW 10:00）補跑
-            if [ "$UTC_HOUR" -ge 2 ]; then
-              check_and_run "fb-post-news-video.yml"
-            fi
 
           # ── 午場（TW 15，UTC 07）────────────────────────────────────
           elif [ "$UTC_HOUR" -eq 7 ]; then
