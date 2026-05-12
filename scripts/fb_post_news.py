@@ -611,12 +611,55 @@ def post_to_fb(text, img_bytes=None):
         print(f'[ERROR] {d}')
         sys.exit(1)
 
+POSTED_NEWS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'posted_news.json')
+
+def load_posted_news() -> set:
+    """載入已發過的新聞連結"""
+    try:
+        with open(POSTED_NEWS_FILE, 'r', encoding='utf-8') as f:
+            d = json.load(f)
+        today = datetime.date.today().isoformat()
+        # 只保留最近 30 天的紀錄
+        cutoff = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+        return {link for link, dt in d.items() if dt >= cutoff}
+    except Exception:
+        return set()
+
+def save_posted_news(link: str):
+    """記錄已發布的新聞連結"""
+    try:
+        d = {}
+        if os.path.exists(POSTED_NEWS_FILE):
+            with open(POSTED_NEWS_FILE, 'r', encoding='utf-8') as f:
+                d = json.load(f)
+        today = datetime.date.today().isoformat()
+        cutoff = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+        d = {k: v for k, v in d.items() if v >= cutoff}
+        d[link] = today
+        os.makedirs(os.path.dirname(POSTED_NEWS_FILE), exist_ok=True)
+        with open(POSTED_NEWS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(d, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f'[WARN] 無法儲存 posted_news.json: {e}')
+
 def main():
     news = fetch_news()
     if not news:
         print('[WARN] 無新聞資料，略過')
         sys.exit(0)
-    top = news[0]
+
+    # 跳過已發過的新聞
+    posted = load_posted_news()
+    top = None
+    for item in news:
+        if item['link'] not in posted:
+            top = item
+            break
+
+    if not top:
+        print('[WARN] 所有新聞都已發布過，略過')
+        sys.exit(0)
+
     print(f'今日新聞（第1則）：{top["title"]}')
     text = make_post(top['title'], top['link'], top['source'])
 
@@ -625,6 +668,9 @@ def main():
     img_bytes = fetch_og_image(top['link'])
 
     post_to_fb(text, img_bytes)
+
+    # 記錄已發布
+    save_posted_news(top['link'])
 
 if __name__ == '__main__':
     main()
