@@ -25,3 +25,11 @@ jobs:
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+
+      - name: 儲存已發新聞紀錄（防重複）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/posted_news.json
+          git diff --staged --quiet || git commit -m "chore: 更新已發新聞紀錄 [skip ci]"
+          git push
