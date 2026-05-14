@@ -611,36 +611,27 @@ def post_to_fb(text, img_bytes=None):
         print(f'[ERROR] {d}')
         sys.exit(1)
 
-POSTED_NEWS_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'posted_news.json')
-
-def load_posted_news() -> set:
-    """載入已發過的新聞連結"""
+def get_today_posted_links() -> set:
+    """直接查 FB API，取得今天已發過的新聞連結（最可靠，不依賴任何檔案）"""
+    posted = set()
     try:
-        with open(POSTED_NEWS_FILE, 'r', encoding='utf-8') as f:
-            d = json.load(f)
-        today = datetime.date.today().isoformat()
-        # 只保留最近 30 天的紀錄
-        cutoff = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
-        return {link for link, dt in d.items() if dt >= cutoff}
-    except Exception:
-        return set()
-
-def save_posted_news(link: str):
-    """記錄已發布的新聞連結"""
-    try:
-        d = {}
-        if os.path.exists(POSTED_NEWS_FILE):
-            with open(POSTED_NEWS_FILE, 'r', encoding='utf-8') as f:
-                d = json.load(f)
-        today = datetime.date.today().isoformat()
-        cutoff = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
-        d = {k: v for k, v in d.items() if v >= cutoff}
-        d[link] = today
-        os.makedirs(os.path.dirname(POSTED_NEWS_FILE), exist_ok=True)
-        with open(POSTED_NEWS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(d, f, ensure_ascii=False, indent=2)
+        today_str = datetime.date.today().isoformat()  # e.g. 2026-05-14
+        r = requests.get(
+            f'https://graph.facebook.com/v19.0/{PAGE_ID}/posts',
+            params={'fields': 'message,created_time', 'limit': 20, 'access_token': TOKEN},
+            timeout=10
+        )
+        for post in r.json().get('data', []):
+            if post.get('created_time', '')[:10] != today_str:
+                continue
+            msg = post.get('message', '')
+            # 從貼文內容抽出連結
+            for word in msg.split():
+                if word.startswith('http'):
+                    posted.add(word.rstrip('）)】\n'))
     except Exception as e:
-        print(f'[WARN] 無法儲存 posted_news.json: {e}')
+        print(f'[WARN] 無法查詢已發貼文：{e}')
+    return posted
 
 def main():
     news = fetch_news()
@@ -648,19 +639,21 @@ def main():
         print('[WARN] 無新聞資料，略過')
         sys.exit(0)
 
-    # 跳過已發過的新聞
-    posted = load_posted_news()
+    # 查今天 FB 已發過的連結，跳過重複
+    posted_today = get_today_posted_links()
+    print(f'[INFO] 今天已發連結數：{len(posted_today)}')
+
     top = None
     for item in news:
-        if item['link'] not in posted:
+        if item['link'] not in posted_today:
             top = item
             break
 
     if not top:
-        print('[WARN] 所有新聞都已發布過，略過')
+        print('[SKIP] 今天所有新聞都已發布過，略過')
         sys.exit(0)
 
-    print(f'今日新聞（第1則）：{top["title"]}')
+    print(f'今日新聞：{top["title"]}')
     text = make_post(top['title'], top['link'], top['source'])
 
     # 直接抓新聞文章的 OG 圖片（不合成，不自製海報）
@@ -668,9 +661,6 @@ def main():
     img_bytes = fetch_og_image(top['link'])
 
     post_to_fb(text, img_bytes)
-
-    # 記錄已發布
-    save_posted_news(top['link'])
 
 if __name__ == '__main__':
     main()
