@@ -34,6 +34,9 @@ export const metadata: Metadata = {
       'application/rss+xml': `${SITE_URL}/feed`,
     },
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION ?? '',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
