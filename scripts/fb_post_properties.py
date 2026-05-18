@@ -226,9 +226,10 @@ def post_to_fb(text, image_url=None):
     url = f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos" if image_url else \
           f"https://graph.facebook.com/v19.0/{PAGE_ID}/feed"
 
-    payload = {'access_token': TOKEN, 'message': text}
     if image_url:
-        payload['url'] = image_url
+        payload = {'access_token': TOKEN, 'caption': text, 'url': image_url, 'published': 'true'}
+    else:
+        payload = {'access_token': TOKEN, 'message': text}
 
     r = requests.post(url, data=payload, timeout=30)
     result = r.json()

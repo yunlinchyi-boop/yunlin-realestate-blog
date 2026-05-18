@@ -105,7 +105,7 @@ def post_to_fb(text: str, img_bytes: bytes | None = None) -> None:
     if img_bytes:
         r = requests.post(
             f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos",
-            data={"message": text, "access_token": TOKEN},
+            data={"caption": text, "published": "true", "access_token": TOKEN},
             files={"source": ("news.jpg", img_bytes, "image/jpeg")},
             timeout=60,
         )

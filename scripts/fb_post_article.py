@@ -109,38 +109,21 @@ def build_article_post(article: dict) -> tuple[str, str]:
     return post, url
 
 
-def upload_photo_unpublished(page_id: str, access_token: str, img_url: str) -> str:
-    """先上傳圖片（不發布），取得 photo_id"""
-    try:
-        r = requests.post(
-            f'https://graph.facebook.com/v19.0/{page_id}/photos',
-            data={'url': img_url, 'published': 'false', 'access_token': access_token},
-            timeout=20
-        )
-        return r.json().get('id', '')
-    except Exception:
-        return ''
-
-
 def post_to_fb(page_id: str, access_token: str, message: str, link: str = '', img_url: str = '') -> bool:
-    feed_url = f'https://graph.facebook.com/v19.0/{page_id}/feed'
-    payload = {'message': message, 'access_token': access_token}
-
-    if img_url:
-        # 附圖發文（不加 link preview，FB 不允許同時有附圖和 link）
-        photo_id = upload_photo_unpublished(page_id, access_token, img_url)
-        if photo_id:
-            payload['attached_media'] = f'[{{"media_fbid":"{photo_id}"}}]'
-            print(f'  📷 圖片上傳成功 photo_id={photo_id}')
-        else:
-            print('  ⚠️  圖片上傳失敗，改為純文字+連結')
-            if link:
-                payload['link'] = link
-    elif link:
-        payload['link'] = link
-
     try:
-        r = requests.post(feed_url, data=payload, timeout=15)
+        if img_url:
+            # 附圖發文：直接用 /photos + url 參數，published=true 確保外部可見
+            r = requests.post(
+                f'https://graph.facebook.com/v19.0/{page_id}/photos',
+                data={'caption': message, 'url': img_url, 'published': 'true', 'access_token': access_token},
+                timeout=30
+            )
+        else:
+            r = requests.post(
+                f'https://graph.facebook.com/v19.0/{page_id}/feed',
+                data={'message': message, 'link': link, 'access_token': access_token},
+                timeout=15
+            )
         data = r.json()
         if 'id' in data:
             print(f'  ✅ 房市文章發文成功！貼文 ID：{data["id"]}')

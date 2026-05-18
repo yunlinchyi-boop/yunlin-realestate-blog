@@ -588,7 +588,7 @@ def post_to_fb(text, img_bytes=None):
         # 附圖發文（直接上傳 bytes，不需圖片託管）
         r = requests.post(
             f'https://graph.facebook.com/v19.0/{PAGE_ID}/photos',
-            data={'message': text, 'access_token': TOKEN},
+            data={'caption': text, 'published': 'true', 'access_token': TOKEN},
             files={'source': ('news.png', img_bytes, 'image/png')},
             timeout=60
         )
