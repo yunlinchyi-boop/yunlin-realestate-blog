@@ -83,11 +83,6 @@ def build_article_post(article: dict) -> tuple[str, str]:
     hashtags = ' '.join(f'#{t.replace(" ", "")}' for t in tags) if tags else '#雲林房市 #房市分析'
     hashtags += ' #群義房屋雲科店 #斗六買房'
 
-    encoded_url = urllib.parse.quote(url, safe='')
-    encoded_title = urllib.parse.quote(title, safe='')
-    line_share = f'https://social-plugins.line.me/lineit/share?url={encoded_url}'
-    twitter_share = f'https://twitter.com/intent/tweet?url={encoded_url}&text={encoded_title}'
-
     post = f"""📊【今日房市分析】
 
 {title}
@@ -95,10 +90,6 @@ def build_article_post(article: dict) -> tuple[str, str]:
 {desc}
 
 🔗 完整內文：{url}
-
-📲 分享給朋友：
-　LINE → {line_share}
-　X / Twitter → {twitter_share}
 
 ——————————————
 {STORE_INFO}

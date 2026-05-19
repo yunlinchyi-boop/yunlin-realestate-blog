@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { Playfair_Display, Noto_Sans_TC } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import Image from 'next/image';
-import MobileNav from '@/components/MobileNav';
+import ScrollNavbar from '@/components/ScrollNavbar';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -47,36 +46,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* ── 頂部綠色細條 ── */}
         <div style={{ height: 4, background: '#2AA02A' }} />
 
-        {/* ── 導覽列 ── */}
-        <header className="sticky top-0 z-50" style={{
-          background: '#3CB83C',
-          backdropFilter: 'blur(8px)',
-        }}>
-          <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-
-            {/* Logo 圖片 */}
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/images/logo-chyi.png"
-                alt="群義房屋"
-                width={200}
-                height={68}
-                style={{ objectFit: 'contain', height: 58, width: 'auto' }}
-                priority
-              />
-            </Link>
-
-            {/* 導覽連結 */}
-            <nav className="hidden md:flex items-center gap-8">
-              <Link href="/blog" className="nav-link-white">房市專欄</Link>
-              <Link href="/about" className="nav-link-white">關於我們</Link>
-              <a href="tel:055362808" className="btn-consult-red">立即諮詢</a>
-            </nav>
-
-            {/* 手機版漢堡選單 */}
-            <MobileNav />
-          </div>
-        </header>
+        {/* ── 導覽列（含捲動陰影）── */}
+        <ScrollNavbar />
 
         <div className="flex-1">{children}</div>
 

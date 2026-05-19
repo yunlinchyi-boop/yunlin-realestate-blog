@@ -5,6 +5,8 @@ import { getPosts, formatDateTW } from '@/lib/posts';
 import PropertyFilter from '@/components/PropertyFilter';
 import FeaturedWeeklySection from '@/components/FeaturedWeeklySection';
 import AccordionFAQ from '@/components/AccordionFAQ';
+import HeroContent from '@/components/HeroContent';
+import AnimatedSection, { StaggerContainer, StaggerItem } from '@/components/AnimatedSection';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -123,64 +125,14 @@ export default function HomePage() {
         <div className="absolute inset-0" style={{
           background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%)'
         }} />
-
-        {/* 主文字 */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ flex: 1, paddingTop: 80, paddingBottom: 40 }}>
-          <div className="inline-block mb-5 px-4 py-1.5 text-xs font-bold tracking-widest uppercase"
-            style={{ background: '#CC1122', color: '#FFFFFF', letterSpacing: '0.25em' }}>
-            雲林 · 斗六在地房仲
-          </div>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 6vw, 4rem)',
-            fontFamily: 'var(--font-playfair)',
-            color: '#FFFFFF', fontWeight: 700,
-            lineHeight: 1.15, letterSpacing: '0.05em', marginBottom: 16
-          }}>
-            群義房屋<br />雲林雲科加盟店
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.8rem', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: 32 }}>
-            Chyi Real Estate · Yunlin
-          </p>
-          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.95rem', marginBottom: 40, letterSpacing: '0.08em' }}>
-            透天・土地・農地・廠房｜免費諮詢・不推銷
-          </p>
-          <div className="flex gap-4 flex-wrap justify-center">
-            <a href="tel:055362808" className="btn-red" style={{ fontSize: '0.9rem', padding: '13px 36px' }}>立即致電 05-5362808</a>
-            <Link href="/blog" className="btn-navy-outline" style={{ borderColor: 'rgba(255,255,255,0.5)', color: '#FFFFFF' }}>房市專欄</Link>
-          </div>
-
-          {/* 向下滾動提示 */}
-          <div style={{ marginTop: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase' }}>Scroll</p>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2"
-              style={{ animation: 'bounce 1.8s ease-in-out infinite' }}>
-              <path d="M12 5v14M5 12l7 7 7-7" />
-            </svg>
-          </div>
-        </div>
         <style>{`@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }`}</style>
-
-        {/* 底部三欄數據條 */}
-        <div className="relative z-10" style={{ background: 'rgba(0,0,0,0.45)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <div className="max-w-6xl mx-auto grid grid-cols-3" >
-            {[
-              { num: '10+', label: '年在地深耕' },
-              { num: '42', label: '筆精選物件' },
-              { num: '免費', label: '帶看・不推銷' },
-            ].map((s, i) => (
-              <div key={i} className="text-center py-5" style={{ borderRight: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
-                <p style={{ color: '#FFFFFF', fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', fontWeight: 700, fontFamily: 'var(--font-playfair)', marginBottom: 2 }}>{s.num}</p>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', letterSpacing: '0.1em' }}>{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <HeroContent />
       </section>
 
       {/* ── 每日房市專欄 ── */}
       <section style={{ background: '#FFFFFF', padding: '72px 24px' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
+          <AnimatedSection className="flex items-end justify-between mb-10">
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                 <div style={{ width: 4, height: 24, background: '#CC1122' }} />
@@ -193,49 +145,53 @@ export default function HomePage() {
               </h2>
             </div>
             <Link href="/blog" className="link-navy">查看全部</Link>
-          </div>
+          </AnimatedSection>
 
           {latestNews.length === 0 ? (
             <p style={{ color: '#767676', textAlign: 'center', padding: '60px 0' }}>文章準備中，敬請期待...</p>
           ) : (
-            <div className="grid md:grid-cols-2 gap-5">
+            <StaggerContainer className="grid md:grid-cols-2 gap-5">
               {latestNews.map((post) => (
-                <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
-                  <article className="brand-card overflow-hidden">
-                    <div style={{ height: 4, background: '#1A6B35' }} />
-                    <div className="p-6">
-                      <div className="flex gap-2 mb-3 flex-wrap">
-                        {post.tags.slice(0, 2).map(tag => (
-                          <span key={tag} style={{
-                            background: '#EBF5EF', color: '#1A6B35',
-                            fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
-                          }}>{tag}</span>
-                        ))}
+                <StaggerItem key={post.slug}>
+                  <Link href={`/blog/${encodeURIComponent(post.slug)}`}>
+                    <article className="brand-card overflow-hidden">
+                      <div style={{ height: 4, background: '#1A6B35' }} />
+                      <div className="p-6">
+                        <div className="flex gap-2 mb-3 flex-wrap">
+                          {post.tags.slice(0, 2).map(tag => (
+                            <span key={tag} style={{
+                              background: '#EBF5EF', color: '#1A6B35',
+                              fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
+                            }}>{tag}</span>
+                          ))}
+                        </div>
+                        <h3 className="post-title font-semibold leading-snug line-clamp-2"
+                          style={{ fontSize: '1rem', marginBottom: 10 }}>
+                          {post.title}
+                        </h3>
+                        {post.description && (
+                          <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
+                            className="line-clamp-2">
+                            {post.description}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                          <span style={{ color: '#1A6B35', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
+                        </div>
                       </div>
-                      <h3 className="post-title font-semibold leading-snug line-clamp-2"
-                        style={{ fontSize: '1rem', marginBottom: 10 }}>
-                        {post.title}
-                      </h3>
-                      {post.description && (
-                        <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
-                          className="line-clamp-2">
-                          {post.description}
-                        </p>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
-                        <span style={{ color: '#1A6B35', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>閱讀 →</span>
-                      </div>
-                    </div>
-                  </article>
-                </Link>
+                    </article>
+                  </Link>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           )}
 
-          <Link href="/blog" className="btn-all-posts mt-6">
-            瀏覽所有房市文章
-          </Link>
+          <AnimatedSection delay={0.2}>
+            <Link href="/blog" className="btn-all-posts mt-6">
+              瀏覽所有房市文章
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
 
@@ -243,7 +199,7 @@ export default function HomePage() {
       {latestPropertyPosts.length > 0 && (
         <section style={{ background: '#FFFFFF', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
           <div className="max-w-6xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
+            <AnimatedSection className="flex items-end justify-between mb-10">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                   <div style={{ width: 4, height: 24, background: '#CC1122' }} />
@@ -257,40 +213,42 @@ export default function HomePage() {
                 <p style={{ color: '#767676', fontSize: '0.75rem', marginTop: 4 }}>每日精選物件深度介紹</p>
               </div>
               <Link href="/blog" className="link-navy">查看全部</Link>
-            </div>
-            <div className="grid md:grid-cols-2 gap-5">
+            </AnimatedSection>
+            <StaggerContainer className="grid md:grid-cols-2 gap-5">
               {latestPropertyPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${encodeURIComponent(post.slug)}`}>
-                  <article className="brand-card overflow-hidden">
-                    <div style={{ height: 4, background: '#CC1122' }} />
-                    <div className="p-6">
-                      <div className="flex gap-2 mb-3 flex-wrap">
-                        {post.tags.slice(0, 2).map(tag => (
-                          <span key={tag} style={{
-                            background: '#FFF0F0', color: '#CC1122',
-                            fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
-                          }}>{tag}</span>
-                        ))}
+                <StaggerItem key={post.slug}>
+                  <Link href={`/blog/${encodeURIComponent(post.slug)}`}>
+                    <article className="brand-card overflow-hidden">
+                      <div style={{ height: 4, background: '#CC1122' }} />
+                      <div className="p-6">
+                        <div className="flex gap-2 mb-3 flex-wrap">
+                          {post.tags.slice(0, 2).map(tag => (
+                            <span key={tag} style={{
+                              background: '#FFF0F0', color: '#CC1122',
+                              fontSize: '0.6rem', padding: '3px 10px', fontWeight: 600, letterSpacing: '0.05em'
+                            }}>{tag}</span>
+                          ))}
+                        </div>
+                        <h3 className="post-title font-semibold leading-snug line-clamp-2"
+                          style={{ fontSize: '1rem', marginBottom: 10 }}>
+                          {post.title}
+                        </h3>
+                        {post.description && (
+                          <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
+                            className="line-clamp-2">
+                            {post.description}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
+                          <span style={{ color: '#CC1122', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>查看物件 →</span>
+                        </div>
                       </div>
-                      <h3 className="post-title font-semibold leading-snug line-clamp-2"
-                        style={{ fontSize: '1rem', marginBottom: 10 }}>
-                        {post.title}
-                      </h3>
-                      {post.description && (
-                        <p style={{ color: '#767676', fontSize: '0.82rem', lineHeight: 1.7, marginBottom: 16 }}
-                          className="line-clamp-2">
-                          {post.description}
-                        </p>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <p style={{ color: '#AAAAAA', fontSize: '0.72rem' }}>{formatDateTW(post.date)}</p>
-                        <span style={{ color: '#CC1122', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.1em' }}>查看物件 →</span>
-                      </div>
-                    </div>
-                  </article>
-                </Link>
+                    </article>
+                  </Link>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </section>
       )}
@@ -302,7 +260,7 @@ export default function HomePage() {
       {allProperties.length > 0 && (
         <section style={{ background: '#F7F6F4', padding: '72px 24px' }}>
           <div className="max-w-6xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
+            <AnimatedSection className="flex items-end justify-between mb-10">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                   <div style={{ width: 4, height: 24, background: '#1A6B35' }} />
@@ -319,8 +277,10 @@ export default function HomePage() {
                 className="link-official">
                 官網查看全部
               </a>
-            </div>
-            <PropertyFilter properties={allProperties} types={types} />
+            </AnimatedSection>
+            <AnimatedSection delay={0.1}>
+              <PropertyFilter properties={allProperties} types={types} />
+            </AnimatedSection>
           </div>
         </section>
       )}
@@ -328,10 +288,11 @@ export default function HomePage() {
       {/* ── 常見問題 FAQ ── */}
       <section style={{ background: '#F7F6F4', padding: '72px 24px', borderTop: '1px solid #E5E5E5' }}>
         <div className="max-w-3xl mx-auto">
-          <div className="text-center" style={{ marginBottom: 48 }}>
+          <AnimatedSection className="text-center" style={{ marginBottom: 48 }}>
             <p style={{ color: '#CC1122', fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 12 }}>FAQ</p>
             <h2 style={{ color: '#1A1A1A', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '0.05em' }}>常見問題</h2>
-          </div>
+          </AnimatedSection>
+          <AnimatedSection delay={0.15}>
           <AccordionFAQ items={[
             { q: '雲林斗六透天厝大概多少錢？', a: '斗六透天厝目前行情約 600～1,500 萬，市中心精華區或新建案較高，郊區則較為親民。實際價格依坪數、屋齡、地點而有所不同，歡迎來電免費諮詢。' },
             { q: '雲林農地怎麼買？有什麼注意事項？', a: '購買農地需確認地目（農牧/林業用地）、農地農用規定、灌溉水源，並查詢是否有工業污染紀錄。群義房屋提供免費農地諮詢，協助確認產權，避免風險。' },
@@ -339,6 +300,7 @@ export default function HomePage() {
             { q: '斗六買房流程是什麼？', a: '確認預算 → 看物件議價 → 簽約 → 辦理貸款 → 產權調查 → 過戶 → 交屋。群義房屋全程陪伴，代書、貸款媒合一站完成。' },
             { q: '群義房屋的服務費怎麼計算？', a: '依不動產經紀業管理條例，買賣雙方各付成交價 1%（最高 2%）。我們透明報價，成交前先說明清楚。初次諮詢完全免費，歡迎電話聯絡：05-5362808。' },
           ]} />
+          </AnimatedSection>
         </div>
       </section>
 

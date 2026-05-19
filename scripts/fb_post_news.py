@@ -152,13 +152,6 @@ def analyze_content_for_image(title: str, content: str) -> dict:
     return {'query': query, 'colors': colors, 'bullets': bullets}
 
 def make_post(title, link, source):
-    import urllib.parse
-    encoded_link = urllib.parse.quote(link, safe='') if link else ''
-    encoded_title = urllib.parse.quote(title, safe='')
-    line_share = f'https://social-plugins.line.me/lineit/share?url={encoded_link}' if link else ''
-    twitter_share = f'https://twitter.com/intent/tweet?url={encoded_link}&text={encoded_title}' if link else ''
-    share_block = f'\n📲 分享給朋友：\n　LINE → {line_share}\n　X / Twitter → {twitter_share}' if link else ''
-
     templates = [
         f"""📰 今日房市重點
 
@@ -170,7 +163,7 @@ def make_post(title, link, source):
 • 現在掌握資訊，才能做對決策
 
 有問題歡迎私訊，免費諮詢 😊
-{('🔗 完整分析：' + link) if link else ''}{share_block}
+{('🔗 完整分析：' + link) if link else ''}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
@@ -185,7 +178,7 @@ def make_post(title, link, source):
 身為雲林在地房仲，我們幫你看懂市場！
 
 💬 有疑問歡迎私訊，不推銷、純諮詢
-{('🔗 完整分析：' + link) if link else ''}{share_block}
+{('🔗 完整分析：' + link) if link else ''}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
@@ -201,7 +194,7 @@ def make_post(title, link, source):
 • 雲林房市溫和穩健，自住好時機
 • 免費諮詢，不推銷
 
-{('🔗 ' + link) if link else ''}{share_block}
+{('🔗 ' + link) if link else ''}
 
 ➖➖➖➖➖➖➖➖
 {STORE_INFO}
