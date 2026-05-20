@@ -5,6 +5,10 @@ on:
     - cron: '30 0 * * *'  # 目標 TW 08:30（UTC 22:30 前一天，提前2小時補延遲）
   workflow_dispatch:
 
+concurrency:
+  group: fb-post-news
+  cancel-in-progress: false
+
 jobs:
   post:
     runs-on: ubuntu-latest
