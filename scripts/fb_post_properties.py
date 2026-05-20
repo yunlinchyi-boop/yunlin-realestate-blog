@@ -107,7 +107,8 @@ def make_post_text(prop):
 
     m = _re.match(r'^(.{2,4}?[鄉鎮市區])', addr or '')
     area_short = m.group(1) if m else (addr[:5] if addr else '雲林')
-    is_land = prop_type in ('土地', '農地', '廠房', '建地')
+    is_land = prop_type in ('土地', '農地', '廠房', '建地') or \
+              (prop_type in ('其他', '') and any(k in title for k in ('農地', '建地', '土地', '廠房', '地')))
 
     TAGS = {
         '透天': '#群義房屋雲科店 #雲林房地產 #房地產推薦 #斗六買房 #透天別墅',

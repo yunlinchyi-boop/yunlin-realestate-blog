@@ -26,8 +26,18 @@ def parse_text(text, title, link, img):
     # 型態（透天/公寓/大樓等）
     type_m = re.search(r'型態\s*([\u4e00-\u9fff]+)', text)
     if not type_m:
-        type_m = re.search(r'透天|公寓|大樓|別墅|廠房|農地|土地|店面|華廈', text)
+        type_m = re.search(r'透天|公寓|大樓|別墅|廠房|農地|建地|土地|店面|華廈', text)
         ptype = type_m.group(0) if type_m else ''
+    # 型態為空或「其他」時，從標題補判
+    if not ptype or ptype == '其他':
+        if re.search(r'農地|田', text[:50]):
+            ptype = '農地'
+        elif re.search(r'建地', text[:50]):
+            ptype = '建地'
+        elif re.search(r'廠房|工業', text[:50]):
+            ptype = '廠房'
+        elif re.search(r'土地', text[:50]):
+            ptype = '土地'
     else:
         ptype = type_m.group(1).strip()
 
