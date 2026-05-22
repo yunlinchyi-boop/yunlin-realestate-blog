@@ -118,13 +118,14 @@ def upload_to_r2(file_path, key, file_type):
         raise Exception(f'取得預簽URL失敗：{d}')
 
     upload_url = d['data']['uploadUrl']
-    public_url = d['data'].get('publicUrl') or upload_url.split('?')[0]
+    # publicUrl 不存在時，用帶簽名的 presigned URL（A2E server 可存取）
+    public_url = d['data'].get('publicUrl') or upload_url
 
     # 上傳
     with open(file_path, 'rb') as f:
         requests.put(upload_url, data=f,
                      headers={'Content-Type': file_type}, timeout=60)
-    print(f'[OK] 上傳完成：{public_url[:60]}...')
+    print(f'[OK] 上傳完成：{public_url[:80]}...')
     return public_url
 
 # ── A2E.ai 生成影片 ──────────────────────────────

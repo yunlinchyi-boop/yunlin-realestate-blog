@@ -28,6 +28,8 @@ def parse_text(text, title, link, img):
     if not type_m:
         type_m = re.search(r'透天|公寓|大樓|別墅|廠房|農地|建地|土地|店面|華廈', text)
         ptype = type_m.group(0) if type_m else ''
+    else:
+        ptype = type_m.group(1).strip()
     # 型態為空或「其他」時，從標題補判
     if not ptype or ptype == '其他':
         if re.search(r'農地|田', text[:50]):
@@ -38,8 +40,6 @@ def parse_text(text, title, link, img):
             ptype = '廠房'
         elif re.search(r'土地', text[:50]):
             ptype = '土地'
-    else:
-        ptype = type_m.group(1).strip()
 
     # 格局
     layout_m = re.search(r'格局\s*([\d]+房[^\n]+)', text)
