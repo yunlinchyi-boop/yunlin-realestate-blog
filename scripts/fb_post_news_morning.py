@@ -102,6 +102,11 @@ def post_to_fb(text: str, img_bytes: bytes | None = None) -> None:
         print("[ERROR] 缺少 FB_ACCESS_TOKEN 環境變數", file=sys.stderr)
         sys.exit(1)
 
+    # 圖片驗證：小於 30KB 或非 JPEG/PNG 視為無效，改純文字
+    if img_bytes and (len(img_bytes) < 30 * 1024 or not img_bytes[:3] in (b'\xff\xd8\xff', b'\x89PN')):
+        print(f"[WARN] 圖片無效（{len(img_bytes)//1024}KB），改用純文字發文")
+        img_bytes = None
+
     if img_bytes:
         r = requests.post(
             f"https://graph.facebook.com/v19.0/{PAGE_ID}/photos",
@@ -109,16 +114,22 @@ def post_to_fb(text: str, img_bytes: bytes | None = None) -> None:
             files={"source": ("news.jpg", img_bytes, "image/jpeg")},
             timeout=60,
         )
-    else:
-        r = requests.post(
-            f"https://graph.facebook.com/v19.0/{PAGE_ID}/feed",
-            data={"message": text, "access_token": TOKEN},
-            timeout=30,
-        )
+        d = r.json()
+        if "id" in d:
+            print(f"[OK] 發文成功 ID={d['id']}（含圖）")
+            return
+        else:
+            print(f"[WARN] 含圖發文失敗（{d}），改用純文字重試")
 
+    # 純文字發文（含圖失敗時的 fallback）
+    r = requests.post(
+        f"https://graph.facebook.com/v19.0/{PAGE_ID}/feed",
+        data={"message": text, "access_token": TOKEN},
+        timeout=30,
+    )
     d = r.json()
     if "id" in d:
-        print(f"[OK] 發文成功 ID={d['id']}（{'含圖' if img_bytes else '純文字'}）")
+        print(f"[OK] 發文成功 ID={d['id']}（純文字）")
     else:
         print(f"[ERROR] {d}", file=sys.stderr)
         sys.exit(1)
