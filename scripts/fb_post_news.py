@@ -627,7 +627,7 @@ def get_today_posted_links() -> set:
     return posted
 
 def check_token_expiry():
-    """檢查 data_access_expires_at，提前14天警告"""
+    """檢查 data_access_expires_at — 僅印 log，警告由 check-fb-token.yml 每週發 email"""
     if not PAGE_ID or not TOKEN:
         return
     try:
@@ -643,12 +643,9 @@ def check_token_expiry():
         if expires_at:
             import time
             days_left = int((expires_at - time.time()) / 86400)
-            if days_left <= 14:
-                print(f'[⚠️ TOKEN警告] data_access 將在 {days_left} 天後到期，請重新授權！')
-            else:
-                print(f'[OK] Token data_access 有效，剩餘 {days_left} 天')
-    except Exception as e:
-        print(f'[WARN] Token 檢查失敗：{e}')
+            print(f'[Token] data_access 剩餘 {days_left} 天')
+    except Exception:
+        pass  # 不影響發文流程
 
 def main():
     check_token_expiry()

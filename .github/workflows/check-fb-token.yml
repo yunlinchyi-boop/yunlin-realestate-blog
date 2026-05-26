@@ -1,0 +1,88 @@
+name: 每週檢查 FB Token 到期
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'  # 每週一 TW 09:00（UTC 01:00）
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 設定 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: pip install requests
+
+      - name: 檢查 FB Token 到期狀態
+        id: token_check
+        run: |
+          python - <<'EOF'
+          import requests, sys, os, time
+
+          TOKEN    = os.environ.get('FB_ACCESS_TOKEN', '')
+          APP_ID   = '1743055436664534'
+          APP_SECRET = os.environ.get('FB_APP_SECRET', '69e072261ccfc3e5120459056e7527d6')
+
+          if not TOKEN:
+              print('無 Token，跳過')
+              sys.exit(0)
+
+          r = requests.get(
+              'https://graph.facebook.com/v19.0/debug_token',
+              params={'input_token': TOKEN, 'access_token': f'{APP_ID}|{APP_SECRET}'},
+              timeout=10
+          )
+          data = r.json().get('data', {})
+          expires_at = data.get('data_access_expires_at', 0)
+
+          if not expires_at:
+              print('Token 永久有效或無法查詢到期日')
+              sys.exit(0)
+
+          days_left = int((expires_at - time.time()) / 86400)
+          print(f'FB Token data_access 剩餘 {days_left} 天')
+
+          if days_left <= 14:
+              print(f'::warning::FB Token 將在 {days_left} 天後到期！請執行 token_server.py 重新授權')
+              # 寫入 output 供後續步驟判斷
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write(f'days_left={days_left}\n')
+                  f.write('expiring=true\n')
+          else:
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write(f'days_left={days_left}\n')
+                  f.write('expiring=false\n')
+          EOF
+        env:
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+
+      - name: 寄送到期警告 Email
+        if: steps.token_check.outputs.expiring == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USER }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          to: yunlin.chyi@gmail.com
+          from: 群義房屋自動系統
+          subject: "⚠️ FB Token 即將到期（剩 ${{ steps.token_check.outputs.days_left }} 天）"
+          body: |
+            群義房屋 FB 自動發文系統通知：
+
+            FB Token 的 data_access 將在 ${{ steps.token_check.outputs.days_left }} 天後到期。
+
+            請執行以下步驟重新授權：
+            1. 開啟 Claude Code
+            2. 執行 token_server.py
+            3. 執行 get_fb_token_simple.py
+            4. 更新 GitHub Secrets（FB_ACCESS_TOKEN）
+
+            ─────────────────
+            群義房屋雲科店自動系統

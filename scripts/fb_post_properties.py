@@ -64,7 +64,7 @@ def pick_one(props):
     return props[idx]
 
 def check_token_expiry():
-    """檢查 data_access_expires_at，提前14天警告"""
+    """檢查 data_access_expires_at — 僅印 log，警告由 check-fb-token.yml 每週發 email"""
     if not PAGE_ID or not TOKEN:
         return
     try:
@@ -78,15 +78,11 @@ def check_token_expiry():
         data = r.json().get('data', {})
         expires_at = data.get('data_access_expires_at', 0)
         if expires_at:
-            now = datetime.datetime.utcnow().timestamp()
-            days_left = int((expires_at - now) / 86400)
-            if days_left <= 14:
-                print(f'[⚠️ TOKEN警告] data_access 將在 {days_left} 天後到期，請重新授權！')
-                print(f'[⚠️ TOKEN警告] 執行 token_server.py + get_fb_token_simple.py 更新')
-            else:
-                print(f'[OK] Token data_access 有效，剩餘 {days_left} 天')
-    except Exception as e:
-        print(f'[WARN] Token 檢查失敗：{e}')
+            import time
+            days_left = int((expires_at - time.time()) / 86400)
+            print(f'[Token] data_access 剩餘 {days_left} 天')
+    except Exception:
+        pass  # 不影響發文流程
 
 def already_posted_today(title):
     """查今天 FB 是否已有同物件貼文，避免重複發送"""
