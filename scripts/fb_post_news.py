@@ -626,7 +626,32 @@ def get_today_posted_links() -> set:
         print(f'[WARN] 無法查詢已發貼文：{e}')
     return posted
 
+def check_token_expiry():
+    """檢查 data_access_expires_at，提前14天警告"""
+    if not PAGE_ID or not TOKEN:
+        return
+    try:
+        app_id = '1743055436664534'
+        app_secret = '69e072261ccfc3e5120459056e7527d6'
+        r = requests.get(
+            'https://graph.facebook.com/v19.0/debug_token',
+            params={'input_token': TOKEN, 'access_token': f'{app_id}|{app_secret}'},
+            timeout=10
+        )
+        data = r.json().get('data', {})
+        expires_at = data.get('data_access_expires_at', 0)
+        if expires_at:
+            import time
+            days_left = int((expires_at - time.time()) / 86400)
+            if days_left <= 14:
+                print(f'[⚠️ TOKEN警告] data_access 將在 {days_left} 天後到期，請重新授權！')
+            else:
+                print(f'[OK] Token data_access 有效，剩餘 {days_left} 天')
+    except Exception as e:
+        print(f'[WARN] Token 檢查失敗：{e}')
+
 def main():
+    check_token_expiry()
     news = fetch_news()
     if not news:
         print('[WARN] 無新聞資料，略過')

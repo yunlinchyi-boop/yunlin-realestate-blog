@@ -63,6 +63,31 @@ def pick_one(props):
     idx = (day_num * 4 + offset) % len(props)
     return props[idx]
 
+def check_token_expiry():
+    """檢查 data_access_expires_at，提前14天警告"""
+    if not PAGE_ID or not TOKEN:
+        return
+    try:
+        app_id = '1743055436664534'
+        app_secret = '69e072261ccfc3e5120459056e7527d6'
+        r = requests.get(
+            'https://graph.facebook.com/v19.0/debug_token',
+            params={'input_token': TOKEN, 'access_token': f'{app_id}|{app_secret}'},
+            timeout=10
+        )
+        data = r.json().get('data', {})
+        expires_at = data.get('data_access_expires_at', 0)
+        if expires_at:
+            now = datetime.datetime.utcnow().timestamp()
+            days_left = int((expires_at - now) / 86400)
+            if days_left <= 14:
+                print(f'[⚠️ TOKEN警告] data_access 將在 {days_left} 天後到期，請重新授權！')
+                print(f'[⚠️ TOKEN警告] 執行 token_server.py + get_fb_token_simple.py 更新')
+            else:
+                print(f'[OK] Token data_access 有效，剩餘 {days_left} 天')
+    except Exception as e:
+        print(f'[WARN] Token 檢查失敗：{e}')
+
 def already_posted_today(title):
     """查今天 FB 是否已有同物件貼文，避免重複發送"""
     if not PAGE_ID or not TOKEN:
@@ -103,11 +128,9 @@ def make_post_text(prop):
     prop_type = prop.get('type', '')
     link = prop.get('link', '')
 
-    # 只取前2-3字的縣市鄉鎮（避免抓到「特區」「地區」等）
-    m = _re.match(r'^(.{2,3}[縣市鄉鎮])', addr or '')
-    if not m:
-        m = _re.match(r'^(.{2,4}?[鄉鎮市])', addr or '')
-    area_short = m.group(1) if m else '雲林'
+    # 只取縣市層級（不顯示鄉鎮，避免地址過於精確）
+    m = _re.match(r'^(.{2,3}[縣市])', addr or '')
+    area_short = m.group(1) if m else '雲林縣'
     is_land = prop_type in ('土地', '農地', '廠房', '建地') or \
               (prop_type in ('其他', '') and any(k in title for k in ('農地', '建地', '土地', '廠房', '地')))
 
@@ -127,10 +150,10 @@ def make_post_text(prop):
         '建地': '合法建地，可自建或開發，地形方正易規劃。',
         '土地': f'{"雙面臨路角地，" if "角" in title else ""}地段精華，投資自用兩相宜。',
         '廠房': '合法丁建用地，大型車輛進出順暢，產業鏈串聯便利。',
-        '透天': f'獨棟透天，土地持分完整，{"格局" + layout + "，" if layout else ""}自住換屋首選。',
-        '大樓': f'生活機能完善，{"格局" + layout + "，" if layout else ""}管理維護佳。',
-        '公寓': f'格局方正採光好{"，" + layout if layout else ""}，適合小家庭或首購族。',
-        '華廈': f'品質華廈，管理完善{"，" + layout if layout else ""}，鄰近商圈學區。',
+        '透天': '獨棟透天，土地持分完整，自住換屋首選。',
+        '大樓': '生活機能完善，管理維護佳，交通四通八達。',
+        '公寓': '格局方正採光好，社區環境清幽，適合小家庭或首購族。',
+        '華廈': '品質華廈，管理完善，鄰近商圈學區。',
     }
     feature = FEATURE.get(prop_type, '物件條件優越，保值增值潛力佳，歡迎來電洽詢。')
 
@@ -198,6 +221,7 @@ def post_to_fb(text, image_url=None):
         return False
 
 def main():
+    check_token_expiry()
     props = load_properties()
     if not props:
         print("[WARN] 無物件資料")
