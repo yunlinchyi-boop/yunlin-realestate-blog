@@ -182,9 +182,42 @@ def _post_as_reel(video_path, desc):
     else:
         print(f'[WARN] Reels 發布失敗（不影響一般貼文）：{d3}')
 
+def get_today_posted_video_links() -> set:
+    """查 FB API 今天已發過的連結（防重複）"""
+    posted = set()
+    if not TOKEN or not PAGE_ID:
+        return posted
+    try:
+        today_str = datetime.date.today().isoformat()
+        r = requests.get(
+            f'https://graph.facebook.com/v19.0/{PAGE_ID}/posts',
+            params={'fields': 'message,created_time', 'limit': 20, 'access_token': TOKEN},
+            timeout=10
+        )
+        for post in r.json().get('data', []):
+            if post.get('created_time', '')[:10] != today_str:
+                continue
+            for word in (post.get('message', '') or '').split():
+                if word.startswith('http'):
+                    posted.add(word.rstrip('）)】\n'))
+    except Exception as e:
+        print(f'[WARN] 無法查詢已發貼文：{e}')
+    return posted
+
+
 async def main():
-    # 1. 取新聞
+    # 1. 取新聞，跳過今天已發過的連結
+    posted_today = get_today_posted_video_links()
+    print(f'[INFO] 今天已發連結數：{len(posted_today)}')
+
     title, link, source = fetch_news(rank=2)
+    if link in posted_today:
+        # rank=2 已發過，嘗試 rank=3
+        print(f'[SKIP] rank=2 連結已發過，改用 rank=3')
+        title, link, source = fetch_news(rank=3)
+    if link in posted_today:
+        print(f'[SKIP] 今天的新聞影片連結已全部發過，略過')
+        sys.exit(0)
     print(f'新聞（第2則）：{title}')
 
     with tempfile.TemporaryDirectory() as tmpdir:
