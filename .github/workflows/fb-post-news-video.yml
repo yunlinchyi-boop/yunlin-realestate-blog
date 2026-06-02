@@ -25,9 +25,6 @@ jobs:
       - name: 安裝套件
         run: pip install requests edge-tts imageio-ffmpeg
 
-      - name: 安裝 ffmpeg
-        run: sudo apt-get install -y --fix-missing ffmpeg
-
       - name: 產生語音影片並發布到 Facebook
         run: python scripts/fb_post_news_video.py
         env:
