@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29",
+  "updated": "2026-06-30",
   "total": 38,
   "items": [
     {
@@ -243,21 +243,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-653470T/?storeid=4759"
     },
     {
-      "no": "2594-519638T",
-      "title": "古坑棋盤農地",
-      "price": "248萬",
-      "addr": "雲林縣古坑鄉棋盤段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
-    },
-    {
       "no": "2594-169483N",
       "title": "古坑樟湖景觀農地",
       "price": "100萬",
@@ -271,6 +256,21 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/114/169483N_obj_256_17478158199234.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-169483N/?storeid=4759"
+    },
+    {
+      "no": "2594-519638T",
+      "title": "古坑棋盤農地",
+      "price": "248萬",
+      "addr": "雲林縣古坑鄉棋盤段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
     },
     {
       "no": "2594-544198C",
@@ -378,21 +378,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-694364M/?storeid=4759"
     },
     {
-      "no": "2594-897143Q",
-      "title": "竹山大面積林地",
-      "price": "4827.5萬",
-      "addr": "南投縣竹山鎮番子田段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/897143Q_obj_256_17212913645011.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
-    },
-    {
       "no": "2594-607095Y",
       "title": "竹山圓山茶園",
       "price": "2327萬",
@@ -408,10 +393,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
     },
     {
-      "no": "2594-321719B",
-      "title": "竹山天梯林地",
-      "price": "6880萬",
-      "addr": "南投縣竹山鎮嶺頂段",
+      "no": "2594-897143Q",
+      "title": "竹山大面積林地",
+      "price": "4827.5萬",
+      "addr": "南投縣竹山鎮番子田段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -419,8 +404,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/321719B_obj_256_17328465210189.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-321719B/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/897143Q_obj_256_17212913645011.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
     },
     {
       "no": "2594-281079Y",
@@ -436,6 +421,21 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/113/281079Y_obj_256_17186794381518.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-281079Y/?storeid=4759"
+    },
+    {
+      "no": "2594-321719B",
+      "title": "竹山天梯林地",
+      "price": "6880萬",
+      "addr": "南投縣竹山鎮嶺頂段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/113/321719B_obj_256_17328465210189.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-321719B/?storeid=4759"
     },
     {
       "no": "2594-766841U",
