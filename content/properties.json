@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-23",
+  "updated": "2026-08-24",
   "total": 34,
   "items": [
     {
@@ -78,21 +78,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-130279D/?storeid=4759"
     },
     {
-      "no": "2594-656382Q",
-      "title": "嘉義林森東路2+1樓透天",
-      "price": "850萬",
-      "addr": "嘉義市嘉義市林森東路",
-      "unit_price": "25.6萬/坪",
-      "layout": "5房+0室 3廳 2衛",
-      "build_ping": "33.15坪",
-      "land_ping": "",
-      "age": "45年",
-      "type": "透天",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/656382Q_obj_256_17472014794240.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-656382Q/?storeid=4759"
-    },
-    {
       "no": "2594-421011N",
       "title": "斗六公誠國小學區透天",
       "price": "688萬",
@@ -106,6 +91,21 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/114/421011N_obj_256_17512637370787.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-421011N/?storeid=4759"
+    },
+    {
+      "no": "2594-656382Q",
+      "title": "嘉義林森東路2+1樓透天",
+      "price": "850萬",
+      "addr": "嘉義市嘉義市林森東路",
+      "unit_price": "25.6萬/坪",
+      "layout": "5房+0室 3廳 2衛",
+      "build_ping": "33.15坪",
+      "land_ping": "",
+      "age": "45年",
+      "type": "透天",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/114/656382Q_obj_256_17472014794240.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-656382Q/?storeid=4759"
     },
     {
       "no": "2594-126628X",
@@ -198,21 +198,6 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-447517B/?storeid=4759"
     },
     {
-      "no": "2594-519638T",
-      "title": "古坑棋盤農地",
-      "price": "248萬",
-      "addr": "雲林縣古坑鄉棋盤段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
-    },
-    {
       "no": "2594-607095Y",
       "title": "竹山圓山茶園",
       "price": "2327萬",
@@ -226,66 +211,6 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/113/607095Y_obj_256_17240377487043.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-607095Y/?storeid=4759"
-    },
-    {
-      "no": "2594-882170S",
-      "title": "斗六嘉東特區建地",
-      "price": "650萬",
-      "addr": "斗六嘉東特區建地",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/882170S_obj_256_17775328647011.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-882170S/?storeid=4759"
-    },
-    {
-      "no": "2594-653470T",
-      "title": "古坑雙面路香蕉園農地",
-      "price": "439萬",
-      "addr": "雲林縣古坑鄉頂新庄段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/653470T_obj_256_17478077864722.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-653470T/?storeid=4759"
-    },
-    {
-      "no": "2594-492652B",
-      "title": "竹圍子雲科工業區旁農建地",
-      "price": "3228.78萬",
-      "addr": "竹圍子雲科工業區旁農建地",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/492652B_obj_256_17352847104182.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-492652B/?storeid=4759"
-    },
-    {
-      "no": "2594-897143Q",
-      "title": "竹山大面積林地",
-      "price": "4827.5萬",
-      "addr": "南投縣竹山鎮番子田段",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/897143Q_obj_256_17212913645011.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
     },
     {
       "no": "2594-348517V",
@@ -303,10 +228,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-348517V/?storeid=4759"
     },
     {
-      "no": "2594-643719U",
-      "title": "斗六社口商業區建地",
-      "price": "4888萬",
-      "addr": "斗六社口商業區建地",
+      "no": "2594-897143Q",
+      "title": "竹山大面積林地",
+      "price": "4827.5萬",
+      "addr": "南投縣竹山鎮番子田段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -314,14 +239,14 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/643719U_obj_256_17760681417682.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-643719U/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/897143Q_obj_256_17212913645011.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-897143Q/?storeid=4759"
     },
     {
-      "no": "2594-462366H",
-      "title": "斗南板橋美農地",
-      "price": "358萬",
-      "addr": "雲林縣斗南鎮溫厝角段",
+      "no": "2594-882170S",
+      "title": "斗六嘉東特區建地",
+      "price": "650萬",
+      "addr": "斗六嘉東特區建地",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -329,14 +254,14 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/462366H_obj_256_17760703932717.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-462366H/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/115/882170S_obj_256_17775328647011.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-882170S/?storeid=4759"
     },
     {
-      "no": "2594-321719B",
-      "title": "竹山天梯林地",
-      "price": "6880萬",
-      "addr": "南投縣竹山鎮嶺頂段",
+      "no": "2594-492652B",
+      "title": "竹圍子雲科工業區旁農建地",
+      "price": "3228.78萬",
+      "addr": "竹圍子雲科工業區旁農建地",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -344,13 +269,13 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/321719B_obj_256_17328465210189.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-321719B/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/492652B_obj_256_17352847104182.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-492652B/?storeid=4759"
     },
     {
-      "no": "2594-218690G",
-      "title": "古坑新光農地",
-      "price": "750萬",
+      "no": "2594-653470T",
+      "title": "古坑雙面路香蕉園農地",
+      "price": "439萬",
       "addr": "雲林縣古坑鄉頂新庄段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
@@ -359,14 +284,14 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/218690G_obj_256_17770199501233.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-218690G/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/114/653470T_obj_256_17478077864722.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-653470T/?storeid=4759"
     },
     {
-      "no": "2594-227680D",
-      "title": "虎尾惠來果園",
-      "price": "1088萬",
-      "addr": "雲林縣虎尾鎮惠來厝段",
+      "no": "2594-519638T",
+      "title": "古坑棋盤農地",
+      "price": "248萬",
+      "addr": "雲林縣古坑鄉棋盤段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -374,8 +299,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/227680D_obj_256_17782240476095.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-227680D/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/519638T_obj_256_17326066269323.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-519638T/?storeid=4759"
     },
     {
       "no": "2594-281079Y",
@@ -393,10 +318,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-281079Y/?storeid=4759"
     },
     {
-      "no": "2594-766841U",
-      "title": "古坑下麻園農地",
-      "price": "520萬",
-      "addr": "雲林縣古坑鄉下麻園段",
+      "no": "2594-306935M",
+      "title": "古坑華南景觀農地",
+      "price": "480萬",
+      "addr": "雲林縣古坑鄉大湖底段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -404,14 +329,14 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/113/766841U_obj_256_17158307790177.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-766841U/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/115/306935M_obj_256_17745992386688.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-306935M/?storeid=4759"
     },
     {
-      "no": "2594-798374K",
-      "title": "古坑美農地(二)",
-      "price": "438萬",
-      "addr": "雲林縣古坑鄉頂新庄段",
+      "no": "2594-643719U",
+      "title": "斗六社口商業區建地",
+      "price": "4888萬",
+      "addr": "斗六社口商業區建地",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -419,23 +344,8 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/798374K_obj_256_17770186953793.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-798374K/?storeid=4759"
-    },
-    {
-      "no": "2594-694364M",
-      "title": "斗六水岸公園旁建地",
-      "price": "13139萬",
-      "addr": "近市場",
-      "unit_price": "",
-      "layout": "0房+0室 0廳 0衛",
-      "build_ping": "",
-      "land_ping": "",
-      "age": "",
-      "type": "土地",
-      "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/114/694364M_obj_256_17631002770692.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-694364M/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/115/643719U_obj_256_17760681417682.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-643719U/?storeid=4759"
     },
     {
       "no": "2594-316578R",
@@ -453,10 +363,10 @@
       "link": "https://www.chyi.com.tw/sell_item/2594-316578R/?storeid=4759"
     },
     {
-      "no": "2594-306935M",
-      "title": "古坑華南景觀農地",
-      "price": "480萬",
-      "addr": "雲林縣古坑鄉大湖底段",
+      "no": "2594-321719B",
+      "title": "竹山天梯林地",
+      "price": "6880萬",
+      "addr": "南投縣竹山鎮嶺頂段",
       "unit_price": "",
       "layout": "0房+0室 0廳 0衛",
       "build_ping": "",
@@ -464,8 +374,53 @@
       "age": "",
       "type": "土地",
       "category": "",
-      "img": "https://app.chyi.com.tw/images/sell/115/306935M_obj_256_17745992386688.jpg",
-      "link": "https://www.chyi.com.tw/sell_item/2594-306935M/?storeid=4759"
+      "img": "https://app.chyi.com.tw/images/sell/113/321719B_obj_256_17328465210189.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-321719B/?storeid=4759"
+    },
+    {
+      "no": "2594-227680D",
+      "title": "虎尾惠來果園",
+      "price": "1088萬",
+      "addr": "雲林縣虎尾鎮惠來厝段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/227680D_obj_256_17782240476095.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-227680D/?storeid=4759"
+    },
+    {
+      "no": "2594-694364M",
+      "title": "斗六水岸公園旁建地",
+      "price": "13139萬",
+      "addr": "近市場",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/114/694364M_obj_256_17631002770692.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-694364M/?storeid=4759"
+    },
+    {
+      "no": "2594-798374K",
+      "title": "古坑美農地(二)",
+      "price": "438萬",
+      "addr": "雲林縣古坑鄉頂新庄段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/798374K_obj_256_17770186953793.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-798374K/?storeid=4759"
     },
     {
       "no": "2594-892841L",
@@ -481,6 +436,51 @@
       "category": "",
       "img": "https://app.chyi.com.tw/images/sell/115/892841L_obj_256_17762249887010.jpg",
       "link": "https://www.chyi.com.tw/sell_item/2594-892841L/?storeid=4759"
+    },
+    {
+      "no": "2594-766841U",
+      "title": "古坑下麻園農地",
+      "price": "520萬",
+      "addr": "雲林縣古坑鄉下麻園段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/113/766841U_obj_256_17158307790177.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-766841U/?storeid=4759"
+    },
+    {
+      "no": "2594-218690G",
+      "title": "古坑新光農地",
+      "price": "750萬",
+      "addr": "雲林縣古坑鄉頂新庄段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/218690G_obj_256_17770199501233.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-218690G/?storeid=4759"
+    },
+    {
+      "no": "2594-462366H",
+      "title": "斗南板橋美農地",
+      "price": "358萬",
+      "addr": "雲林縣斗南鎮溫厝角段",
+      "unit_price": "",
+      "layout": "0房+0室 0廳 0衛",
+      "build_ping": "",
+      "land_ping": "",
+      "age": "",
+      "type": "土地",
+      "category": "",
+      "img": "https://app.chyi.com.tw/images/sell/115/462366H_obj_256_17760703932717.jpg",
+      "link": "https://www.chyi.com.tw/sell_item/2594-462366H/?storeid=4759"
     },
     {
       "no": "2594-389381R",
